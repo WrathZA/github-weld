@@ -44,6 +44,10 @@ rm .weld/tmp/<name>.md
 
 Use external tools (`python3`, `jq`, `curl`) only when no built-in equivalent exists.
 
+## Skill UX
+
+**Use single-keypress prompts for user choices** — when a skill needs the user to pick between options, present lettered choices (e.g. `Scope: (r)epo or (g)ithub-wide? [r]`) with a sensible default on Enter. Never design CLI-style flags for skill workflows.
+
 ## Git workflow
 
 **NEVER commit directly to `main` or `master`** — create a branch first, every time, without exception.
