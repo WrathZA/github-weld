@@ -1,5 +1,5 @@
 ---
-name: gh-activity
+name: gh-weld-activity
 description: "GitHub activity digest — lists issues and PRs grouped by time window (today, last 3 days, last 7 days, last 30 days). Supports repo-scoped or GitHub-wide views, selected by single keypress. Use when: the user wants a repo overview, activity summary, recent activity digest, or to see what's changed. Trigger phrases: \"what's been happening\", \"activity digest\", \"repo overview\", \"recent activity\", \"what's new\"."
 compatibility: Requires gh CLI authenticated (gh auth login). Designed for Claude Code.
 ---
