@@ -1,9 +1,9 @@
 ---
-name: gh-next
-description: "Pick an open GitHub issue to work on, then create a branch and hand off to the user. Lists open issues, lets you select one, reads the full issue details, creates a branch, and confirms you're ready to implement. Pair with /gh-ship when work is done. Use when: starting a new piece of work, picking the next issue from the backlog, or creating a branch for an issue."
+name: gh-weld-next
+description: "Pick an open GitHub issue to work on, then create a branch and hand off to the user. Lists open issues, lets you select one, reads the full issue details, creates a branch, and confirms you're ready to implement. Pair with /gh-weld-ship when work is done. Use when: starting a new piece of work, picking the next issue from the backlog, or creating a branch for an issue."
 ---
 
-# gh-next
+# gh-weld-next
 
 Find something to work on. Read it. Branch. Go.
 
@@ -44,13 +44,13 @@ gh issue list --state open --json number,title,labels,updatedAt
 
 Display as a numbered menu. For each issue show: `N. #<number> — <title> [<labels>]`. Sort by issue number ascending.
 
-If no open issues: output "No open issues. Run /gh-issue to create one." and stop.
+If no open issues: output "No open issues. Run /gh-weld-issue to create one." and stop.
 
 ### 3 — Pick
 
 Ask: "Which issue? Enter a number from the list, or describe what you want to work on."
 
-If the user describes something: match against titles and confirm before proceeding. If no match, offer to run `/gh-issue` first.
+If the user describes something: match against titles and confirm before proceeding. If no match, offer to run `/gh-weld-issue` first.
 
 Read the full issue:
 ```bash
@@ -82,7 +82,7 @@ Output:
 ```
 Ready. You're on branch `<branch-name>` — issue #<N> is waiting.
 
-When you're done: /gh-ship
+When you're done: /gh-weld-ship
 ```
 
-Stop. The user implements. `/gh-ship` picks it up from here.
+Stop. The user implements. `/gh-weld-ship` picks it up from here.

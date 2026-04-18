@@ -1,12 +1,12 @@
 ---
-name: gh-adopt
+name: gh-weld-adopt
 description: "Retroactively formalizes ad-hoc in-progress work — reads session context and git state, creates a structured GitHub issue, creates or renames a branch to match repo conventions, commits loose changes, pushes, and exports the session as a Gist comment on the new issue. Works from any branch including main (moves uncommitted changes or ahead-commits to a new branch). Use when: you started work without creating an issue first, or when the user says 'adopt this work', 'create an issue for what we're doing', 'formalize this branch', 'retroactively track this', 'adopt this cleanup', 'adopt this chore'."
 compatibility: Requires git and gh CLI. Designed for Claude Code.
 ---
 
-# gh-adopt
+# gh-weld-adopt
 
-You did the work first. gh-adopt creates the paper trail.
+You did the work first. gh-weld-adopt creates the paper trail.
 
 ## NEVER
 
@@ -31,7 +31,7 @@ You did the work first. gh-adopt creates the paper trail.
   **Why:** GitHub shows both branches as linked to the issue — the stale name creates ambiguity in the development sidebar.
 
 - **NEVER skip the session export**
-  **Instead:** Always invoke `/gh-export` with the new issue number as context after pushing.
+  **Instead:** Always invoke `/gh-weld-export` with the new issue number as context after pushing.
   **Why:** The Gist comment is the audit trail — it proves what was already done before the issue was created.
 
 ## Workflow
@@ -263,7 +263,7 @@ git push origin --delete <old-branch-name>
 
 ### 8 — Export session
 
-Invoke `/gh-export` with the issue number as context. This exports the current session transcript, uploads it as a secret Gist, and posts a structured summary comment on the issue.
+Invoke `/gh-weld-export` with the issue number as context. This exports the current session transcript, uploads it as a secret Gist, and posts a structured summary comment on the issue.
 
 ### 9 — Output
 
@@ -284,4 +284,4 @@ Done.
 | `gh issue create` fails | Surface the error; do not rename the branch or push (nothing to link to yet) |
 | `git push --delete` fails on old remote name | Warn "Could not delete old remote branch `<name>` — delete it manually via GitHub." and continue |
 | `git branch -m` fails because new name already exists | Output the conflict and ask the user for an alternative branch name |
-| `/gh-export` fails | Warn "Session export failed — adopt is otherwise complete." and output issue URL and branch name |
+| `/gh-weld-export` fails | Warn "Session export failed — adopt is otherwise complete." and output issue URL and branch name |

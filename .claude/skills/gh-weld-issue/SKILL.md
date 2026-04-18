@@ -1,9 +1,9 @@
 ---
-name: gh-issue
-description: "Create a GitHub issue via guided interview. Checks for duplicates before creation (c/u/d resolution: continue as new, use existing and stop, or drop). Collects title and type; constructs structured body from scope, acceptance criteria, and blockers. Infers blockers from open issues. Discovers and applies repo labels. Enforces verifiable acceptance criteria (each must name a command, visible change, or measurable value). Creates via gh CLI using --body-file. One issue per outcome — never batches multiple ideas. Use when: filing a bug, planning a feature, capturing a task, or creating any GitHub issue. Skip if you are about to implement the work in this session — use gh-ship instead."
+name: gh-weld-issue
+description: "Create a GitHub issue via guided interview. Checks for duplicates before creation (c/u/d resolution: continue as new, use existing and stop, or drop). Collects title and type; constructs structured body from scope, acceptance criteria, and blockers. Infers blockers from open issues. Discovers and applies repo labels. Enforces verifiable acceptance criteria (each must name a command, visible change, or measurable value). Creates via gh CLI using --body-file. One issue per outcome — never batches multiple ideas. Use when: filing a bug, planning a feature, capturing a task, or creating any GitHub issue. Skip if you are about to implement the work in this session — use gh-weld-ship instead."
 ---
 
-# gh-issue
+# gh-weld-issue
 
 Create a new GitHub issue through a brief HITL interview.
 
@@ -11,7 +11,7 @@ Create a new GitHub issue through a brief HITL interview.
 
 - NEVER pass a body with `#`-prefixed lines as an inline `--body` argument — write to `.weld/tmp/issue-body.md` with the Write tool and pass via `--body-file`
 - NEVER skip the duplicate check — a missed duplicate creates noise and confusion in the backlog
-- NEVER create issues for work you are about to implement in the same session — use `gh-ship` instead; it creates the issue and links it to the branch automatically
+- NEVER create issues for work you are about to implement in the same session — use `gh-weld-ship` instead; it creates the issue and links it to the branch automatically
 - NEVER batch multiple ideas into one issue — one issue, one outcome
 
 ## Workflow
@@ -37,7 +37,7 @@ Create a new GitHub issue through a brief HITL interview.
      (c)ontinue as new, (u)se existing, (d)rop?
      ```
      - **(c)** — proceed
-     - **(u)** — output the issue URL and stop; `gh-issue` creates issues, not edits them
+     - **(u)** — output the issue URL and stop; `gh-weld-issue` creates issues, not edits them
      - **(d)** — stop
    - If only closed matches: show them for context, offer `(c)ontinue / (d)rop`
    - If empty: proceed silently
