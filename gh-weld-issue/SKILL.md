@@ -72,7 +72,7 @@ Create a new GitHub issue through a brief HITL interview.
    ```bash
    gh label list --json name
    ```
-   Match `bug`, `enhancement`, `feature`, `task`, `chore` against what exists. Note matching labels for step 9.
+   Match `bug`, `enhancement`, `feature`, `task`, `chore` against what exists. Note matching labels for step 9. If the command fails or returns empty, skip labels and note "no labels applied".
 
 9. Use the Write tool to write the issue body to `.weld/tmp/issue-body.md`:
 
