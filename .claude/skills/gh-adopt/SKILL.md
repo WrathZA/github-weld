@@ -128,7 +128,7 @@ From **session context** (what has been discussed and built in this conversation
 - The work type (bug / feature / chore) — use this to frame the issue title and acceptance criteria; for the branch prefix, use whatever pattern was inferred from `git branch -a` above
 - A structured issue body (see template below)
 
-Before naming the type, inspect the repo's existing branch names to infer the local convention:
+Before naming the type, inspect the repo's existing branch names to infer the local convention (skip if already run in Step 1 — reuse that result):
 
 ```bash
 git branch -a
