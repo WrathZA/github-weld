@@ -26,9 +26,7 @@ Create a new GitHub issue through a brief HITL interview.
 
 1. Ask: "What are you trying to build or fix?"
 
-2. From the response, infer:
-   - A candidate title (specific, action-oriented: "Add X", "Fix Y when Z")
-   - Type: **bug** / **feature** / **task** / **chore**
+2. From the response, infer a candidate title (specific, action-oriented: "Add X", "Fix Y when Z") and type (**bug** / **feature** / **task** / **chore**) before asking. Ask only when genuinely ambiguous.
 
 3. Run a duplicate check using 2–4 key terms extracted from the inferred title:
    ```bash
