@@ -63,6 +63,8 @@ Note whether `git status` reports "not a git repository" — needed in Phase 4.
 
 ## Phase 2 — Interview
 
+Before asking questions: check whether the inferred repo name looks right at `github.com/<username>/<name>`. Generic names (`test`, `project`, `new`, `app`, `demo`) are red flags — flag the name as a suggestion to reconsider and move it to question #5.
+
 Ask only for settings still marked `(ask)`. Show inferred values first so the user can accept or override. One question at a time.
 
 **Order:**
