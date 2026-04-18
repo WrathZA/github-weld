@@ -58,6 +58,8 @@ git log origin/main..HEAD --oneline
 
 **If neither has output:** output "Nothing to adopt — working tree is clean and main is up to date." and stop.
 
+**If both are present:** follow the uncommitted-changes path below — the ahead-commits carry over automatically since HEAD is preserved.
+
 **If uncommitted changes exist:**
 
 Inspect existing branch names to infer naming convention:
