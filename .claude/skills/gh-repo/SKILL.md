@@ -102,6 +102,11 @@ If a license was specified (not `none`):
 gh repo create <name> --<public|private> --description "<description>" --gitignore "<template>" --license "<license>"
 ```
 
+If the command fails:
+- Output contains "Name already taken" → return to Phase 2, ask for a different name, and retry
+- Output contains "authentication" or "401" → tell the user to run `gh auth login` and retry
+- Any other error → surface the raw error output and stop
+
 If topics were collected, set them after creation:
 ```bash
 gh repo edit <owner>/<name> --add-topic "<topic>"
