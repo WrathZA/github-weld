@@ -100,6 +100,8 @@ rm .weld/tmp/pr-body.md
 gh pr merge --squash --delete-branch
 ```
 
+If the merge fails, diagnose the cause (merge conflict → resolve and retry; branch protection → check required reviews or status checks; stale ref → sync branch and retry) and attempt to fix it. If unresolvable, surface the error and ask "(r)etry / (Q)uit?" — do not proceed to Step 6 until the merge is confirmed.
+
 ### 6 — Enrich and close the issue
 
 If there is a linked issue, perform the following automatically — no user prompts:
