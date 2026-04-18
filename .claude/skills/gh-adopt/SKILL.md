@@ -36,13 +36,69 @@ You did the work first. gh-adopt creates the paper trail.
 
 ## Workflow
 
-### 1 — Bail if on main
+### 1 — Handle if on main
 
 ```bash
 git branch --show-current
 ```
 
-If the result is `main` or `master`: output "gh-adopt requires an in-progress branch — you're on main." and stop.
+If the result is `main` or `master`:
+
+Check for uncommitted changes:
+
+```bash
+git status --porcelain
+```
+
+Check for commits ahead of remote:
+
+```bash
+git log origin/main..HEAD --oneline
+```
+
+**If neither has output:** output "Nothing to adopt — working tree is clean and main is up to date." and stop.
+
+**If uncommitted changes exist:**
+
+Inspect existing branch names to infer naming convention:
+
+```bash
+git branch -a
+```
+
+Propose a branch name (lowercase, hyphens, max 50 chars, using the repo's prefix convention). Show it and ask: "(a)ccept or enter a different name?"
+
+```bash
+git checkout -b <branch-name>
+```
+
+Continue to Step 2.
+
+**If commits are ahead of `origin/main`:**
+
+Inspect existing branch names:
+
+```bash
+git branch -a
+```
+
+Propose a branch name. Show it and ask: "(a)ccept or enter a different name?"
+
+Create the branch at the current HEAD, reset main, then check out the new branch:
+
+```bash
+git branch <branch-name>
+```
+
+```bash
+git reset --hard origin/main
+```
+
+```bash
+git checkout <branch-name>
+```
+
+Continue to Step 2.
 
 ### 2 — Read working state
 
