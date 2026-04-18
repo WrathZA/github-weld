@@ -4,7 +4,7 @@ Reusable GitHub workflow skills for Claude Code. Provides `gh-weld-issue`, `gh-w
 
 @.weld/conventions.md
 
-## skill-forge-* operations
+## skill-forge-* operations — **Critical: skills created outside this repo are lost to git**
 
 **ALWAYS write new skill directories into this repo, never into `~/.claude/skills/` directly.** A skill created under `~/.claude/` is invisible to git and will never reach users — it exists only on your machine and is effectively lost.
 
