@@ -29,7 +29,7 @@ Creates a PR with context, squash-merges, closes the linked issue, exports the s
 git branch --show-current
 ```
 
-If the result is `main` or `master`: output "Cannot ship from main — create a feature branch first." and stop.
+If the result is `main` or `master`: output "You're on main — /gh-adopt can help. It'll create an issue for what you're working on, rename the branch, and get everything tracked before you ship." and stop.
 
 ### 2 — Find the linked issue
 
