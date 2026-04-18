@@ -1,6 +1,6 @@
 ---
 name: gh-adopt
-description: "Retroactively formalizes ad-hoc in-progress work — reads session context and git state, creates a structured GitHub issue, renames the current branch to match repo conventions, commits loose changes, pushes, and exports the session as a Gist comment on the new issue. Use when: you started work without creating an issue first, or when the user says 'adopt this work', 'create an issue for what we're doing', 'formalize this branch', 'retroactively track this', 'adopt this cleanup', 'adopt this chore'."
+description: "Retroactively formalizes ad-hoc in-progress work — reads session context and git state, creates a structured GitHub issue, creates or renames a branch to match repo conventions, commits loose changes, pushes, and exports the session as a Gist comment on the new issue. Works from any branch including main (moves uncommitted changes or ahead-commits to a new branch). Use when: you started work without creating an issue first, or when the user says 'adopt this work', 'create an issue for what we're doing', 'formalize this branch', 'retroactively track this', 'adopt this cleanup', 'adopt this chore'."
 compatibility: Requires git and gh CLI. Designed for Claude Code.
 ---
 
