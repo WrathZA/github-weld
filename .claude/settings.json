@@ -3,13 +3,27 @@
     "allow": [
       "Edit",
       "Write",
-      "Bash(git *)",
-      "Bash(gh *)",
-      "Bash(python3 *)",
-      "Bash(mkdir *)",
-      "Bash(mv *)",
-      "Bash(rm *)",
-      "Bash(chmod *)"
+      "Bash(git add *)",
+      "Bash(git branch *)",
+      "Bash(git checkout *)",
+      "Bash(git commit *)",
+      "Bash(git diff *)",
+      "Bash(git init *)",
+      "Bash(git log *)",
+      "Bash(git pull *)",
+      "Bash(git push *)",
+      "Bash(git remote *)",
+      "Bash(git reset *)",
+      "Bash(git rev-parse *)",
+      "Bash(git status *)",
+      "Bash(gh auth *)",
+      "Bash(gh gist *)",
+      "Bash(gh issue *)",
+      "Bash(gh label *)",
+      "Bash(gh pr *)",
+      "Bash(gh repo *)",
+      "Bash(python3 gh-weld-export/scripts/export-session.py *)",
+      "Bash(./symlink-global-skills.sh)"
     ]
   }
 }
