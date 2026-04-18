@@ -275,7 +275,7 @@ Done.
 
 | Situation | Action |
 |-----------|--------|
-| `git log main..HEAD` is empty (branch exists but no commits) | Warn "Branch has no commits ahead of main — loose changes only. Continue? (y/n)" |
+| On a non-main branch, `git log main..HEAD` is empty (branch exists but no commits ahead of main) | Warn "Branch has no commits ahead of main — loose changes only. Continue? (y/n)" |
 | `gh issue create` fails | Surface the error; do not rename the branch or push (nothing to link to yet) |
 | `git push --delete` fails on old remote name | Warn "Could not delete old remote branch `<name>` — delete it manually via GitHub." and continue |
 | `git branch -m` fails because new name already exists | Output the conflict and ask the user for an alternative branch name |
