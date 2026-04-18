@@ -80,7 +80,7 @@ gh search issues --limit 200 --sort created --json number,title,state,author,url
 gh search prs --limit 200 --sort created --json number,title,state,author,url,createdAt,repository
 ```
 
-Read the JSON from each tool result directly — no temp files needed.
+Read the JSON from each tool result directly — no temp files needed. The `author` field is an object: use `author.login` for the display name.
 
 > Discussions are not supported by the `gh` CLI JSON output; omit silently.
 
