@@ -34,6 +34,10 @@ Create a GitHub repo from a local directory — infer what you can, ask for the 
   **Instead:** Write to `.weld/tmp/repo-desc.md` with the Write tool and pass via `--body-file`.
   **Why:** Headers in inline strings trigger an un-suppressible Claude Code permission prompt.
 
+- **NEVER use `find`, `grep`, or `cat` in Bash tool calls**
+  **Instead:** Use Glob to find files, Grep to search content, and Read to read files.
+  **Why:** Built-in tools have tighter permissions and don't trigger Claude Code safety prompts the way raw shell commands can.
+
 ---
 
 ## Phase 1 — Inspect
