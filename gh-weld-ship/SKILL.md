@@ -102,7 +102,7 @@ Create the PR:
 gh pr create --title "<issue title or branch description>" --body-file .weld/tmp/pr-body.md --base main
 ```
 
-Read the PR URL from the output (e.g. `https://github.com/owner/repo/pull/7`). Extract the PR number from the URL. Write the full PR URL to `.weld/tmp/pr-url.txt` and just the PR number to `.weld/tmp/pr-number.txt` with the Write tool.
+Read the PR URL from the output (e.g. `https://github.com/owner/repo/pull/7`). If no URL is present in the output, surface the error: "PR creation may have failed — no URL in output. Verify with `gh pr list --state open` before proceeding." and stop. Extract the PR number from the URL. Write the full PR URL to `.weld/tmp/pr-url.txt` and just the PR number to `.weld/tmp/pr-number.txt` with the Write tool.
 
 Clean up:
 ```bash
