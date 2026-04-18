@@ -166,6 +166,8 @@ rm .weld/tmp/pr-number.txt
 
 Invoke `/gh-weld-export` with the PR number as context. This exports the session transcript, uploads it as a secret Gist, and posts a structured summary comment on the merged PR.
 
+If `/gh-weld-export` fails, warn: "Session export failed — ship is otherwise complete." and continue to the completion output.
+
 Read `.weld/tmp/pr-url.txt` with the Read tool to get the PR URL. Clean up:
 ```bash
 rm .weld/tmp/pr-url.txt
