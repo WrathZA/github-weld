@@ -118,7 +118,7 @@ Otherwise, write the updated body with satisfied items marked `- [x]` to `.weld/
 gh issue edit <N> --body-file .weld/tmp/issue-updated-body.md
 ```
 
-If `gh issue edit` fails, diagnose the error and attempt to fix the underlying cause. Keep retrying until all reasonable fixes are exhausted, then surface the error and ask "(s)kip / (Q)uit?"
+If `gh issue edit` fails, diagnose and fix: malformed body → rewrite the temp file with corrected content; auth error → verify with `gh auth status`; issue locked → note it and skip. Keep retrying until no further fixes apply, then surface the error and ask "(s)kip / (Q)uit?"
 
 ```bash
 rm .weld/tmp/issue-updated-body.md
@@ -142,7 +142,7 @@ Shipped in PR #<PR number>.
 gh issue comment <N> --body-file .weld/tmp/issue-close-comment.md
 ```
 
-If `gh issue comment` fails, diagnose the error and attempt to fix the underlying cause. Keep retrying until all reasonable fixes are exhausted, then surface the error and ask "(s)kip / (Q)uit?"
+If `gh issue comment` fails, diagnose and fix: malformed body → rewrite the temp file; auth error → verify with `gh auth status`; rate limit → wait and retry. Keep retrying until no further fixes apply, then surface the error and ask "(s)kip / (Q)uit?"
 
 ```bash
 rm .weld/tmp/issue-close-comment.md
