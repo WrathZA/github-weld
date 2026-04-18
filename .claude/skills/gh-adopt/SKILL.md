@@ -10,9 +10,9 @@ You did the work first. gh-adopt creates the paper trail.
 
 ## NEVER
 
-- **NEVER run from `main` or `master`**
-  **Instead:** Bail immediately with "gh-adopt requires an in-progress branch — you're on main."
-  **Why:** There's no branch to rename or commits to adopt; the issue number can't be embedded in the branch name.
+- **NEVER proceed adoption from `main` when working tree is clean and no commits are ahead of `origin/main`**
+  **Instead:** Output "Nothing to adopt — working tree is clean and main is up to date." and stop.
+  **Why:** There is genuinely nothing to adopt — adoption requires loose work to formalize.
 
 - **NEVER create the issue before confirming the summary with the user**
   **Instead:** Show the synthesized summary and proposed issue body; wait for (a)ccept before calling `gh issue create`.
