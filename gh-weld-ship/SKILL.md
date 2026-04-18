@@ -1,6 +1,6 @@
 ---
 name: gh-weld-ship
-description: "GitHub shipping loop — wraps your finished work in a PR, merges it, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-weld-ship handles everything GitHub. Use when you're ready to open a PR, merge, and export context."
+description: "GitHub shipping loop — wraps your finished work in a PR, squash-merges it, closes the linked issue, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-weld-ship handles everything GitHub. Use when you're ready to open a PR, squash merge, close an issue, or export session context."
 disable-model-invocation: true
 when_to_use: "Use when done implementing, ready to ship, want to merge and close an issue, or when the user says 'I'm done' on a feature branch."
 ---
