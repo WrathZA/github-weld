@@ -67,6 +67,8 @@ From the commit messages, changed files, and (if available) the issue body, synt
 - A bullet list of meaningful changes (what changed and why, not just filenames)
 - A minimal test plan (how to verify the main behaviour)
 
+A change bullet is meaningful if it names *what behaviour changed* and *why* — not just a filename. A test plan item is minimal if it describes the single most likely failure mode a reviewer would check.
+
 ### 4 — Create the PR
 
 Use the Write tool to write the PR body to `.weld/tmp/pr-body.md`:
@@ -88,6 +90,9 @@ Use the Write tool to write the PR body to `.weld/tmp/pr-body.md`:
 ## Issue
 
 Closes #<N>
+
+---
+*Created with [gh-weld](https://github.com/WrathZA/github-weld)*
 ```
 
 If there is no linked issue, omit the `## Issue` section.
