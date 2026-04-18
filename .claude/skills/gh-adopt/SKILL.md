@@ -122,6 +122,11 @@ Save the current branch name — you'll need it to detect and delete the old rem
 
 ### 3 — Synthesize and confirm
 
+Before synthesizing, ask:
+- Does the diff scope match the session discussion, or are there changes outside the stated work?
+- Does this read as a bug fix, feature, or chore?
+- Are there uncommitted files that should NOT be part of this issue (build artifacts, unrelated edits)?
+
 From **session context** (what has been discussed and built in this conversation) and the git output above, synthesize:
 
 - A proposed issue title (one line, imperative mood)
