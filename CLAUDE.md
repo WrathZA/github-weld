@@ -22,4 +22,6 @@ After creating a new skill directory with a `SKILL.md` in this repo, run the sym
 bash symlink-global-skills.sh
 ```
 
+Run from the repo root.
+
 This links the new skill dir into `~/.claude/skills/`. The script is idempotent — safe to re-run at any time.
