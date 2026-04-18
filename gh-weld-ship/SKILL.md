@@ -121,6 +121,8 @@ If that fails (repo uses `master`):
 git checkout master
 ```
 
+If both fail, warn: "Could not switch to main — merge succeeded but you may be on a detached HEAD." and continue to Step 6.
+
 ### 6 — Enrich and close the issue
 
 If there is a linked issue, perform the following automatically — no user prompts:
