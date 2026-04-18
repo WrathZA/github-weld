@@ -31,7 +31,7 @@ Create a GitHub repo from a local directory — infer what you can, ask for the 
   **Why:** Adding a duplicate remote fails with an error and leaves the repo in a broken state.
 
 - **NEVER pass a multiline body containing `#`-prefixed lines as an inline `gh` argument**
-  **Instead:** Write to `.weld/tmp/repo-desc.md` with the Write tool and pass via `--body-file`.
+  **Instead:** Write to a temp file (e.g. `.claude/tmp/repo-desc.md`) with the Write tool and pass via `--body-file`.
   **Why:** Headers in inline strings trigger an un-suppressible Claude Code permission prompt.
 
 - **NEVER use `find`, `grep`, or `cat` in Bash tool calls**
