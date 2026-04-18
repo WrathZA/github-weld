@@ -10,9 +10,13 @@ Create a GitHub repo from a local directory — infer what you can, ask for the 
 
 ## NEVER
 
-- **NEVER chain bash commands with `&&`, `;`, or `|`**
+- **NEVER chain bash commands with `&&` or `;`**
   **Instead:** One command per Bash tool call.
   **Why:** Claude Code's safety system fires on ambiguous multi-command calls and interrupts the session mid-flow.
+
+- **NEVER use `|` (pipe) in Bash tool calls**
+  **Instead:** Redirect output to a file under `.weld/tmp/` with `>` and read it back with the Read tool.
+  **Why:** Claude Code stops execution when it encounters a pipe — no error, no warning, the agent just halts mid-flow. Note: `|` in markdown table cell syntax is unaffected.
 
 - **NEVER use `$(...)` command substitution inside bash commands**
   **Instead:** Run the command as a standalone Bash call and reference the output in subsequent steps.
