@@ -10,6 +10,8 @@ Reusable GitHub workflow skills for Claude Code. Provides `gh-weld-issue`, `gh-w
 
 When `skill-forge-create` or `write-a-skill` asks where to create the skill, provide a path inside this repo (e.g. `gh-weld-newskill/` at the repo root — never an absolute path with a hardcoded home dir). If the tool does not prompt for a location, explicitly instruct it before it begins: "Write the skill to `gh-weld-<name>/` at the repo root."
 
+Always create the skill on a branch, not on main — see conventions.md.
+
 For all other `skill-forge-*` operations (`skill-forge-update`, `skill-forge-judge`, `skill-forge-recap`, etc.), always target the `SKILL.md` inside this repo — not the symlinked copy under `~/.claude/skills/`.
 
 ## Adding a new skill
