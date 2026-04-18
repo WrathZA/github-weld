@@ -122,7 +122,7 @@ If topics were collected, set them after creation:
 gh repo edit <owner>/<name> --add-topic "<topic>"
 ```
 
-One `gh repo edit` call per topic.
+One `gh repo edit` call per topic. If a call fails, log the error and continue — topic tagging is non-critical and should not block the push.
 
 ### Initialize if needed
 
