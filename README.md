@@ -8,15 +8,15 @@ These skills are opinionated about *workflow*, not implementation — they work 
 
 ## Skills
 
-**`/gh-weld-issue`** — Every piece of work needs an anchor before the first line of code. Creates one via a guided interview: duplicate check, structured body, and label discovery.
+**[`/gh-weld-issue`](.claude/skills/gh-weld-issue/)** — Every piece of work needs an anchor before the first line of code. Creates one via a guided interview: duplicate check, structured body, and label discovery.
 
-**`/gh-weld-next`** — Connecting intent to execution is where most workflows leak data. Picks an open issue, creates a correctly-named branch, and hands off to implementation.
+**[`/gh-weld-next`](.claude/skills/gh-weld-next/)** — Connecting intent to execution is where most workflows leak data. Picks an open issue, creates a correctly-named branch, and hands off to implementation.
 
-**`/gh-weld-ship`** — Shipping is the richest data moment in the delivery lifecycle. Wraps finished work in a PR, merges it, closes the issue, and exports session context.
+**[`/gh-weld-ship`](.claude/skills/gh-weld-ship/)** — Shipping is the richest data moment in the delivery lifecycle. Wraps finished work in a PR, merges it, closes the issue, and exports session context.
 
-**`/gh-weld-export`** — Git history captures what changed; session export captures why. Exports the Claude Code session as a Gist and posts a structured summary to any PR or issue.
+**[`/gh-weld-export`](.claude/skills/gh-weld-export/)** — Git history captures what changed; session export captures why. Exports the Claude Code session as a Gist and posts a structured summary to any PR or issue.
 
-**`/gh-weld-adopt`** — For when you started coding before creating an issue. Creates the issue retroactively, renames the branch, commits loose changes, and exports the session.
+**[`/gh-weld-adopt`](.claude/skills/gh-weld-adopt/)** — For when you started coding before creating an issue. Creates the issue retroactively, renames the branch, commits loose changes, and exports the session.
 
 ## Installation
 
