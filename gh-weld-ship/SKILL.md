@@ -1,6 +1,6 @@
 ---
 name: gh-weld-ship
-description: "GitHub shipping loop — wraps your finished work in a PR, merges it, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-weld-ship handles everything GitHub. Use when you're ready to open a PR, merge, and export context."
+description: "GitHub shipping loop — wraps your finished work in a PR, squash-merges it, closes the linked issue, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-weld-ship handles everything GitHub. Use when you're ready to open a PR, squash merge, close an issue, or export session context."
 disable-model-invocation: true
 when_to_use: "Use when done implementing, ready to ship, want to merge and close an issue, or when the user says 'I'm done' on a feature branch."
 ---
@@ -21,10 +21,13 @@ Creates a PR with context, squash-merges, closes the linked issue, exports the s
 - NEVER prompt the user during issue enrichment — derive checkboxes and close-out narrative from the Step 3 synthesis automatically; any prompt here breaks the single-keypress ship flow
 - NEVER chain Bash commands with `&&` or `;` — Claude Code's safety check fires on multi-command calls and interrupts mid-flow; run each as a separate Bash tool call
 - NEVER use `|` (pipe) in Bash tool calls — Claude Code stops execution on pipe; redirect to a temp file with `>` and read back with the Read tool. Note: `|` in markdown table syntax is unaffected.
-- NEVER use `$()` command substitution — Claude Code's permission system prompts on `$()` during execution; use fixed paths under `.weld/tmp/` instead
+- NEVER use `$()` command substitution or backtick substitution (`` `cmd` ``) — Claude Code's permission system prompts on both forms during execution; use fixed paths under `.weld/tmp/` instead
+- NEVER use `--no-verify` on git commits — bypasses pre-commit hooks that may enforce format or tests; a broken squash-merge to main blocks all future work
 - NEVER use bash heredoc (`cat > file << 'EOF'`) for content with `#`-prefixed lines — headers trigger Claude Code's security check on every execution; use the Write tool instead
 - NEVER use `echo >` or `cat` to write file content — use the Write tool; it avoids shell escaping issues and doesn't trigger permission checks
 - NEVER use `find`, `grep`, or `cat` as Bash commands — use Glob, Grep, and Read tools instead; they are faster, safer, and don't require shell permissions
+- NEVER use interactive flags (`-i`, `-p`) in git commands (`git rebase -i`, `git add -p`, `git stash -p`) — Claude Code's non-interactive shell hangs waiting for input that never arrives
+- NEVER run `git commit` without `-m` — git spawns `$EDITOR` and waits; the agent cannot interact with it and the session hangs indefinitely
 
 ## Workflow
 
@@ -67,6 +70,8 @@ From the commit messages, changed files, and (if available) the issue body, synt
 - A bullet list of meaningful changes (what changed and why, not just filenames)
 - A minimal test plan (how to verify the main behaviour)
 
+A change bullet is meaningful if it names *what behaviour changed* and *why* — not just a filename. A test plan item is minimal if it describes the single most likely failure mode a reviewer would check.
+
 ### 4 — Create the PR
 
 Use the Write tool to write the PR body to `.weld/tmp/pr-body.md`:
@@ -88,6 +93,9 @@ Use the Write tool to write the PR body to `.weld/tmp/pr-body.md`:
 ## Issue
 
 Closes #<N>
+
+---
+*Created with [gh-weld](https://github.com/WrathZA/github-weld)*
 ```
 
 If there is no linked issue, omit the `## Issue` section.
@@ -97,7 +105,7 @@ Create the PR:
 gh pr create --title "<issue title or branch description>" --body-file .weld/tmp/pr-body.md --base main
 ```
 
-Read the PR URL from the output (e.g. `https://github.com/owner/repo/pull/7`). Extract the PR number from the URL. Write the full PR URL to `.weld/tmp/pr-url.txt` and just the PR number to `.weld/tmp/pr-number.txt` with the Write tool.
+Read the PR URL from the output (e.g. `https://github.com/owner/repo/pull/7`). If no URL is present in the output, surface the error: "PR creation may have failed — no URL in output. Verify with `gh pr list --state open` before proceeding." and stop. Extract the PR number from the URL. Write the full PR URL to `.weld/tmp/pr-url.txt` and just the PR number to `.weld/tmp/pr-number.txt` with the Write tool.
 
 Clean up:
 ```bash

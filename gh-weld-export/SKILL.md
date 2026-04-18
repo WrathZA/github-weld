@@ -65,6 +65,9 @@ Export the current session and post it to a GitHub PR or issue as a structured c
    ---
 
    [Full session context](<gist-url>)
+
+   ---
+   *Created with [gh-weld](https://github.com/WrathZA/github-weld)*
    ```
 
 8. Post the comment:

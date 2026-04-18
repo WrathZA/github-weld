@@ -9,10 +9,16 @@ Create a new GitHub issue through a brief HITL interview.
 
 ## NEVER
 
-- NEVER pass a body with `#`-prefixed lines as an inline `--body` argument — write to `.weld/tmp/issue-body.md` with the Write tool and pass via `--body-file`
+- NEVER pass a body with `#`-prefixed lines as an inline `--body` argument — write to `.weld/tmp/issue-body.md` with the Write tool and pass via `--body-file`; headers trigger Claude Code's security check on every execution
 - NEVER skip the duplicate check — a missed duplicate creates noise and confusion in the backlog
-- NEVER create issues for work you are about to implement in the same session — use `gh-weld-ship` instead; it creates the issue and links it to the branch automatically
-- NEVER batch multiple ideas into one issue — one issue, one outcome
+- NEVER create issues for work you are about to implement in the same session — the issue would be created and immediately closed with no meaningful history; use `gh-weld-ship` instead, which links the issue to the branch and closes it on merge
+- NEVER batch multiple ideas into one issue — one issue, one merge, one audit trail; batched issues can't be independently closed or reverted
+- NEVER chain Bash commands with `&&` or `;` — Claude Code's safety check fires on multi-command calls and interrupts mid-flow; run each as a separate Bash tool call
+- NEVER use `|` (pipe) in Bash tool calls — Claude Code stops execution on pipe; redirect to a temp file with `>` and read back with the Read tool. Note: `|` in markdown table syntax is unaffected.
+- NEVER use `$()` command substitution or backtick substitution (`` `cmd` ``) — Claude Code's permission system prompts on both during execution; use fixed paths under `.weld/tmp/` instead
+- NEVER use bash heredoc (`cat > file << 'EOF'`) for content with `#`-prefixed lines — headers trigger Claude Code's security check; use the Write tool instead
+- NEVER use `echo >` or `cat` to write file content — use the Write tool
+- NEVER use `find`, `grep`, or `cat` as Bash commands — use Glob, Grep, and Read tools instead
 
 ## Workflow
 
@@ -20,9 +26,7 @@ Create a new GitHub issue through a brief HITL interview.
 
 1. Ask: "What are you trying to build or fix?"
 
-2. From the response, infer:
-   - A candidate title (specific, action-oriented: "Add X", "Fix Y when Z")
-   - Type: **bug** / **feature** / **task** / **chore**
+2. From the response, infer a candidate title (specific, action-oriented: "Add X", "Fix Y when Z") and type (**bug** / **feature** / **task** / **chore**) before asking. Ask only when genuinely ambiguous.
 
 3. Run a duplicate check using 2–4 key terms extracted from the inferred title:
    ```bash
@@ -68,7 +72,7 @@ Create a new GitHub issue through a brief HITL interview.
    ```bash
    gh label list --json name
    ```
-   Match `bug`, `enhancement`, `feature`, `task`, `chore` against what exists. Note matching labels for step 9.
+   Match `bug`, `enhancement`, `feature`, `task`, `chore` against what exists. Note matching labels for step 9. If the command fails or returns empty, skip labels and note "no labels applied".
 
 9. Use the Write tool to write the issue body to `.weld/tmp/issue-body.md`:
 
@@ -85,13 +89,16 @@ Create a new GitHub issue through a brief HITL interview.
    ## Blockers
 
    <"None" or "Depends on #N, #M">
+
+   ---
+   *Created with [gh-weld](https://github.com/WrathZA/github-weld)*
    ```
 
 10. Create the issue:
     ```bash
     gh issue create --title "<title>" --body-file .weld/tmp/issue-body.md --label "<labels>"
     ```
-    If no matching labels exist, omit `--label`.
+    If no matching labels exist, omit `--label`. If the command fails or produces no URL, surface the error and ask "(r)etry / (Q)uit?" — do not clean up until creation is confirmed.
 
 11. Clean up and output the issue URL:
     ```bash
