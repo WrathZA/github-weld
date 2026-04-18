@@ -1,6 +1,6 @@
 ---
 name: gh-ship
-description: "GitHub shipping loop — wraps your finished work in a PR, merges it, exports the session as a Gist, and posts it as a comment. Does not implement code; you do the work, gh-ship handles everything GitHub. Invoke as /gh-ship to ship the current branch, or /gh-ship <issue-number> to target a specific issue. Use when you're ready to open a PR, merge, and export context."
+description: "GitHub shipping loop — wraps your finished work in a PR, merges it, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-ship handles everything GitHub. Invoke as /gh-ship to ship the current branch, or /gh-ship <issue-number> to target a specific issue. Use when you're ready to open a PR, merge, and export context."
 ---
 
 # gh-ship
@@ -11,11 +11,15 @@ Creates a PR with context, squash-merges, closes the linked issue, exports the s
 
 ## NEVER
 
-- NEVER create a PR from main — validate the branch first; stop if on main
+- NEVER create a PR from main — `gh pr create` will succeed but target the wrong base, shipping unreleased work directly; create a feature branch first
 - NEVER pass a PR body with `#`-prefixed lines as an inline `--body` argument — write to `.weld/tmp/pr-body.md` and pass via `--body-file`
-- NEVER merge before confirming the PR was created successfully
+- NEVER merge before confirming the PR was created successfully — a failed `gh pr create` still exits 0 in some cases; verify the URL is present in the output before calling `gh pr merge`
 - NEVER close the issue before the merge is confirmed
 - NEVER skip the Gist export — the session context on the PR is the audit trail
+- NEVER prompt the user during issue enrichment — derive checkboxes and close-out narrative from the Step 3 synthesis automatically; any prompt here breaks the single-keypress ship flow
+- NEVER chain Bash commands with `&&` or `;` — Claude Code's safety check fires on multi-command calls and interrupts mid-flow; run each as a separate Bash tool call
+- NEVER use `|` (pipe) in Bash tool calls — Claude Code stops execution on pipe; redirect to a temp file with `>` and read back with the Read tool
+- NEVER use `$()` command substitution — Claude Code's permission system prompts on `$()` during execution; use fixed paths under `.weld/tmp/` instead
 
 ## Workflow
 
@@ -99,11 +103,58 @@ rm .weld/tmp/pr-body.md
 gh pr merge --squash --delete-branch
 ```
 
-### 6 — Close the issue
+If the merge fails, diagnose the cause (merge conflict → resolve and retry; branch protection → check required reviews or status checks; stale ref → sync branch and retry) and attempt to fix it. If unresolvable, surface the error and ask "(r)etry / (Q)uit?" — do not proceed to Step 6 until the merge is confirmed.
 
-If there is a linked issue:
+### 6 — Enrich and close the issue
+
+If there is a linked issue, perform the following automatically — no user prompts:
+
+**a. Update acceptance criteria checkboxes**
+
+The issue body was fetched in Step 2. The commits and changed files were read in Step 3. For each `- [ ]` criterion in the issue body, determine whether the delivered changes satisfy it. A criterion is satisfied if a commit message or changed file directly addresses the named behaviour; when ambiguous, leave it unchecked and note the uncertainty in the close-out comment.
+
+If the issue body contains no `- [ ]` criteria, skip the edit step.
+
+Otherwise, write the updated body with satisfied items marked `- [x]` to `.weld/tmp/issue-updated-body.md` using the Write tool:
+
 ```bash
-gh issue close <N> --comment "Shipped in PR #<PR number>."
+gh issue edit <N> --body-file .weld/tmp/issue-updated-body.md
+```
+
+If `gh issue edit` fails, diagnose and fix: malformed body → rewrite the temp file with corrected content; auth error → verify with `gh auth status`; issue locked → note it and skip. Keep retrying until no further fixes apply, then surface the error and ask "(s)kip / (Q)uit?"
+
+```bash
+rm .weld/tmp/issue-updated-body.md
+```
+
+**b. Post a close-out comment**
+
+Using the synthesis from Step 3, write the close-out comment to `.weld/tmp/issue-close-comment.md` using the Write tool:
+
+```markdown
+<One sentence describing what the PR delivered.>
+
+**What changed:**
+- <meaningful change 1 — what and why>
+- <meaningful change 2 — what and why>
+
+Shipped in PR #<PR number>.
+```
+
+```bash
+gh issue comment <N> --body-file .weld/tmp/issue-close-comment.md
+```
+
+If `gh issue comment` fails, diagnose and fix: malformed body → rewrite the temp file; auth error → verify with `gh auth status`; rate limit → wait and retry. Keep retrying until no further fixes apply, then surface the error and ask "(s)kip / (Q)uit?"
+
+```bash
+rm .weld/tmp/issue-close-comment.md
+```
+
+**c. Close the issue**
+
+```bash
+gh issue close <N>
 ```
 
 ### 7 — Export session to Gist and post to PR
