@@ -40,6 +40,8 @@ Ask: `Scope: (r)epo or (g)ithub-wide? [r]`
 - `r` or Enter → current repo only
 - `g` → all repos visible to the authenticated user
 
+If the response is neither `r`, `g`, nor Enter: re-prompt once, then default to repo scope.
+
 ### 2 — Pre-flight
 
 ```bash
