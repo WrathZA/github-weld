@@ -173,6 +173,9 @@ Here's what I see you working on:
 ## Blockers
 
 None
+
+---
+*Created with [gh-weld](https://github.com/WrathZA/github-weld)*
 ```
 
 Acceptance criteria must be verifiable. Reject vague entries like "works correctly" — they must name a command, visible change, or measurable value.
