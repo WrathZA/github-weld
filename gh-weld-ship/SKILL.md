@@ -1,6 +1,6 @@
 ---
 name: gh-weld-ship
-description: "GitHub shipping loop — wraps your finished work in a PR, merges it, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-weld-ship handles everything GitHub. Invoke as /gh-weld-ship to ship the current branch, or /gh-weld-ship <issue-number> to target a specific issue. Use when you're ready to open a PR, merge, and export context."
+description: "GitHub shipping loop — wraps your finished work in a PR, merges it, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-weld-ship handles everything GitHub. Use when you're ready to open a PR, merge, and export context."
 ---
 
 # gh-weld-ship
@@ -90,7 +90,7 @@ Create the PR:
 gh pr create --title "<issue title or branch description>" --body-file .weld/tmp/pr-body.md --base main
 ```
 
-Read the PR number from the output (it appears as part of the URL, e.g. `.../pull/7`). Write just the PR number to `.weld/tmp/pr-number.txt` with the Write tool.
+Read the PR URL from the output (e.g. `https://github.com/owner/repo/pull/7`). Extract the PR number from the URL. Write the full PR URL to `.weld/tmp/pr-url.txt` and just the PR number to `.weld/tmp/pr-number.txt` with the Write tool.
 
 Clean up:
 ```bash
@@ -166,4 +166,15 @@ rm .weld/tmp/pr-number.txt
 
 Invoke `/gh-weld-export` with the PR number as context. This exports the session transcript, uploads it as a secret Gist, and posts a structured summary comment on the merged PR.
 
-Done.
+Read `.weld/tmp/pr-url.txt` with the Read tool to get the PR URL. Clean up:
+```bash
+rm .weld/tmp/pr-url.txt
+```
+
+Output:
+```
+Shipped: <issue title>
+
+PR:    <pr-url>
+Issue: https://github.com/<owner>/<repo>/issues/<N> (closed)
+```
