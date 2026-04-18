@@ -106,11 +106,17 @@ If there is a linked issue, perform the following automatically — no user prom
 
 **a. Update acceptance criteria checkboxes**
 
-The issue body was fetched in Step 2. The commits and changed files were read in Step 3. For each `- [ ]` criterion in the issue body, determine whether the delivered changes satisfy it. Write the updated body with satisfied items marked `- [x]` to `.weld/tmp/issue-updated-body.md` using the Write tool:
+The issue body was fetched in Step 2. The commits and changed files were read in Step 3. For each `- [ ]` criterion in the issue body, determine whether the delivered changes satisfy it.
+
+If the issue body contains no `- [ ]` criteria, skip the edit step.
+
+Otherwise, write the updated body with satisfied items marked `- [x]` to `.weld/tmp/issue-updated-body.md` using the Write tool:
 
 ```bash
 gh issue edit <N> --body-file .weld/tmp/issue-updated-body.md
 ```
+
+If `gh issue edit` fails, diagnose the error and attempt to fix the underlying cause. Keep retrying until all reasonable fixes are exhausted, then surface the error and ask "(s)kip / (Q)uit?"
 
 ```bash
 rm .weld/tmp/issue-updated-body.md
@@ -133,6 +139,8 @@ Shipped in PR #<PR number>.
 ```bash
 gh issue comment <N> --body-file .weld/tmp/issue-close-comment.md
 ```
+
+If `gh issue comment` fails, diagnose the error and attempt to fix the underlying cause. Keep retrying until all reasonable fixes are exhausted, then surface the error and ask "(s)kip / (Q)uit?"
 
 ```bash
 rm .weld/tmp/issue-close-comment.md
