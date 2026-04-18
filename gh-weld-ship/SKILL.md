@@ -26,6 +26,8 @@ Creates a PR with context, squash-merges, closes the linked issue, exports the s
 - NEVER use bash heredoc (`cat > file << 'EOF'`) for content with `#`-prefixed lines — headers trigger Claude Code's security check on every execution; use the Write tool instead
 - NEVER use `echo >` or `cat` to write file content — use the Write tool; it avoids shell escaping issues and doesn't trigger permission checks
 - NEVER use `find`, `grep`, or `cat` as Bash commands — use Glob, Grep, and Read tools instead; they are faster, safer, and don't require shell permissions
+- NEVER use interactive flags (`-i`, `-p`) in git commands (`git rebase -i`, `git add -p`, `git stash -p`) — Claude Code's non-interactive shell hangs waiting for input that never arrives
+- NEVER run `git commit` without `-m` — git spawns `$EDITOR` and waits; the agent cannot interact with it and the session hangs indefinitely
 
 ## Workflow
 
