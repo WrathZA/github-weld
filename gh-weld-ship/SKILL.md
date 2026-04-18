@@ -48,6 +48,8 @@ If the issue is already closed, warn: "Issue #N is already closed — continue a
 
 ### 3 — Summarize the work
 
+Before synthesizing, ask: do the commits fully represent the delivered work, or are there staged/unstaged changes not yet committed? If loose changes exist, warn: "There are uncommitted changes on this branch — commit them before shipping, or they won't be included in the PR."
+
 Read the commits on this branch since it diverged from main:
 ```bash
 git log main..HEAD --oneline
