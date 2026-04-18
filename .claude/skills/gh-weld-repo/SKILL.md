@@ -4,7 +4,7 @@ description: Create a GitHub repo from a local directory via `gh repo create`. I
 compatibility: Requires git and gh CLI with authentication
 ---
 
-# gh-repo
+# gh-weld-repo
 
 Create a GitHub repo from a local directory — infer what you can, ask for the rest, confirm before acting.
 
