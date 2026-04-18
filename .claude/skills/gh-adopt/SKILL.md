@@ -1,6 +1,6 @@
 ---
 name: gh-adopt
-description: "Retroactively formalizes ad-hoc in-progress work — reads session context and git state, creates a structured GitHub issue, renames the current branch to match repo conventions, commits loose changes, pushes, and exports the session as a Gist comment on the new issue. Use when: you started work without creating an issue first, or when the user says 'adopt this work', 'create an issue for what we're doing', 'formalize this branch', 'retroactively track this', 'adopt this cleanup', 'adopt this chore'."
+description: "Retroactively formalizes ad-hoc in-progress work — reads session context and git state, creates a structured GitHub issue, creates or renames a branch to match repo conventions, commits loose changes, pushes, and exports the session as a Gist comment on the new issue. Works from any branch including main (moves uncommitted changes or ahead-commits to a new branch). Use when: you started work without creating an issue first, or when the user says 'adopt this work', 'create an issue for what we're doing', 'formalize this branch', 'retroactively track this', 'adopt this cleanup', 'adopt this chore'."
 compatibility: Requires git and gh CLI. Designed for Claude Code.
 ---
 
@@ -10,9 +10,9 @@ You did the work first. gh-adopt creates the paper trail.
 
 ## NEVER
 
-- **NEVER run from `main` or `master`**
-  **Instead:** Bail immediately with "gh-adopt requires an in-progress branch — you're on main."
-  **Why:** There's no branch to rename or commits to adopt; the issue number can't be embedded in the branch name.
+- **NEVER proceed adoption from `main` when working tree is clean and no commits are ahead of `origin/main`**
+  **Instead:** Output "Nothing to adopt — working tree is clean and main is up to date." and stop.
+  **Why:** There is genuinely nothing to adopt — adoption requires loose work to formalize.
 
 - **NEVER create the issue before confirming the summary with the user**
   **Instead:** Show the synthesized summary and proposed issue body; wait for (a)ccept before calling `gh issue create`.
@@ -36,13 +36,71 @@ You did the work first. gh-adopt creates the paper trail.
 
 ## Workflow
 
-### 1 — Bail if on main
+### 1 — Handle if on main
 
 ```bash
 git branch --show-current
 ```
 
-If the result is `main` or `master`: output "gh-adopt requires an in-progress branch — you're on main." and stop.
+If the result is `main` or `master`:
+
+Check for uncommitted changes:
+
+```bash
+git status --porcelain
+```
+
+Check for commits ahead of remote:
+
+```bash
+git log origin/main..HEAD --oneline
+```
+
+**If neither has output:** output "Nothing to adopt — working tree is clean and main is up to date." and stop.
+
+**If both are present:** follow the uncommitted-changes path below — the ahead-commits carry over automatically since HEAD is preserved.
+
+**If uncommitted changes exist:**
+
+Inspect existing branch names to infer naming convention:
+
+```bash
+git branch -a
+```
+
+Propose a branch name (lowercase, hyphens, max 50 chars, using the repo's prefix convention). Show it and ask: "(a)ccept or enter a different name?"
+
+```bash
+git checkout -b <branch-name>
+```
+
+Continue to Step 2.
+
+**If commits are ahead of `origin/main`:**
+
+Inspect existing branch names:
+
+```bash
+git branch -a
+```
+
+Propose a branch name. Show it and ask: "(a)ccept or enter a different name?"
+
+Create the branch at the current HEAD, reset main, then check out the new branch:
+
+```bash
+git branch <branch-name>
+```
+
+```bash
+git reset --hard origin/main
+```
+
+```bash
+git checkout <branch-name>
+```
+
+Continue to Step 2.
 
 ### 2 — Read working state
 
@@ -64,13 +122,18 @@ Save the current branch name — you'll need it to detect and delete the old rem
 
 ### 3 — Synthesize and confirm
 
+Before synthesizing, ask:
+- Does the diff scope match the session discussion, or are there changes outside the stated work?
+- Does this read as a bug fix, feature, or chore?
+- Are there uncommitted files that should NOT be part of this issue (build artifacts, unrelated edits)?
+
 From **session context** (what has been discussed and built in this conversation) and the git output above, synthesize:
 
 - A proposed issue title (one line, imperative mood)
 - The work type (bug / feature / chore) — use this to frame the issue title and acceptance criteria; for the branch prefix, use whatever pattern was inferred from `git branch -a` above
 - A structured issue body (see template below)
 
-Before naming the type, inspect the repo's existing branch names to infer the local convention:
+Before naming the type, inspect the repo's existing branch names to infer the local convention (skip if already run in Step 1 — reuse that result):
 
 ```bash
 git branch -a
@@ -217,7 +280,7 @@ Done.
 
 | Situation | Action |
 |-----------|--------|
-| `git log main..HEAD` is empty (branch exists but no commits) | Warn "Branch has no commits ahead of main — loose changes only. Continue? (y/n)" |
+| On a non-main branch, `git log main..HEAD` is empty (branch exists but no commits ahead of main) | Warn "Branch has no commits ahead of main — loose changes only. Continue? (y/n)" |
 | `gh issue create` fails | Surface the error; do not rename the branch or push (nothing to link to yet) |
 | `git push --delete` fails on old remote name | Warn "Could not delete old remote branch `<name>` — delete it manually via GitHub." and continue |
 | `git branch -m` fails because new name already exists | Output the conflict and ask the user for an alternative branch name |
