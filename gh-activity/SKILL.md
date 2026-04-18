@@ -14,10 +14,18 @@ Activity digest grouped by recency. Fetch, bucket, render.
   **Instead:** Show a `None` placeholder under Issues and PRs.
   **Why:** Omitting windows makes the digest look misleading — the user can't tell if nothing happened or the window was skipped.
 
-- **NEVER use `|`, `&&`, `$()`, or `;` in Bash calls**
-  **Instead:** Run each command as a separate Bash tool call; read JSON output directly from the tool result.
-  **Why:** Claude Code's permission system interrupts the session on pipes and command substitution.
-  Note: `|` in markdown table row syntax (as in the Bucket table above) is unaffected.
+- **NEVER use `|` (pipe) in Bash calls**
+  **Instead:** Read JSON output directly from the tool result — no piping needed in this skill.
+  **Why:** Claude Code stops execution when it encounters a pipe, interrupting the session without warning.
+  Note: `|` in markdown table row syntax is unaffected.
+
+- **NEVER chain Bash calls with `&&` or `;`**
+  **Instead:** Run each command as a separate Bash tool call.
+  **Why:** Claude Code's safety check fires on ambiguous multi-command calls and interrupts mid-flow.
+
+- **NEVER use `$()` command substitution**
+  **Instead:** Read command output directly from the Bash tool result.
+  **Why:** Claude Code's permission system prompts on `$()` during execution, interrupting unnecessarily.
 
 - **NEVER mix items across windows**
   **Instead:** Each item appears in exactly one window — the most recent it qualifies for.
