@@ -1,15 +1,15 @@
 ---
-name: gh-export
+name: gh-weld-export
 description: "Export the current Claude Code session as a markdown transcript and post it as a comment on a GitHub PR or issue. Reads the session JSONL file from ~/.claude/projects/, uploads a full transcript as a secret Gist, and posts a structured summary comment with deep-link anchors. Use when: posting session context to a PR after merge, saving conversation history, uploading a session transcript to GitHub, documenting what we did, or when the user says 'export context', 'post context to PR/issue', 'export the session', or 'post session to GitHub'."
 ---
 
-# gh-export
+# gh-weld-export
 
 Export the current session and post it to a GitHub PR or issue as a structured comment with a Gist link.
 
 ## Workflow
 
-**If invoked by another skill** (e.g. `gh-ship` after merge), the caller passes the PR or issue number as context. Use it directly.
+**If invoked by another skill** (e.g. `gh-weld-ship` after merge), the caller passes the PR or issue number as context. Use it directly.
 
 **If invoked standalone** with no number: ask "Which PR or issue number should I post to?"
 
@@ -17,7 +17,7 @@ Export the current session and post it to a GitHub PR or issue as a structured c
 
 1. Export the session transcript:
    ```bash
-   python3 .claude/skills/gh-export/scripts/export-session.py --out .weld/tmp/session-export.md
+   python3 .claude/skills/gh-weld-export/scripts/export-session.py --out .weld/tmp/session-export.md
    ```
 
 2. Upload as a secret Gist:

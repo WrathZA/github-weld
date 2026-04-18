@@ -1,11 +1,11 @@
 ---
-name: gh-ship
-description: "GitHub shipping loop — wraps your finished work in a PR, merges it, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-ship handles everything GitHub. Invoke as /gh-ship to ship the current branch, or /gh-ship <issue-number> to target a specific issue. Use when you're ready to open a PR, merge, and export context."
+name: gh-weld-ship
+description: "GitHub shipping loop — wraps your finished work in a PR, merges it, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-weld-ship handles everything GitHub. Invoke as /gh-weld-ship to ship the current branch, or /gh-weld-ship <issue-number> to target a specific issue. Use when you're ready to open a PR, merge, and export context."
 ---
 
-# gh-ship
+# gh-weld-ship
 
-You wrote the code. gh-ship ships it.
+You wrote the code. gh-weld-ship ships it.
 
 Creates a PR with context, squash-merges, closes the linked issue, exports the session to a Gist, and posts it on the PR.
 
@@ -29,7 +29,7 @@ Creates a PR with context, squash-merges, closes the linked issue, exports the s
 git branch --show-current
 ```
 
-If the result is `main` or `master`: output "You're on main — /gh-adopt can help. It'll create an issue for what you're working on, rename the branch, and get everything tracked before you ship." and stop.
+If the result is `main` or `master`: output "You're on main — /gh-weld-adopt can help. It'll create an issue for what you're working on, rename the branch, and get everything tracked before you ship." and stop.
 
 ### 2 — Find the linked issue
 
@@ -164,6 +164,6 @@ Read `.weld/tmp/pr-number.txt` with the Read tool to get the PR number. Clean up
 rm .weld/tmp/pr-number.txt
 ```
 
-Invoke `/gh-export` with the PR number as context. This exports the session transcript, uploads it as a secret Gist, and posts a structured summary comment on the merged PR.
+Invoke `/gh-weld-export` with the PR number as context. This exports the session transcript, uploads it as a secret Gist, and posts a structured summary comment on the merged PR.
 
 Done.
