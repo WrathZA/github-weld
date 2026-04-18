@@ -1,6 +1,8 @@
 ---
 name: gh-weld-ship
 description: "GitHub shipping loop — wraps your finished work in a PR, merges it, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-weld-ship handles everything GitHub. Use when you're ready to open a PR, merge, and export context."
+disable-model-invocation: true
+when_to_use: "Use when done implementing, ready to ship, want to merge and close an issue, or when the user says 'I'm done' on a feature branch."
 ---
 
 # gh-weld-ship
@@ -18,7 +20,7 @@ Creates a PR with context, squash-merges, closes the linked issue, exports the s
 - NEVER skip the Gist export — the session context on the PR is the audit trail
 - NEVER prompt the user during issue enrichment — derive checkboxes and close-out narrative from the Step 3 synthesis automatically; any prompt here breaks the single-keypress ship flow
 - NEVER chain Bash commands with `&&` or `;` — Claude Code's safety check fires on multi-command calls and interrupts mid-flow; run each as a separate Bash tool call
-- NEVER use `|` (pipe) in Bash tool calls — Claude Code stops execution on pipe; redirect to a temp file with `>` and read back with the Read tool
+- NEVER use `|` (pipe) in Bash tool calls — Claude Code stops execution on pipe; redirect to a temp file with `>` and read back with the Read tool. Note: `|` in markdown table syntax is unaffected.
 - NEVER use `$()` command substitution — Claude Code's permission system prompts on `$()` during execution; use fixed paths under `.weld/tmp/` instead
 - NEVER use bash heredoc (`cat > file << 'EOF'`) for content with `#`-prefixed lines — headers trigger Claude Code's security check on every execution; use the Write tool instead
 - NEVER use `echo >` or `cat` to write file content — use the Write tool; it avoids shell escaping issues and doesn't trigger permission checks
@@ -109,6 +111,18 @@ gh pr merge --squash --delete-branch
 ```
 
 If the merge fails, diagnose the cause (merge conflict → resolve and retry; branch protection → check required reviews or status checks; stale ref → sync branch and retry) and attempt to fix it. If unresolvable, surface the error and ask "(r)etry / (Q)uit?" — do not proceed to Step 6 until the merge is confirmed.
+
+Once merge is confirmed, switch to main:
+```bash
+git checkout main
+```
+
+If that fails (repo uses `master`):
+```bash
+git checkout master
+```
+
+If both fail, warn: "Could not switch to main — merge succeeded but you may be on a detached HEAD." and continue to Step 6.
 
 ### 6 — Enrich and close the issue
 
