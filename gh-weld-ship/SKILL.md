@@ -1,6 +1,6 @@
 ---
 name: gh-weld-ship
-description: "GitHub shipping loop — wraps your finished work in a PR, merges it, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-weld-ship handles everything GitHub. Invoke as /gh-weld-ship to ship the current branch, or /gh-weld-ship <issue-number> to target a specific issue. Use when you're ready to open a PR, merge, and export context."
+description: "GitHub shipping loop — wraps your finished work in a PR, merges it, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-weld-ship handles everything GitHub. Use when you're ready to open a PR, merge, and export context."
 ---
 
 # gh-weld-ship
@@ -20,6 +20,9 @@ Creates a PR with context, squash-merges, closes the linked issue, exports the s
 - NEVER chain Bash commands with `&&` or `;` — Claude Code's safety check fires on multi-command calls and interrupts mid-flow; run each as a separate Bash tool call
 - NEVER use `|` (pipe) in Bash tool calls — Claude Code stops execution on pipe; redirect to a temp file with `>` and read back with the Read tool
 - NEVER use `$()` command substitution — Claude Code's permission system prompts on `$()` during execution; use fixed paths under `.weld/tmp/` instead
+- NEVER use bash heredoc (`cat > file << 'EOF'`) for content with `#`-prefixed lines — headers trigger Claude Code's security check on every execution; use the Write tool instead
+- NEVER use `echo >` or `cat` to write file content — use the Write tool; it avoids shell escaping issues and doesn't trigger permission checks
+- NEVER use `find`, `grep`, or `cat` as Bash commands — use Glob, Grep, and Read tools instead; they are faster, safer, and don't require shell permissions
 
 ## Workflow
 
@@ -44,6 +47,8 @@ gh issue view <N> --json number,title,body,state
 If the issue is already closed, warn: "Issue #N is already closed — continue anyway? (y/n)"
 
 ### 3 — Summarize the work
+
+Before synthesizing, ask: do the commits fully represent the delivered work, or are there staged/unstaged changes not yet committed? If loose changes exist, warn: "There are uncommitted changes on this branch — commit them before shipping, or they won't be included in the PR."
 
 Read the commits on this branch since it diverged from main:
 ```bash
@@ -90,7 +95,7 @@ Create the PR:
 gh pr create --title "<issue title or branch description>" --body-file .weld/tmp/pr-body.md --base main
 ```
 
-Read the PR number from the output (it appears as part of the URL, e.g. `.../pull/7`). Write just the PR number to `.weld/tmp/pr-number.txt` with the Write tool.
+Read the PR URL from the output (e.g. `https://github.com/owner/repo/pull/7`). Extract the PR number from the URL. Write the full PR URL to `.weld/tmp/pr-url.txt` and just the PR number to `.weld/tmp/pr-number.txt` with the Write tool.
 
 Clean up:
 ```bash
@@ -166,4 +171,17 @@ rm .weld/tmp/pr-number.txt
 
 Invoke `/gh-weld-export` with the PR number as context. This exports the session transcript, uploads it as a secret Gist, and posts a structured summary comment on the merged PR.
 
-Done.
+If `/gh-weld-export` fails, warn: "Session export failed — ship is otherwise complete." and continue to the completion output.
+
+Read `.weld/tmp/pr-url.txt` with the Read tool to get the PR URL. Clean up:
+```bash
+rm .weld/tmp/pr-url.txt
+```
+
+Output:
+```
+Shipped: <issue title>
+
+PR:    <pr-url>
+Issue: https://github.com/<owner>/<repo>/issues/<N> (closed)
+```
