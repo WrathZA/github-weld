@@ -100,7 +100,7 @@ Create a new GitHub issue through a brief HITL interview.
     ```bash
     gh issue create --title "<title>" --body-file .weld/tmp/issue-body.md --label "<labels>"
     ```
-    If no matching labels exist, omit `--label`.
+    If no matching labels exist, omit `--label`. If the command fails or produces no URL, surface the error and ask "(r)etry / (Q)uit?" — do not clean up until creation is confirmed.
 
 11. Clean up and output the issue URL:
     ```bash
