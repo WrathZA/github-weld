@@ -11,7 +11,7 @@ Create a new GitHub issue through a brief HITL interview.
 
 - NEVER pass a body with `#`-prefixed lines as an inline `--body` argument — write to `.weld/tmp/issue-body.md` with the Write tool and pass via `--body-file`; headers trigger Claude Code's security check on every execution
 - NEVER skip the duplicate check — a missed duplicate creates noise and confusion in the backlog
-- NEVER create issues for work you are about to implement in the same session — use `gh-weld-ship` instead; it creates the issue and links it to the branch automatically
+- NEVER create issues for work you are about to implement in the same session — the issue would be created and immediately closed with no meaningful history; use `gh-weld-ship` instead, which links the issue to the branch and closes it on merge
 - NEVER batch multiple ideas into one issue — one issue, one merge, one audit trail; batched issues can't be independently closed or reverted
 - NEVER chain Bash commands with `&&` or `;` — Claude Code's safety check fires on multi-command calls and interrupts mid-flow; run each as a separate Bash tool call
 - NEVER use `|` (pipe) in Bash tool calls — Claude Code stops execution on pipe; redirect to a temp file with `>` and read back with the Read tool. Note: `|` in markdown table syntax is unaffected.
