@@ -11,9 +11,9 @@ Creates a PR with context, squash-merges, closes the linked issue, exports the s
 
 ## NEVER
 
-- NEVER create a PR from main — validate the branch first; stop if on main
+- NEVER create a PR from main — `gh pr create` will succeed but target the wrong base, shipping unreleased work directly; create a feature branch first
 - NEVER pass a PR body with `#`-prefixed lines as an inline `--body` argument — write to `.weld/tmp/pr-body.md` and pass via `--body-file`
-- NEVER merge before confirming the PR was created successfully
+- NEVER merge before confirming the PR was created successfully — a failed `gh pr create` still exits 0 in some cases; verify the URL is present in the output before calling `gh pr merge`
 - NEVER close the issue before the merge is confirmed
 - NEVER skip the Gist export — the session context on the PR is the audit trail
 - NEVER prompt the user during issue enrichment — derive checkboxes and close-out narrative from the Step 3 synthesis automatically; any prompt here breaks the single-keypress ship flow
