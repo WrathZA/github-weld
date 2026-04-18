@@ -99,11 +99,48 @@ rm .weld/tmp/pr-body.md
 gh pr merge --squash --delete-branch
 ```
 
-### 6 — Close the issue
+### 6 — Enrich and close the issue
 
-If there is a linked issue:
+If there is a linked issue, perform the following automatically — no user prompts:
+
+**a. Update acceptance criteria checkboxes**
+
+The issue body was fetched in Step 2. The commits and changed files were read in Step 3. For each `- [ ]` criterion in the issue body, determine whether the delivered changes satisfy it. Write the updated body with satisfied items marked `- [x]` to `.weld/tmp/issue-updated-body.md` using the Write tool:
+
 ```bash
-gh issue close <N> --comment "Shipped in PR #<PR number>."
+gh issue edit <N> --body-file .weld/tmp/issue-updated-body.md
+```
+
+```bash
+rm .weld/tmp/issue-updated-body.md
+```
+
+**b. Post a close-out comment**
+
+Using the synthesis from Step 3, write the close-out comment to `.weld/tmp/issue-close-comment.md` using the Write tool:
+
+```markdown
+<One sentence describing what the PR delivered.>
+
+**What changed:**
+- <meaningful change 1 — what and why>
+- <meaningful change 2 — what and why>
+
+Shipped in PR #<PR number>.
+```
+
+```bash
+gh issue comment <N> --body-file .weld/tmp/issue-close-comment.md
+```
+
+```bash
+rm .weld/tmp/issue-close-comment.md
+```
+
+**c. Close the issue**
+
+```bash
+gh issue close <N>
 ```
 
 ### 7 — Export session to Gist and post to PR
