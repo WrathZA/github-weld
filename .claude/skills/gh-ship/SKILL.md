@@ -106,7 +106,7 @@ If there is a linked issue, perform the following automatically — no user prom
 
 **a. Update acceptance criteria checkboxes**
 
-The issue body was fetched in Step 2. The commits and changed files were read in Step 3. For each `- [ ]` criterion in the issue body, determine whether the delivered changes satisfy it.
+The issue body was fetched in Step 2. The commits and changed files were read in Step 3. For each `- [ ]` criterion in the issue body, determine whether the delivered changes satisfy it. A criterion is satisfied if a commit message or changed file directly addresses the named behaviour; when ambiguous, leave it unchecked and note the uncertainty in the close-out comment.
 
 If the issue body contains no `- [ ]` criteria, skip the edit step.
 
