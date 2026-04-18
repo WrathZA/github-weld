@@ -1,6 +1,6 @@
 ---
 name: gh-ship
-description: "GitHub shipping loop — wraps your finished work in a PR, merges it, exports the session as a Gist, and posts it as a comment. Does not implement code; you do the work, gh-ship handles everything GitHub. Invoke as /gh-ship to ship the current branch, or /gh-ship <issue-number> to target a specific issue. Use when you're ready to open a PR, merge, and export context."
+description: "GitHub shipping loop — wraps your finished work in a PR, merges it, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-ship handles everything GitHub. Invoke as /gh-ship to ship the current branch, or /gh-ship <issue-number> to target a specific issue. Use when you're ready to open a PR, merge, and export context."
 ---
 
 # gh-ship
