@@ -16,6 +16,7 @@ Creates a PR with context, squash-merges, closes the linked issue, exports the s
 - NEVER merge before confirming the PR was created successfully
 - NEVER close the issue before the merge is confirmed
 - NEVER skip the Gist export — the session context on the PR is the audit trail
+- NEVER prompt the user during issue enrichment — derive checkboxes and close-out narrative from the Step 3 synthesis automatically; any prompt here breaks the single-keypress ship flow
 
 ## Workflow
 
