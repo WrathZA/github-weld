@@ -126,33 +126,11 @@ One `gh repo edit` call per topic.
 
 ### Initialize if needed
 
-If `git status` in Phase 1 showed "not a git repository":
-```bash
-git init
-git add -A
-git commit -m "Initial commit"
-```
-
-If the repo has commits but no initial commit staged, skip `git add` and `git commit`.
+If Phase 1 noted "not a git repository": run `git init`, then `git add -A`, then `git commit -m "Initial commit"`. If the repo already has commits, skip the add/commit.
 
 ### Add remote and push
 
-Read the repo URL from the `gh repo create` output.
-
-If no `origin` remote exists yet:
-```bash
-git remote add origin <url>
-```
-
-Push:
-```bash
-git push -u origin main
-```
-
-If this fails because the default branch is `master`:
-```bash
-git push -u origin master
-```
+Read the repo URL from the `gh repo create` output. If no `origin` remote exists, run `git remote add origin <url>`. Push with `git push -u origin main`; if it fails because the default branch is `master`, retry with `git push -u origin master`.
 
 ---
 
