@@ -32,7 +32,23 @@ Ask: `Scope: (r)epo or (g)ithub-wide? [r]`
 - `r` or Enter → current repo only
 - `g` → all repos visible to the authenticated user
 
-### 2 — Fetch
+### 2 — Pre-flight
+
+```bash
+gh auth status
+```
+
+If this fails: output "gh is not authenticated — run `gh auth login` first." and stop.
+
+Check gh version:
+
+```bash
+gh --version
+```
+
+`gh search` requires gh v2.29+. If the version is older and the user chose GitHub-wide scope, warn: "gh search requires v2.29 or later — falling back to repo scope." and proceed as repo scope.
+
+### 3 — Fetch
 
 **Repo scope:**
 
@@ -58,7 +74,7 @@ Read the JSON from each tool result directly — no temp files needed.
 
 > Discussions are not supported by the `gh` CLI JSON output; omit silently.
 
-### 3 — Bucket
+### 4 — Bucket
 
 Get today's date (UTC). Classify each item into exactly one window:
 
@@ -71,7 +87,7 @@ Get today's date (UTC). Classify each item into exactly one window:
 
 Assign to the most recent qualifying window. Items older than 30 days are omitted.
 
-### 4 — Render
+### 5 — Render
 
 ```
 ## Today
