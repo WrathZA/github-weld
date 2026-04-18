@@ -19,7 +19,7 @@ Creates a PR with context, squash-merges, closes the linked issue, exports the s
 - NEVER skip the Gist export — the session context on the PR is the audit trail
 - NEVER prompt the user during issue enrichment — derive checkboxes and close-out narrative from the Step 3 synthesis automatically; any prompt here breaks the single-keypress ship flow
 - NEVER chain Bash commands with `&&` or `;` — Claude Code's safety check fires on multi-command calls and interrupts mid-flow; run each as a separate Bash tool call
-- NEVER use `|` (pipe) in Bash tool calls — Claude Code stops execution on pipe; redirect to a temp file with `>` and read back with the Read tool
+- NEVER use `|` (pipe) in Bash tool calls — Claude Code stops execution on pipe; redirect to a temp file with `>` and read back with the Read tool. Note: `|` in markdown table syntax is unaffected.
 - NEVER use `$()` command substitution — Claude Code's permission system prompts on `$()` during execution; use fixed paths under `.weld/tmp/` instead
 - NEVER use bash heredoc (`cat > file << 'EOF'`) for content with `#`-prefixed lines — headers trigger Claude Code's security check on every execution; use the Write tool instead
 - NEVER use `echo >` or `cat` to write file content — use the Write tool; it avoids shell escaping issues and doesn't trigger permission checks
