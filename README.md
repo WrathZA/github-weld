@@ -1,26 +1,30 @@
 # github-weld 🪢
 
-Claude Code skills that close the loop on every change — from issue to merge, with context captured at each step. The result is a structured delivery history your future self, your team, or an LLM can actually learn from.
+Git records *what* changed. gh-weld captures *why* and *how*.
 
-These skills are opinionated about *workflow*, not implementation — they work alongside whatever you're building.
+Every commit is a data point. A linked issue with acceptance criteria is information. A session export — the reasoning, the trade-offs, the decisions and the implementation path that got you there — is knowledge. gh-weld closes that chain automatically, at every merge.
+
+These skills are opinionated about *workflow*, not implementation — they work alongside whatever and however you're building.
+
+## How it works
 
 ![github-weld workflow diagram](diagram.svg)
 
-Git gives you data — diffs and commit hashes. GitHub gives you information — issues, PRs, linked references. `gh-weld` closes the gap toward knowledge: every merge carries a session export with the full reasoning trail, attached as a Gist and linked at the exact commit it belongs to. `git blame` a line, follow the PR, read why the decision was made and what was ruled out. That chain — from raw change to documented intent — is what turns a codebase into something a future agent or a new team member can actually learn from.
+Git gives you data — diffs and commit hashes. GitHub gives you information — issues, PRs, linked references. gh-weld closes the gap toward knowledge: every merge carries a session export with the full reasoning trail, attached as a Gist and linked at the exact commit it belongs to. `git blame` a line, follow the PR, read why the decision was made and what was ruled out.
 
 The payoff is cumulative. Run this loop consistently and each issue becomes a structured artifact: acceptance criteria up front, a correctly-named branch, a merged PR, and a session transcript capturing the context that never survives in commit messages alone. Over time that's a mineable decision history — not just what the code does, but why it does it that way.
 
 ## Skills
 
-**[`/gh-weld-issue`](.claude/skills/gh-weld-issue/)** — Every piece of work needs an anchor before the first line of code. Creates one via a guided interview: duplicate check, structured body, and label discovery.
+**[`/gh-weld-issue`](.claude/skills/gh-weld-issue/)** — Work started without a tracking anchor is work that leaks context. Creates a structured issue via a guided interview: duplicate check, acceptance criteria, and label discovery.
 
-**[`/gh-weld-next`](.claude/skills/gh-weld-next/)** — Connecting intent to execution is where most workflows leak data. Picks an open issue, creates a correctly-named branch, and hands off to implementation.
+**[`/gh-weld-next`](.claude/skills/gh-weld-next/)** — The gap between intent and execution is where context gets lost. Picks an open issue, creates a correctly-named branch, and hands off to implementation.
 
-**[`/gh-weld-ship`](.claude/skills/gh-weld-ship/)** — Shipping is the richest data moment in the delivery lifecycle. Wraps finished work in a PR, merges it, closes the issue, and exports session context.
+**[`/gh-weld-ship`](.claude/skills/gh-weld-ship/)** — Shipping is the richest data moment in the delivery lifecycle, and the one most likely to skip documentation under pressure. Wraps finished work in a PR, squash-merges it, closes the linked issue, and exports the session as a Gist attached to the merge.
 
-**[`/gh-weld-export`](.claude/skills/gh-weld-export/)** — Git history captures what changed; session export captures why. Exports the Claude Code session as a Gist and posts a structured summary to any PR or issue.
+**[`/gh-weld-export`](.claude/skills/gh-weld-export/)** — The reasoning behind a decision lives in the session; once the context window is cleared, it's gone. Exports the Claude Code session as a Gist and posts a structured summary comment to any PR or issue.
 
-**[`/gh-weld-adopt`](.claude/skills/gh-weld-adopt/)** — For when you started coding before creating an issue. Creates the issue retroactively, renames the branch, commits loose changes, and exports the session.
+**[`/gh-weld-adopt`](.claude/skills/gh-weld-adopt/)** — Ad-hoc work that never gets an issue is work that disappears from the history. Retroactively creates a structured issue, renames the branch to match, commits loose changes, and exports the session.
 
 ## Installation
 
@@ -38,10 +42,10 @@ To update, pull and re-run the script — existing symlinks are left in place.
 
 ## Requirements
 
-- [Claude Code](https://claude.ai/code)
+- [Claude Code](https://claude.ai/code) (or equivalent AI coding agent — untested with others)
 - [gh CLI](https://cli.github.com/) authenticated (`gh auth login`)
 - `git`
-- `python3` (parses Claude Code session files to extract the conversation transcript for export to Gist)
+- `python3` (used by `/gh-weld-export` to parse session files and generate the transcript Gist)
 
 ## If a session goes off track
 
@@ -61,4 +65,4 @@ This is the broader philosophy behind gh-weld: data you don't capture now is con
 
 ## Conventions
 
-Claude Code's permission and safety systems have non-obvious interactions with shell execution — pipes, heredocs, and inline `gh` arguments all cause problems in practice. [`.weld/conventions.md`](.weld/conventions.md) documents the patterns these skills follow so you don't have to rediscover them when extending or contributing.
+Claude Code's permission and safety systems have non-obvious interactions with shell execution — pipes, heredocs, and inline `gh` arguments all cause problems in practice. [`.weld/conventions.md`](.weld/conventions.md) documents the hard-won patterns these skills follow, so you don't have to rediscover them when extending or contributing.
