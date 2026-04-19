@@ -6,9 +6,11 @@ Every commit is a data point. A linked issue with acceptance criteria is informa
 
 These skills are opinionated about *workflow*, not implementation — they work alongside whatever and however you're building.
 
+## How it works
+
 ![github-weld workflow diagram](diagram.svg)
 
-Git gives you data — diffs and commit hashes. GitHub gives you information — issues, PRs, linked references. `gh-weld` closes the gap toward knowledge: every merge carries a session export with the full reasoning trail, attached as a Gist and linked at the exact commit it belongs to. `git blame` a line, follow the PR, read why the decision was made and what was ruled out. That chain — from raw change to documented intent — is what turns a codebase into something a future agent or a new team member can actually learn from.
+Git gives you data — diffs and commit hashes. GitHub gives you information — issues, PRs, linked references. gh-weld closes the gap toward knowledge: every merge carries a session export with the full reasoning trail, attached as a Gist and linked at the exact commit it belongs to. `git blame` a line, follow the PR, read why the decision was made and what was ruled out.
 
 The payoff is cumulative. Run this loop consistently and each issue becomes a structured artifact: acceptance criteria up front, a correctly-named branch, a merged PR, and a session transcript capturing the context that never survives in commit messages alone. Over time that's a mineable decision history — not just what the code does, but why it does it that way.
 
