@@ -74,6 +74,7 @@ Ask: "(a)ccept, (r)evise, or (s)kip?"
   gh issue comment <N> --body-file .weld/tmp/comment-body.md
   ```
   Delete with `rm .weld/tmp/comment-body.md`. Proceed to step 4.
+- **(s)**: return to "Which issue?" prompt in step 3.
 
 ### 4 — Create branch
 
