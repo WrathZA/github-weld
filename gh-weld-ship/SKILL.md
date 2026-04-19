@@ -7,17 +7,13 @@ when_to_use: "Use when done implementing, ready to ship, want to merge and close
 
 # gh-weld-ship
 
-You wrote the code. gh-weld-ship ships it.
-
-Creates a PR with context, squash-merges, closes the linked issue, exports the session to a Gist, and posts it on the PR.
-
 ## NEVER
 
 - NEVER create a PR from main — `gh pr create` will succeed but target the wrong base, shipping unreleased work directly; create a feature branch first
 - NEVER pass a PR body with `#`-prefixed lines as an inline `--body` argument — write to `.weld/tmp/pr-body.md` and pass via `--body-file`
 - NEVER merge before confirming the PR was created successfully — a failed `gh pr create` still exits 0 in some cases; verify the URL is present in the output before calling `gh pr merge`
 - NEVER close the issue before the merge is confirmed
-- NEVER skip the Gist export — the session context on the PR is the audit trail
+- NEVER skip the Gist export — the session context on the PR is the audit trail; if `/gh-weld-export` is unavailable, note its absence explicitly in the Done block rather than silently omitting it
 - NEVER prompt the user during issue enrichment — derive checkboxes and close-out narrative from the Step 3 synthesis automatically; any prompt here breaks the single-keypress ship flow
 - NEVER chain Bash commands with `&&` or `;` — Claude Code's safety check fires on multi-command calls and interrupts mid-flow; run each as a separate Bash tool call
 - NEVER use `|` (pipe) in Bash tool calls — Claude Code stops execution on pipe; redirect to a temp file with `>` and read back with the Read tool. Note: `|` in markdown table syntax is unaffected.
@@ -193,17 +189,30 @@ rm .weld/tmp/pr-number.txt
 
 Invoke `/gh-weld-export` with the PR number as context. This exports the session transcript, uploads it as a secret Gist, and posts a structured summary comment on the merged PR.
 
-If `/gh-weld-export` fails, warn: "Session export failed — ship is otherwise complete." and continue to the completion output.
+If `/gh-weld-export` succeeds: read `.weld/tmp/gist-url.txt` with the Read tool to get the Gist URL. Clean up:
+```bash
+rm .weld/tmp/gist-url.txt
+```
+
+If `/gh-weld-export` fails: warn "Session export failed — ship is otherwise complete." Set `<gist-url>` unavailable and omit the Session line from the Done block. Proceed to the pr-url read below.
 
 Read `.weld/tmp/pr-url.txt` with the Read tool to get the PR URL. Clean up:
 ```bash
 rm .weld/tmp/pr-url.txt
 ```
 
-Output:
-```
-Shipped: <issue title>
+Output a `## Done` block:
 
-PR:    <pr-url>
-Issue: https://github.com/<owner>/<repo>/issues/<N> (closed)
 ```
+## Done
+
+<One sentence: what was shipped and why, inferred from PR title and issue title.>
+
+- PR: <pr-url>
+- Issue: https://github.com/<owner>/<repo>/issues/<N> (closed)
+- Session: <gist-url>
+```
+
+If no linked issue, omit the Issue line. If export failed, omit the Session line.
+
+All steps complete. No further action required.
