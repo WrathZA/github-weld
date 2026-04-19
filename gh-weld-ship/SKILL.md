@@ -17,7 +17,7 @@ Creates a PR with context, squash-merges, closes the linked issue, exports the s
 - NEVER pass a PR body with `#`-prefixed lines as an inline `--body` argument — write to `.weld/tmp/pr-body.md` and pass via `--body-file`
 - NEVER merge before confirming the PR was created successfully — a failed `gh pr create` still exits 0 in some cases; verify the URL is present in the output before calling `gh pr merge`
 - NEVER close the issue before the merge is confirmed
-- NEVER skip the Gist export — the session context on the PR is the audit trail
+- NEVER skip the Gist export — the session context on the PR is the audit trail; if `/gh-weld-export` is unavailable, note its absence explicitly in the Done block rather than silently omitting it
 - NEVER prompt the user during issue enrichment — derive checkboxes and close-out narrative from the Step 3 synthesis automatically; any prompt here breaks the single-keypress ship flow
 - NEVER chain Bash commands with `&&` or `;` — Claude Code's safety check fires on multi-command calls and interrupts mid-flow; run each as a separate Bash tool call
 - NEVER use `|` (pipe) in Bash tool calls — Claude Code stops execution on pipe; redirect to a temp file with `>` and read back with the Read tool. Note: `|` in markdown table syntax is unaffected.
