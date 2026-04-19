@@ -10,7 +10,7 @@ Find something to work on. Read it. Branch. Go.
 ## NEVER
 
 - NEVER pick a blocked issue (one whose blocker issues are still open) without warning the user — starting blocked work wastes the sprint and may require a branch rename when the blocker resolves
-- NEVER create a branch from main if main has uncommitted changes — check first
+- NEVER create a branch from main if main has uncommitted changes — uncommitted changes contaminate the new branch and pollute the issue diff. Instead: commit or stash first.
 
 ## Workflow
 
