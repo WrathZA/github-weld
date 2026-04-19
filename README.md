@@ -28,7 +28,21 @@ The payoff compounds. Run this loop and each issue becomes a structured artifact
 
 ## Installation
 
-Clone the repo and run the symlink script:
+The skills form a single loop — install all of them. A partial install leaves the workflow broken at the step you skipped.
+
+**Via Claude Code plugin marketplace** (no clone required):
+
+```
+/plugin marketplace add WrathZA/github-weld
+/plugin install gh-weld-issue
+/plugin install gh-weld-next
+/plugin install gh-weld-ship
+/plugin install gh-weld-export
+/plugin install gh-weld-adopt
+/plugin install gh-weld-activity
+```
+
+**Via symlink script** (for local development or if you prefer cloning):
 
 ```bash
 git clone https://github.com/WrathZA/github-weld
@@ -36,9 +50,7 @@ cd github-weld
 bash symlink-global-skills.sh
 ```
 
-This symlinks each skill directory into `~/.claude/skills/`, making them available in any project.
-
-To update, pull and re-run the script. Existing symlinks are left in place.
+This symlinks each skill directory into `~/.claude/skills/`, making them available in any project. To update, pull and re-run the script — existing symlinks are left in place.
 
 ## Requirements
 
