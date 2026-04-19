@@ -23,7 +23,8 @@
       "Bash(gh pr *)",
       "Bash(gh repo *)",
       "Bash(python3 gh-weld-export/scripts/export-session.py *)",
-      "Bash(./symlink-global-skills.sh)"
+      "Bash(./symlink-global-skills.sh)",
+      "Bash(bash symlink-global-skills.sh)"
     ]
   }
 }
