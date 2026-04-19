@@ -1,6 +1,6 @@
 ---
 name: gh-weld-next
-description: "Pick an open GitHub issue to work on, then create a branch and hand off to the user. Lists open issues, lets you select one, reads the full issue details, creates a branch, and confirms you're ready to implement. Pair with /gh-weld-ship when work is done. Use when: starting a new piece of work, picking the next issue from the backlog, or creating a branch for an issue."
+description: "Pick an open GitHub issue to work on, then create a branch and hand off to the user. Lists open issues, lets you select one, reads the full issue details, optionally adds context notes posted as an issue comment, creates a branch, and confirms you're ready to implement. Pair with /gh-weld-ship when work is done. Use when: starting a new piece of work, picking the next issue from the backlog, adding notes or context to an issue before branching, or annotating an issue with decisions before starting work."
 ---
 
 # gh-weld-next
