@@ -65,4 +65,4 @@ This is the broader philosophy behind gh-weld: data you don't capture now is con
 
 ## Conventions
 
-Claude Code's permission and safety systems have non-obvious interactions with shell execution — pipes, heredocs, and inline `gh` arguments all cause problems in practice. [`.weld/conventions.md`](.weld/conventions.md) documents the patterns these skills follow so you don't have to rediscover them when extending or contributing.
+Claude Code's permission and safety systems have non-obvious interactions with shell execution — pipes, heredocs, and inline `gh` arguments all cause problems in practice. [`.weld/conventions.md`](.weld/conventions.md) documents the hard-won patterns these skills follow, so you don't have to rediscover them when extending or contributing.
