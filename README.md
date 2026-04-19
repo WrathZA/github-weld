@@ -18,7 +18,7 @@ The payoff is cumulative. Run this loop consistently and each issue becomes a st
 
 **[`/gh-weld-issue`](.claude/skills/gh-weld-issue/)** — Work started without a tracking anchor is work that leaks context. Creates a structured issue via a guided interview: duplicate check, acceptance criteria, and label discovery.
 
-**[`/gh-weld-next`](.claude/skills/gh-weld-next/)** — Connecting intent to execution is where most workflows leak data. Picks an open issue, creates a correctly-named branch, and hands off to implementation.
+**[`/gh-weld-next`](.claude/skills/gh-weld-next/)** — The gap between intent and execution is where context gets lost. Picks an open issue, creates a correctly-named branch, and hands off to implementation.
 
 **[`/gh-weld-ship`](.claude/skills/gh-weld-ship/)** — Shipping is the richest data moment in the delivery lifecycle. Wraps finished work in a PR, merges it, closes the issue, and exports session context.
 
