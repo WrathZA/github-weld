@@ -20,7 +20,7 @@ The payoff is cumulative. Run this loop consistently and each issue becomes a st
 
 **[`/gh-weld-next`](.claude/skills/gh-weld-next/)** — The gap between intent and execution is where context gets lost. Picks an open issue, creates a correctly-named branch, and hands off to implementation.
 
-**[`/gh-weld-ship`](.claude/skills/gh-weld-ship/)** — Shipping is the richest data moment in the delivery lifecycle. Wraps finished work in a PR, merges it, closes the issue, and exports session context.
+**[`/gh-weld-ship`](.claude/skills/gh-weld-ship/)** — Shipping is the richest data moment in the delivery lifecycle, and the one most likely to skip documentation under pressure. Wraps finished work in a PR, squash-merges it, closes the linked issue, and exports the session as a Gist attached to the merge.
 
 **[`/gh-weld-export`](.claude/skills/gh-weld-export/)** — Git history captures what changed; session export captures why. Exports the Claude Code session as a Gist and posts a structured summary to any PR or issue.
 
