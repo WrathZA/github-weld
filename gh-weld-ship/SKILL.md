@@ -7,10 +7,6 @@ when_to_use: "Use when done implementing, ready to ship, want to merge and close
 
 # gh-weld-ship
 
-You wrote the code. gh-weld-ship ships it.
-
-Creates a PR with context, squash-merges, closes the linked issue, exports the session to a Gist, and posts it on the PR.
-
 ## NEVER
 
 - NEVER create a PR from main — `gh pr create` will succeed but target the wrong base, shipping unreleased work directly; create a feature branch first
