@@ -195,6 +195,13 @@ Invoke `/gh-weld-export` with the PR number as context. This exports the session
 
 If `/gh-weld-export` fails, warn: "Session export failed — ship is otherwise complete." and continue to the completion output.
 
+Read `.weld/tmp/gist-url.txt` with the Read tool to get the Gist URL (written by `/gh-weld-export` in caller mode). Clean up:
+```bash
+rm .weld/tmp/gist-url.txt
+```
+
+If `.weld/tmp/gist-url.txt` does not exist (export failed), `<gist-url>` is unavailable — omit the Session line from the Done block.
+
 Read `.weld/tmp/pr-url.txt` with the Read tool to get the PR URL. Clean up:
 ```bash
 rm .weld/tmp/pr-url.txt

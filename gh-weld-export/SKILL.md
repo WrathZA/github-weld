@@ -82,7 +82,12 @@ Export the current session and post it to a GitHub PR or issue as a structured c
 
 9. Clean up:
    ```bash
-   rm .weld/tmp/session-export.md .weld/tmp/gist-url.txt .weld/tmp/export-comment.md .weld/tmp/export-summary.md
+   rm .weld/tmp/session-export.md .weld/tmp/export-comment.md .weld/tmp/export-summary.md
+   ```
+
+   If invoked by another skill (caller mode), **do not delete `.weld/tmp/gist-url.txt`** — leave it for the caller to read and remove. If invoked standalone, also remove it:
+   ```bash
+   rm .weld/tmp/gist-url.txt
    ```
 
 ## NEVER
