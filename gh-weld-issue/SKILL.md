@@ -19,7 +19,7 @@ Create a new GitHub issue through a brief HITL interview.
 - NEVER use bash heredoc (`cat > file << 'EOF'`) for content with `#`-prefixed lines — headers trigger Claude Code's security check; use the Write tool instead
 - NEVER use `echo >` or `cat` to write file content — use the Write tool
 - NEVER use `find`, `grep`, or `cat` as Bash commands — use Glob, Grep, and Read tools instead
-- NEVER warn on ambiguous repo fit — only surface the warning when the mismatch is clear and specific enough to name the other repo
+- NEVER warn on ambiguous repo fit — only surface the warning when the mismatch is clear and specific enough to name the other repo; false positives erode trust in the warning, and users warned repeatedly about non-issues will dismiss the next real one
 
 ## Workflow
 
