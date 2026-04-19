@@ -19,6 +19,7 @@ Create a new GitHub issue through a brief HITL interview.
 - NEVER use bash heredoc (`cat > file << 'EOF'`) for content with `#`-prefixed lines — headers trigger Claude Code's security check; use the Write tool instead
 - NEVER use `echo >` or `cat` to write file content — use the Write tool
 - NEVER use `find`, `grep`, or `cat` as Bash commands — use Glob, Grep, and Read tools instead
+- NEVER warn on ambiguous repo fit — only surface the warning when the mismatch is clear and specific enough to name the other repo
 
 ## Workflow
 
@@ -26,9 +27,23 @@ Create a new GitHub issue through a brief HITL interview.
 
 1. Ask: "What are you trying to build or fix?"
 
-2. From the response, infer a candidate title (specific, action-oriented: "Add X", "Fix Y when Z") and type (**bug** / **feature** / **task** / **chore**) before asking. Ask only when genuinely ambiguous.
+2. **Repo-fit check** — read visible project signals:
+   ```bash
+   gh repo view --json name,description
+   ```
+   Also read the first 50 lines of CLAUDE.md if present (Read tool), and open PR titles:
+   ```bash
+   gh pr list --state open --json title
+   ```
+   Compare against the user's stated intent. If the issue clearly targets a different repo — references a component, skill, or project unambiguously scoped elsewhere — surface:
+   ```
+   This looks like it belongs in `<other-repo>` — create it here anyway? (y/n)
+   ```
+   If yes, continue without friction. If no, stop. If ambiguous, proceed silently.
 
-3. Run a duplicate check using 2–4 key terms extracted from the inferred title:
+3. From the response, infer a candidate title (specific, action-oriented: "Add X", "Fix Y when Z") and type (**bug** / **feature** / **task** / **chore**) before asking. Ask only when genuinely ambiguous.
+
+4. Run a duplicate check using 2–4 key terms extracted from the inferred title:
    ```bash
    gh issue list --search "<key terms>" --state all --json number,title,state,updatedAt
    ```
@@ -46,9 +61,9 @@ Create a new GitHub issue through a brief HITL interview.
    - If only closed matches: show them for context, offer `(c)ontinue / (d)rop`
    - If empty: proceed silently
 
-4. Ask 1–2 follow-up questions to fill remaining gaps — one at a time. Stop when title, type, and scope are clear.
+5. Ask 1–2 follow-up questions to fill remaining gaps — one at a time. Stop when title, type, and scope are clear.
 
-5. Show the recap:
+6. Show the recap:
    ```
    Title: <title>
    Type:  <bug|feature|task|chore>
@@ -58,9 +73,9 @@ Create a new GitHub issue through a brief HITL interview.
 
 ### Phase 2 — Lock in
 
-6. **Acceptance criteria** — draft from scope context, show as a numbered list, ask for additions/corrections. Each criterion must name a verifiable state: a command that exits 0, a visible change, a value that differs. Push back on unverifiable criteria.
+7. **Acceptance criteria** — draft from scope context, show as a numbered list, ask for additions/corrections. Each criterion must name a verifiable state: a command that exits 0, a visible change, a value that differs. Push back on unverifiable criteria.
 
-7. **Blockers** — list open issues:
+8. **Blockers** — list open issues:
    ```bash
    gh issue list --state open --json number,title,labels
    ```
@@ -68,39 +83,39 @@ Create a new GitHub issue through a brief HITL interview.
 
 ### Phase 3 — Create
 
-8. Determine labels to apply. At minimum, apply the type label if it exists in the repo:
+9. Determine labels to apply. At minimum, apply the type label if it exists in the repo:
    ```bash
    gh label list --json name
    ```
-   Match `bug`, `enhancement`, `feature`, `task`, `chore` against what exists. Note matching labels for step 9. If the command fails or returns empty, skip labels and note "no labels applied".
+   Match `bug`, `enhancement`, `feature`, `task`, `chore` against what exists. Note matching labels for step 10. If the command fails or returns empty, skip labels and note "no labels applied".
 
-9. Use the Write tool to write the issue body to `.weld/tmp/issue-body.md`:
+10. Use the Write tool to write the issue body to `.weld/tmp/issue-body.md`:
 
-   ```markdown
-   ## Summary
+    ```markdown
+    ## Summary
 
-   <scope sentence>
+    <scope sentence>
 
-   ## Acceptance Criteria
+    ## Acceptance Criteria
 
-   - [ ] <criterion 1>
-   - [ ] <criterion 2>
+    - [ ] <criterion 1>
+    - [ ] <criterion 2>
 
-   ## Blockers
+    ## Blockers
 
-   <"None" or "Depends on #N, #M">
+    <"None" or "Depends on #N, #M">
 
-   ---
-   *Created with [gh-weld](https://github.com/WrathZA/github-weld)*
-   ```
+    ---
+    *Created with [gh-weld](https://github.com/WrathZA/github-weld)*
+    ```
 
-10. Create the issue:
+11. Create the issue:
     ```bash
     gh issue create --title "<title>" --body-file .weld/tmp/issue-body.md --label "<labels>"
     ```
     If no matching labels exist, omit `--label`. If the command fails or produces no URL, surface the error and ask "(r)etry / (Q)uit?" — do not clean up until creation is confirmed.
 
-11. Clean up and output the issue URL:
+12. Clean up and output the issue URL:
     ```bash
     rm .weld/tmp/issue-body.md
     ```
