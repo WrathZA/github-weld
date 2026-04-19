@@ -200,10 +200,16 @@ Read `.weld/tmp/pr-url.txt` with the Read tool to get the PR URL. Clean up:
 rm .weld/tmp/pr-url.txt
 ```
 
-Output:
-```
-Shipped: <issue title>
+Output a `## Done` block:
 
-PR:    <pr-url>
-Issue: https://github.com/<owner>/<repo>/issues/<N> (closed)
 ```
+## Done
+
+<One sentence: what was shipped and why, inferred from PR title and issue title.>
+
+- PR: <pr-url>
+- Issue: https://github.com/<owner>/<repo>/issues/<N> (closed)
+- Session: <gist-url>
+```
+
+If no linked issue, omit the Issue line. If export failed, omit the Session line.
