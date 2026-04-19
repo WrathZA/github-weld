@@ -42,10 +42,10 @@ To update, pull and re-run the script — existing symlinks are left in place.
 
 ## Requirements
 
-- [Claude Code](https://claude.ai/code)
+- [Claude Code](https://claude.ai/code) (or equivalent AI coding agent — untested with others)
 - [gh CLI](https://cli.github.com/) authenticated (`gh auth login`)
 - `git`
-- `python3` (parses Claude Code session files to extract the conversation transcript for export to Gist)
+- `python3` (used by `/gh-weld-export` to parse session files and generate the transcript Gist)
 
 ## If a session goes off track
 
