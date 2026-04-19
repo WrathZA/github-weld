@@ -16,7 +16,7 @@ The payoff is cumulative. Run this loop consistently and each issue becomes a st
 
 ## Skills
 
-**[`/gh-weld-issue`](.claude/skills/gh-weld-issue/)** — Every piece of work needs an anchor before the first line of code. Creates one via a guided interview: duplicate check, structured body, and label discovery.
+**[`/gh-weld-issue`](.claude/skills/gh-weld-issue/)** — Work started without a tracking anchor is work that leaks context. Creates a structured issue via a guided interview: duplicate check, acceptance criteria, and label discovery.
 
 **[`/gh-weld-next`](.claude/skills/gh-weld-next/)** — Connecting intent to execution is where most workflows leak data. Picks an open issue, creates a correctly-named branch, and hands off to implementation.
 
