@@ -35,6 +35,7 @@ Create a new GitHub issue through a brief HITL interview.
    ```bash
    gh pr list --state open --json title
    ```
+   If either command fails, skip the fit check and proceed silently.
    Compare against the user's stated intent. If the issue clearly targets a different repo — references a component, skill, or project unambiguously scoped elsewhere — surface:
    ```
    This looks like it belongs in `<other-repo>` — create it here anyway? (y/n)
