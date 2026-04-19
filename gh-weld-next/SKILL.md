@@ -66,6 +66,8 @@ gh issue view <blocker-N> --json number,title,state
 
 If any blocker is still open: warn "Issue #N is blocked by open issue #<blocker> — <title>. Work on it anyway? (y/n)". If no, return to step 3.
 
+Ask: "(a)ccept, (r)evise, or (s)kip?"
+
 ### 4 — Create branch
 
 Infer a branch name from the issue title: lowercase, hyphens, max 50 chars. Prefix with `fix/` for bugs, `feat/` for features, `chore/` for chores — inferred from labels. If type is ambiguous, use no prefix.
