@@ -43,6 +43,22 @@ To update, pull and re-run the script — existing symlinks are left in place.
 - `git`
 - `python3` (parses Claude Code session files to extract the conversation transcript for export to Gist)
 
+## If a session goes off track
+
+Sessions don't always follow the happy path. You pick an issue, notice a gap, file another issue, run a recap that misses the mark — and now the context window is loaded with things that aren't the task, but the conversation itself is worth keeping.
+
+The pattern: **export before you clear.**
+
+```
+/gh-weld-export → target the issue you were working on
+/clear
+/gh-weld-next → pick the same issue → read the export comment for context
+```
+
+`/gh-weld-export` works with issues, not just PRs. The session becomes a comment on the issue — discoverable, linkable, mineable later. The Gist holds the full transcript with line anchors to every key decision.
+
+This is the broader philosophy behind gh-weld: data you don't capture now is context you can never recover. A session export costs 30 seconds. The reasoning trail it preserves is the difference between a codebase you can learn from and one you can only read.
+
 ## Conventions
 
 Claude Code's permission and safety systems have non-obvious interactions with shell execution — pipes, heredocs, and inline `gh` arguments all cause problems in practice. [`.weld/conventions.md`](.weld/conventions.md) documents the patterns these skills follow so you don't have to rediscover them when extending or contributing.
