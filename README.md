@@ -22,7 +22,7 @@ The payoff is cumulative. Run this loop consistently and each issue becomes a st
 
 **[`/gh-weld-ship`](.claude/skills/gh-weld-ship/)** — Shipping is the richest data moment in the delivery lifecycle, and the one most likely to skip documentation under pressure. Wraps finished work in a PR, squash-merges it, closes the linked issue, and exports the session as a Gist attached to the merge.
 
-**[`/gh-weld-export`](.claude/skills/gh-weld-export/)** — Git history captures what changed; session export captures why. Exports the Claude Code session as a Gist and posts a structured summary to any PR or issue.
+**[`/gh-weld-export`](.claude/skills/gh-weld-export/)** — The reasoning behind a decision lives in the session; once the context window is cleared, it's gone. Exports the Claude Code session as a Gist and posts a structured summary comment to any PR or issue.
 
 **[`/gh-weld-adopt`](.claude/skills/gh-weld-adopt/)** — For when you started coding before creating an issue. Creates the issue retroactively, renames the branch, commits loose changes, and exports the session.
 
