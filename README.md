@@ -1,16 +1,16 @@
 # github-weld 🪢
 
-Git records *what* changed. gh-weld captures *why* and *how*.
+Git records *what* changed. `gh-weld` captures *why* and *how*.
 
-Every commit is a data point. A linked issue with acceptance criteria is information. A session export is knowledge: the reasoning, trade-offs, and decisions behind the code. gh-weld closes that chain automatically, at every merge.
+Every commit is a data point. A linked issue with acceptance criteria is information. A session export is knowledge: the reasoning, trade-offs, and decisions behind the code. `gh-weld` closes that chain automatically, at every merge.
 
 The skills enforce a workflow, not a tech stack. They work with whatever you're building.
 
 ## How it works
 
-![github-weld workflow diagram](diagram.svg)
+Git gives you data: diffs and commit hashes. GitHub gives you information: issues, PRs, linked references. `gh-weld` closes the gap to knowledge: every merge carries a session export with the full reasoning trail, attached as a Gist at the exact commit it belongs to. `git blame` a line, follow the PR, read why the decision was made and what was ruled out.
 
-Git gives you data: diffs and commit hashes. GitHub gives you information: issues, PRs, linked references. gh-weld closes the gap to knowledge: every merge carries a session export with the full reasoning trail, attached as a Gist at the exact commit it belongs to. `git blame` a line, follow the PR, read why the decision was made and what was ruled out.
+![github-weld workflow diagram](diagram.svg)
 
 The payoff compounds. Run this loop and each issue becomes a structured artifact: acceptance criteria up front, a correctly-named branch, a merged PR, and a session transcript with the context commit messages never hold. Over time, you have a decision history: not just what the code does, but why.
 
