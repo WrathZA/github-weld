@@ -1,8 +1,10 @@
 # github-weld 🪢
 
-Claude Code skills that close the loop on every change — from issue to merge, with context captured at each step. The result is a structured delivery history your future self, your team, or an LLM can actually learn from.
+Git records *what* changed. gh-weld captures *why* and *how*.
 
-These skills are opinionated about *workflow*, not implementation — they work alongside whatever you're building.
+Every commit is a data point. A linked issue with acceptance criteria is information. A session export — the reasoning, the trade-offs, the decisions and the implementation path that got you there — is knowledge. gh-weld closes that chain automatically, at every merge.
+
+These skills are opinionated about *workflow*, not implementation — they work alongside whatever and however you're building.
 
 ![github-weld workflow diagram](diagram.svg)
 
