@@ -68,6 +68,7 @@ If any blocker is still open: warn "Issue #N is blocked by open issue #<blocker>
 
 Ask: "(a)ccept, (r)evise, or (s)kip?"
 
+- **(a)**: proceed to step 4.
 - **(r)**: prompt "Add context or notes (end with a blank line):". Collect the user's input. Write it to `.weld/tmp/comment-body.md` via Write tool. Post with:
   ```bash
   gh issue comment <N> --body-file .weld/tmp/comment-body.md
