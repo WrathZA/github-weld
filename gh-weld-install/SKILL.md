@@ -20,9 +20,17 @@ Wire gh-weld into the current project. Three idempotent operations; confirms bef
   **Instead:** Compare fetched content to local; if different, output the line-count delta in the plan summary (step 4 handles the confirm).
   **Why:** The user may have made local edits; silent overwrite destroys them.
 
-- **NEVER use `|` pipes, `&&` chains, or `$()` substitution in Bash calls**
-  **Instead:** Write intermediate content to `.weld/tmp/` with the Write tool; use separate Bash calls.
-  **Why:** Claude Code's permission system interrupts on these constructs mid-workflow.
+- **NEVER use `|` (pipe) in Bash calls**
+  **Instead:** Redirect output to `.weld/tmp/<file>` with `>` and read back with the Read tool.
+  **Why:** Claude Code stops execution silently when it encounters a pipe.
+
+- **NEVER chain Bash calls with `&&` or `;`**
+  **Instead:** Run each command as a separate Bash tool call.
+  **Why:** Claude Code's safety check fires on multi-command calls and interrupts mid-flow.
+
+- **NEVER use `$()` command substitution**
+  **Instead:** Write content to a fixed path under `.weld/tmp/` with the Write tool instead of capturing output into variables.
+  **Why:** Claude Code's permission system prompts on `$()` during execution, interrupting unnecessarily.
 
 ## Workflow
 
