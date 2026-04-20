@@ -99,7 +99,7 @@ If user answers n: stop.
 Apply only **add** and **update** targets, in order.
 
 **`.gitignore`** (if add):
-- Read current content
+- Read `<project_root>/.gitignore` with Read tool
 - Append `.weld/tmp/` on its own line
 - Write back with Write tool
 
@@ -108,7 +108,7 @@ Apply only **add** and **update** targets, in order.
 - Write `upstream_conventions` to `<project_root>/.weld/conventions.md` with Write tool
 
 **`CLAUDE.md`** (if add):
-- Read current content (empty string if missing)
+- Read `<project_root>/CLAUDE.md` with Read tool (empty string if missing)
 - Prepend `@.weld/conventions.md` followed by a blank line, then the existing content
 - Write back with Write tool
 
