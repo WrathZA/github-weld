@@ -1,6 +1,6 @@
 ---
 name: gh-weld-install
-description: Wire gh-weld into a target project: copies .weld/conventions.md from upstream, adds .weld/tmp/ to .gitignore, and adds @.weld/conventions.md to CLAUDE.md. Idempotent — skips files already up to date, shows diff before overwriting changed conventions. Use when setting up a new project to use gh-weld skills. Trigger phrases: "install gh-weld", "set up gh-weld", "wire up weld", "add gh-weld to this project".
+description: Wire gh-weld into a target project: copies .weld/conventions.md from upstream, adds .weld/tmp/ to .gitignore, and adds @.weld/conventions.md to CLAUDE.md. Idempotent — skips files already up to date, shows diff before overwriting changed conventions. Use when setting up a new project to use gh-weld skills, or re-running on an existing project to check if conventions.md has drifted from upstream. Trigger phrases: "install gh-weld", "set up gh-weld", "wire up weld", "add gh-weld to this project".
 compatibility: Requires Claude Code with WebFetch. Run from the target project root.
 ---
 
