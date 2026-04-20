@@ -23,6 +23,7 @@ Wire gh-weld into the current project. Three idempotent operations; confirms bef
 - **NEVER use `|` (pipe) in Bash calls**
   **Instead:** Redirect output to `.weld/tmp/<file>` with `>` and read back with the Read tool.
   **Why:** Claude Code stops execution silently when it encounters a pipe.
+  Note: `|` in markdown table syntax is unaffected.
 
 - **NEVER chain Bash calls with `&&` or `;`**
   **Instead:** Run each command as a separate Bash tool call.
