@@ -6,8 +6,6 @@ compatibility: Requires git and gh CLI. Designed for Claude Code with gh-weld in
 
 # gh-weld-init
 
-Interview the user, build a project picture, write README.md and CLAUDE.md shaped by those answers, wire in gh-weld.
-
 ## NEVER
 
 - **NEVER ask about technology, language, stack, or frameworks**
