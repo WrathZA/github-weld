@@ -1,6 +1,6 @@
 ---
 name: gh-weld-init
-description: Scaffold a new project's README.md and CLAUDE.md via a guided abstract interview, then wire in gh-weld. Use when starting a new repo or when a project lacks CLAUDE.md or README. Trigger phrases: "init this project", "scaffold", "set up this repo", "create README", "new project setup", "initialize".
+description: Scaffold a new project's README.md and CLAUDE.md via a guided abstract interview, then wire in gh-weld. Use when starting a new repo or when a project lacks CLAUDE.md or README. Trigger phrases: "init this project", "scaffold", "set up this repo", "create README", "new project setup", "initialize", "CLAUDE.md conventions".
 compatibility: Requires git and gh CLI. Designed for Claude Code with gh-weld installed.
 ---
 
