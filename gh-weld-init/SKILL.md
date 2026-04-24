@@ -122,7 +122,7 @@ Include: 1–2 sentences of project purpose, coding philosophy derived from tone
 
 ## Phase 5 — Wire gh-weld
 
-Invoke `/gh-weld-install` to wire gh-weld into the repo.
+Invoke `/gh-weld-install` to wire gh-weld into the repo. If `gh-weld-install` is not installed, skip it and tell the user: "Install gh-weld and run `/gh-weld-install` manually to complete the setup."
 
 Output when done:
 
