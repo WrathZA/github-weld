@@ -34,6 +34,14 @@ Interview the user, build a project picture, write README.md and CLAUDE.md shape
 
 ## Phase 1 — Idempotency Check
 
+First, verify the current directory is a git repo:
+
+```bash
+git rev-parse --is-inside-work-tree
+```
+
+If the command fails or returns anything other than `true`: output "gh-weld-init requires a git repository. Run `git init` first." and stop.
+
 Use Glob to check for existing files:
 
 - Glob `README.md` in the current directory
