@@ -62,6 +62,7 @@ End-to-end project setup: scaffold files, wire conventions, create GitHub repo.
 - **NEVER use `find`, `grep`, or `cat` as Bash commands**
   **Instead:** Use Glob to find files, Grep to search content, and Read to read files.
   **Why:** Built-in tools have tighter permissions and avoid Claude Code safety prompts that raw shell commands trigger.
+  Note: this restriction applies only to Bash tool calls — using these words in prose, code examples, or explanations is unaffected.
 
 - **NEVER pass multiline content containing `#`-prefixed lines as an inline `gh` argument**
   **Instead:** Write to `.weld/tmp/<name>.md` with the Write tool and pass via `--body-file`.
