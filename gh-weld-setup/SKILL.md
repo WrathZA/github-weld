@@ -122,6 +122,10 @@ Continue until Purpose, Audience, and Tone have no "unknown" — those three are
 
 A strong Purpose answer names who the project serves and what problem it solves; a weak one describes what it does technically. Push back once on vague answers before accepting.
 
+A strong Audience answer names a specific person type with role or context ("solo developers building CLI tools"); a weak one says "developers" or "anyone" with no qualifier. Push back once.
+
+A strong Tone answer uses a concrete pairing with contrast ("strict and professional", "playful but not sloppy"); a single adjective alone ("professional") is weak. Push back once.
+
 ---
 
 ## Phase 3 — Recap Gate
