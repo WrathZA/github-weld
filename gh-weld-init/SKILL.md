@@ -36,6 +36,8 @@ compatibility: Requires git and gh CLI. Designed for Claude Code with gh-weld in
 
 ## Phase 1 — Idempotency Check
 
+The primary risk here is overwriting in-progress work — read existing content before asking the user to commit to any change.
+
 First, verify the current directory is a git repo:
 
 ```bash
