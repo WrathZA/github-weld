@@ -141,6 +141,8 @@ Do not proceed to Phase 4 until the user explicitly accepts.
 
 **README.md** — write via Write tool.
 
+Before writing, verify the recap gives a specific enough scope that a stranger can understand what this project does and doesn't do in one sentence. If not, prompt for one clarifying answer before generating.
+
 Shape every decision from the recap: framing, tone, what's included and omitted. Consider these sections (not all required — include only what the recap warrants): project name and one-line purpose, who it's for, what it does and doesn't do, a tone-appropriate closing. A three-section README that matches the project's character is better than eight generic sections.
 
 **CLAUDE.md** — write via Write tool.
