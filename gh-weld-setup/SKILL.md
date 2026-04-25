@@ -287,5 +287,5 @@ Then ask (single keypress):
 Close the loop? (y) run /gh-weld-adopt → /gh-weld-ship → /gh-weld-export  (n) skip
 ```
 
-- **(y)**: invoke `/gh-weld-adopt`. When it completes, invoke `/gh-weld-ship`. When it completes, invoke `/gh-weld-export`.
+- **(y)**: invoke `/gh-weld-adopt`. When it completes, invoke `/gh-weld-ship`. When it completes, invoke `/gh-weld-export`. If any skill invocation fails or is not installed, output which step failed and stop — do not attempt subsequent steps.
 - **(n)**: exit cleanly — no further output, no partial state.
