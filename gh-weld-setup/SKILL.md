@@ -69,6 +69,14 @@ End-to-end project setup: scaffold files, wire conventions, create GitHub repo.
   **Instead:** Write to `.weld/tmp/<name>.md` with the Write tool and pass via `--body-file`.
   **Why:** Headers in inline `gh` strings trigger an un-suppressible Claude Code permission prompt on every execution.
 
+- **NEVER use the `-i` flag in git commands**
+  **Instead:** Use non-interactive equivalents (e.g. `git rebase --onto` instead of `git rebase -i`).
+  **Why:** Claude Code runs in a non-interactive shell — `-i` hangs waiting for input that never comes.
+
+- **NEVER skip git hooks with `--no-verify`** unless the user explicitly requests it.
+  **Instead:** Investigate and fix the hook failure before committing.
+  **Why:** Hooks exist to catch real problems; bypassing them silently hides errors that break CI or deployments.
+
 ---
 
 ## Phase 1 — Idempotency Check
