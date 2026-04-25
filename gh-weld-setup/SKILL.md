@@ -79,6 +79,16 @@ git rev-parse --is-inside-work-tree
 
 If it fails or returns anything other than `true`: run `git init` as a separate Bash call, then continue.
 
+If the repo check passed (not freshly initialised): run `git rev-parse --show-toplevel` as a separate Bash call and write the result to `.weld/tmp/toplevel.txt`. Read it back. If the path does not match the current working directory, ask (single keypress):
+
+```
+You're inside a git repo subdirectory, not the root.
+Running setup here will scaffold files in this subdirectory.
+(c)ontinue here / (Q)uit
+```
+
+If (Q): stop. If (c): proceed. Then run `rm .weld/tmp/toplevel.txt`.
+
 Use Glob to check for existing files:
 - Glob `README.md` in the current directory
 - Glob `CLAUDE.md` in the current directory
