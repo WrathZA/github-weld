@@ -148,11 +148,7 @@ After each answer, display an updated recap:
 
 Continue until Purpose, Audience, and Tone have no "unknown" — those three are required before moving to Phase 3. Scope and Type may be inferred if the user hasn't addressed them. Typically 4–6 questions suffice; stop when you can write the first sentence of the README without a placeholder.
 
-A strong Purpose answer names who the project serves and what problem it solves; a weak one describes what it does technically. Push back once on vague answers before accepting.
-
-A strong Audience answer names a specific person type with role or context ("solo developers building CLI tools"); a weak one says "developers" or "anyone" with no qualifier. Push back once.
-
-A strong Tone answer uses a concrete pairing with contrast ("strict and professional", "playful but not sloppy"); a single adjective alone ("professional") is weak. Push back once.
+When evaluating whether an answer is strong enough to accept, load [references/interview-guide.md](references/interview-guide.md).
 
 ---
 
@@ -181,12 +177,7 @@ Shape every decision from the recap: framing, tone, what's included and omitted.
 
 **CLAUDE.md** — write via Write tool.
 
-Derive all conventions from the recap. Translate recap answers into voice and constraint level:
-
-- **serious / professional** → imperative voice, explicit constraints, no hedging ("always", "never", "must")
-- **playful / hobby** → casual voice, encouragement over rules ("try to", "prefer", "feel free to")
-- **narrow scope** → include explicit out-of-scope statements the agent should respect
-- **broad / exploratory scope** → emphasize judgment over rules; fewer hard constraints
+Derive all conventions from the recap. Load [references/interview-guide.md](references/interview-guide.md) for the tone-to-voice translation table.
 
 Include: 1–2 sentences of project purpose, coding philosophy derived from tone and seriousness, and any scope boundaries the agent should respect. Do not include technology-specific guidance.
 
