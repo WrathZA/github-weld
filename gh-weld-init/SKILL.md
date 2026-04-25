@@ -116,6 +116,10 @@ Derive all conventions from the recap. Translate recap answers into voice and co
 
 Include: 1–2 sentences of project purpose, coding philosophy derived from tone and seriousness, and any scope boundaries the agent should respect. Do not include technology-specific guidance — that's out of scope for this skill.
 
+**`.gitignore`** — after writing both files, ensure `settings.local.json` is excluded from git.
+
+Use Glob to check if `.gitignore` exists in the current directory. If it does not exist, create it via the Write tool with `settings.local.json` as the first entry. If it exists, read it and append `settings.local.json` on a new line only if it is not already present.
+
 ---
 
 ## Phase 5 — Wire gh-weld
