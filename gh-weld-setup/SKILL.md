@@ -214,7 +214,7 @@ Check for an existing remote:
 git remote -v > .weld/tmp/remotes.txt
 ```
 
-Read `.weld/tmp/remotes.txt` with the Read tool. If the content contains `origin`, a remote already exists — delete the temp file and skip silently.
+Read `.weld/tmp/remotes.txt` with the Read tool. If the content contains `origin`, a remote already exists — run `rm .weld/tmp/remotes.txt` and skip silently.
 
 If no `origin` remote exists, ask (single keypress):
 
