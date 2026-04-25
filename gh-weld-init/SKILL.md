@@ -38,7 +38,7 @@ First, verify the current directory is a git repo:
 git rev-parse --is-inside-work-tree
 ```
 
-If the command fails or returns anything other than `true`: output "gh-weld-init requires a git repository. Run `git init` first." and stop.
+If the command fails or returns anything other than `true`: run `git init` as a separate Bash call to initialize a new repository, then continue.
 
 Use Glob to check for existing files:
 
