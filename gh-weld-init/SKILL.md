@@ -1,6 +1,6 @@
 ---
 name: gh-weld-init
-description: Scaffold a new project's README.md and CLAUDE.md via a guided abstract interview, then wire in gh-weld. Use when starting a new repo or when a project lacks CLAUDE.md or README. Trigger phrases: "init this project", "scaffold", "set up this repo", "create README", "new project setup", "initialize", "CLAUDE.md conventions".
+description: Scaffold a new project's README.md and CLAUDE.md via a guided abstract interview, then wire in gh-weld. Initializes a git repo if one doesn't exist and sets up .gitignore. Use when starting a new repo or when a project lacks CLAUDE.md or README. Trigger phrases: "init this project", "scaffold", "set up this repo", "create README", "new project setup", "initialize", "CLAUDE.md conventions", "new repository", "set up as a new git project".
 compatibility: Requires git and gh CLI. Designed for Claude Code with gh-weld installed.
 ---
 
@@ -28,9 +28,15 @@ compatibility: Requires git and gh CLI. Designed for Claude Code with gh-weld in
   **Instead:** Write only sections directly implied by the interview recap.
   **Why:** A README with five generic headings and placeholder text is worse than a short honest one.
 
+- **NEVER use the Write tool on an existing `.gitignore`**
+  **Instead:** Read it first, check for the entry, then append only if missing.
+  **Why:** Write overwrites the entire file, silently destroying existing ignore rules.
+
 ---
 
 ## Phase 1 — Idempotency Check
+
+The primary risk here is overwriting in-progress work — read existing content before asking the user to commit to any change.
 
 First, verify the current directory is a git repo:
 
@@ -38,7 +44,7 @@ First, verify the current directory is a git repo:
 git rev-parse --is-inside-work-tree
 ```
 
-If the command fails or returns anything other than `true`: output "gh-weld-init requires a git repository. Run `git init` first." and stop.
+If the command fails or returns anything other than `true`: run `git init` as a separate Bash call to initialize a new repository, then continue.
 
 Use Glob to check for existing files:
 
@@ -115,6 +121,10 @@ Derive all conventions from the recap. Translate recap answers into voice and co
 - **broad / exploratory scope** → emphasize judgment over rules; fewer hard constraints
 
 Include: 1–2 sentences of project purpose, coding philosophy derived from tone and seriousness, and any scope boundaries the agent should respect. Do not include technology-specific guidance — that's out of scope for this skill.
+
+**`.gitignore`** — after writing both files, ensure `settings.local.json` is excluded from git. This file contains user-local Claude Code config (path overrides, local permissions) that is machine-specific and must not be committed to shared repos.
+
+Use Glob to check if `.gitignore` exists in the current directory. If it does not exist, create it via the Write tool with `settings.local.json` as the first entry. If it exists, read it and append `settings.local.json` on a new line only if it is not already present.
 
 ---
 
