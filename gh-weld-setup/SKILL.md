@@ -277,8 +277,15 @@ Setup complete.
   README.md            <label>
   CLAUDE.md            <label>
   .weld/conventions.md <label>
-
-Next: /gh-weld-issue to file your first issue, or /gh-weld-next to pick one up.
 ```
 
 If `/gh-weld-repo` was run, include the repo URL in the output.
+
+Then ask (single keypress):
+
+```
+Close the loop? (y) run /gh-weld-adopt → /gh-weld-ship → /gh-weld-export  (n) skip
+```
+
+- **(y)**: invoke `/gh-weld-adopt`. When it completes, invoke `/gh-weld-ship`. When it completes, invoke `/gh-weld-export`.
+- **(n)**: exit cleanly — no further output, no partial state.
