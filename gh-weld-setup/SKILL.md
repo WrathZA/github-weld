@@ -120,6 +120,8 @@ After each answer, display an updated recap:
 
 Continue until Purpose, Audience, and Tone have no "unknown" — those three are required before moving to Phase 3. Scope and Type may be inferred if the user hasn't addressed them. Typically 4–6 questions suffice; stop when you have enough to write with genuine framing.
 
+A strong Purpose answer names who the project serves and what problem it solves; a weak one describes what it does technically. Push back once on vague answers before accepting.
+
 ---
 
 ## Phase 3 — Recap Gate
