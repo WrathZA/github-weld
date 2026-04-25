@@ -209,10 +209,10 @@ Apply only **add** and **update** targets:
 Check for an existing remote:
 
 ```bash
-git remote -v
+git remote -v > .weld/tmp/remotes.txt
 ```
 
-Write the output to `.weld/tmp/remotes.txt` with `>` and read it back with the Read tool if needed. If the output contains `origin`, a remote already exists — skip silently.
+Read `.weld/tmp/remotes.txt` with the Read tool. If the content contains `origin`, a remote already exists — delete the temp file and skip silently.
 
 If no `origin` remote exists, ask (single keypress):
 
