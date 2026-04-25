@@ -26,7 +26,7 @@ The payoff compounds. Run this loop and each issue becomes a structured artifact
 
 **[`/gh-weld-adopt`](.claude/skills/gh-weld-adopt/):** Ad-hoc work without an issue disappears from the history. Retroactively creates a structured issue, renames the branch to match, commits loose changes, and exports the session.
 
-**[`/gh-weld-install`](gh-weld-install/):** Getting gh-weld conventions active in a new project requires editing three files — easy to skip or misconfigure. Copies `.weld/conventions.md` into the project, adds `.weld/tmp/` to `.gitignore`, and wires `@.weld/conventions.md` into `CLAUDE.md`. Idempotent — re-run it to check whether conventions have drifted from upstream.
+**[`/gh-weld-setup`](gh-weld-setup/):** Starting a project right takes several steps that are easy to skip or misconfigure. Scaffolds `README.md` and `CLAUDE.md` via a guided abstract interview, wires gh-weld conventions into the project, and creates a GitHub repo if one doesn't exist. Replaces the separate `gh-weld-install` and `gh-weld-init` skills.
 
 ## Installation
 
@@ -42,7 +42,7 @@ The skills form a single loop — install all of them. A partial install leaves 
 /plugin install gh-weld-export
 /plugin install gh-weld-adopt
 /plugin install gh-weld-activity
-/plugin install gh-weld-install
+/plugin install gh-weld-setup
 ```
 
 **Via symlink script** (for local development or if you prefer cloning):
