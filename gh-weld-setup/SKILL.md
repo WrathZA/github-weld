@@ -90,7 +90,7 @@ README.md and CLAUDE.md already exist.
 (a)ccept current state / (u)pdate with fresh interview / (r)efine existing content
 ```
 
-- **(a)**: Jump to Phase 4 to generate files (skipping Phase 2 interview and Phase 3 gate), then continue through Phase 5 (wire conventions) and Phase 6 (offer GitHub repo creation).
+- **(a)**: Skip Phases 2–4 (interview, recap gate, and file generation) and jump directly to Phase 5 (wire conventions), then continue to Phase 6 (offer GitHub repo creation).
 - **(u)**: Proceed to Phase 2 (full interview from scratch; both files will be overwritten on accept).
 - **(r)**: Proceed to Phase 2 pre-filled from existing content; user amends rather than restarts.
 
