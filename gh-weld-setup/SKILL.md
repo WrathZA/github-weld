@@ -45,6 +45,7 @@ End-to-end project setup: scaffold files, wire conventions, create GitHub repo.
 - **NEVER use `|` (pipe) in Bash tool calls**
   **Instead:** Redirect output to `.weld/tmp/<file>` with `>` and read back with the Read tool.
   **Why:** Claude Code stops execution on pipe — no error, no warning.
+  Note: `|` in markdown table syntax is unaffected.
 
 - **NEVER use `$()` command substitution**
   **Instead:** Write content to a fixed path under `.weld/tmp/` with the Write tool.
