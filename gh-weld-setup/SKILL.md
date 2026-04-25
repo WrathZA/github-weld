@@ -113,6 +113,22 @@ README.md and CLAUDE.md already exist.
 
 ## Phase 2 — Interview
 
+**If entering from Phase 1 `(r)efine`:** Open by showing the user what is already known from the existing files before asking any questions:
+
+```
+Based on your existing README.md and CLAUDE.md, here's what I have:
+
+  Purpose:  [extracted value or "unclear"]
+  Audience: [extracted value or "unclear"]
+  Scope:    [extracted value or "unclear"]
+  Tone:     [extracted value or "unclear"]
+  Type:     [extracted value or "unclear"]
+
+What would you like to change or add?
+```
+
+Ask only about gaps or changes the user raises — do not re-ask for values already present.
+
 Generate abstract questions one at a time. Let the project context (directory name, any existing files, prior answers) inform which questions to ask — do not follow a fixed list. Good question domains: project purpose and goals, intended audience, scope and explicit out-of-scope boundaries, tone (serious vs. playful, strict vs. forgiving), whether this is a hobby or professional project.
 
 **All answers are long-form free text.** Do not offer multiple-choice options during the interview.
