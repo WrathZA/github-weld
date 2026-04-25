@@ -54,6 +54,14 @@ End-to-end project setup: scaffold files, wire conventions, create GitHub repo.
   **Instead:** Use the Write tool for all file content.
   **Why:** `#`-prefixed lines (headings) trigger Claude Code's security check on every execution.
 
+- **NEVER use `echo >` or `cat` to write file content**
+  **Instead:** Use the Write tool.
+  **Why:** echo-redirect and cat approaches fail silently on `#`-prefixed content due to Claude Code's security checks.
+
+- **NEVER use `find`, `grep`, or `cat` as Bash commands**
+  **Instead:** Use Glob to find files, Grep to search content, and Read to read files.
+  **Why:** Built-in tools have tighter permissions and avoid Claude Code safety prompts that raw shell commands trigger.
+
 ---
 
 ## Phase 1 — Idempotency Check
