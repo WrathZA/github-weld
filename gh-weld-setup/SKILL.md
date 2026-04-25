@@ -220,7 +220,7 @@ If no `origin` remote exists, ask (single keypress):
 No GitHub remote found — create one now? (y/n)
 ```
 
-If yes: invoke `/gh-weld-repo` to create and push the repo.
+If yes: invoke `/gh-weld-repo` to create and push the repo. If `/gh-weld-repo` is not installed or fails, tell the user: "Install gh-weld and run `/gh-weld-repo` manually to create the GitHub repo."
 If no: skip.
 
 ---
