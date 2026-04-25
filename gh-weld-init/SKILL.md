@@ -28,6 +28,10 @@ compatibility: Requires git and gh CLI. Designed for Claude Code with gh-weld in
   **Instead:** Write only sections directly implied by the interview recap.
   **Why:** A README with five generic headings and placeholder text is worse than a short honest one.
 
+- **NEVER use the Write tool on an existing `.gitignore`**
+  **Instead:** Read it first, check for the entry, then append only if missing.
+  **Why:** Write overwrites the entire file, silently destroying existing ignore rules.
+
 ---
 
 ## Phase 1 — Idempotency Check
