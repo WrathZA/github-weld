@@ -1,6 +1,7 @@
 ---
 name: gh-weld-setup
-description: Set up a new or existing project end-to-end: scaffolds README.md and CLAUDE.md via a guided abstract interview, wires in gh-weld conventions, and creates a GitHub repo via gh-weld-repo if one doesn't exist. Replaces gh-weld-install and gh-weld-init. Use when starting a new repo or onboarding an existing project to gh-weld. Trigger phrases: "set up this project", "init this repo", "scaffold", "new project setup", "install gh-weld", "wire up weld", "initialize", "create README", "CLAUDE.md conventions", "new repository".
+description: Set up a new or existing project end-to-end: scaffold README.md and CLAUDE.md via a guided abstract interview, wire in gh-weld conventions, and optionally create a GitHub repo. Use when starting a new repo or onboarding an existing project to gh-weld.
+when_to_use: "set up this project", "init this repo", "scaffold", "new project setup", "install gh-weld", "wire up weld", "initialize", "create README", "CLAUDE.md conventions", "new repository".
 compatibility: Requires git and gh CLI. Claude Code with WebFetch.
 ---
 
@@ -67,6 +68,14 @@ End-to-end project setup: scaffold files, wire conventions, create GitHub repo.
 - **NEVER pass multiline content containing `#`-prefixed lines as an inline `gh` argument**
   **Instead:** Write to `.weld/tmp/<name>.md` with the Write tool and pass via `--body-file`.
   **Why:** Headers in inline `gh` strings trigger an un-suppressible Claude Code permission prompt on every execution.
+
+- **NEVER use the `-i` flag in git commands**
+  **Instead:** Use non-interactive equivalents (e.g. `git rebase --onto` instead of `git rebase -i`).
+  **Why:** Claude Code runs in a non-interactive shell — `-i` hangs waiting for input that never comes.
+
+- **NEVER skip git hooks with `--no-verify`** unless the user explicitly requests it.
+  **Instead:** Investigate and fix the hook failure before committing.
+  **Why:** Hooks exist to catch real problems; bypassing them silently hides errors that break CI or deployments.
 
 ---
 
@@ -145,13 +154,9 @@ After each answer, display an updated recap:
 **Type:**     [hobby / professional / unknown]
 ```
 
-Continue until Purpose, Audience, and Tone have no "unknown" — those three are required before moving to Phase 3. Scope and Type may be inferred if the user hasn't addressed them. Typically 4–6 questions suffice; stop when you have enough to write with genuine framing.
+Continue until Purpose, Audience, and Tone have no "unknown" — those three are required before moving to Phase 3. Scope and Type may be inferred if the user hasn't addressed them. Typically 4–6 questions suffice; stop when you can write the first sentence of the README without a placeholder.
 
-A strong Purpose answer names who the project serves and what problem it solves; a weak one describes what it does technically. Push back once on vague answers before accepting.
-
-A strong Audience answer names a specific person type with role or context ("solo developers building CLI tools"); a weak one says "developers" or "anyone" with no qualifier. Push back once.
-
-A strong Tone answer uses a concrete pairing with contrast ("strict and professional", "playful but not sloppy"); a single adjective alone ("professional") is weak. Push back once.
+When evaluating whether an answer is strong enough to accept, load [references/interview-guide.md](references/interview-guide.md).
 
 ---
 
@@ -180,12 +185,7 @@ Shape every decision from the recap: framing, tone, what's included and omitted.
 
 **CLAUDE.md** — write via Write tool.
 
-Derive all conventions from the recap. Translate recap answers into voice and constraint level:
-
-- **serious / professional** → imperative voice, explicit constraints, no hedging ("always", "never", "must")
-- **playful / hobby** → casual voice, encouragement over rules ("try to", "prefer", "feel free to")
-- **narrow scope** → include explicit out-of-scope statements the agent should respect
-- **broad / exploratory scope** → emphasize judgment over rules; fewer hard constraints
+Derive all conventions from the recap. Load [references/interview-guide.md](references/interview-guide.md) for the tone-to-voice translation table.
 
 Include: 1–2 sentences of project purpose, coding philosophy derived from tone and seriousness, and any scope boundaries the agent should respect. Do not include technology-specific guidance.
 
@@ -276,8 +276,15 @@ Setup complete.
   README.md            <label>
   CLAUDE.md            <label>
   .weld/conventions.md <label>
-
-Next: /gh-weld-issue to file your first issue, or /gh-weld-next to pick one up.
 ```
 
 If `/gh-weld-repo` was run, include the repo URL in the output.
+
+Then ask (single keypress):
+
+```
+Close the loop? (y) run /gh-weld-adopt → /gh-weld-ship → /gh-weld-export  (n) skip
+```
+
+- **(y)**: invoke `/gh-weld-adopt`. When it completes, invoke `/gh-weld-ship`. When it completes, invoke `/gh-weld-export`. If any skill invocation fails or is not installed, output which step failed and stop — do not attempt subsequent steps.
+- **(n)**: exit cleanly — no further output, no partial state.
