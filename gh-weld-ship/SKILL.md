@@ -58,6 +58,8 @@ Read the commits on this branch since it diverged from main:
 git log main..HEAD --oneline
 ```
 
+If the output is empty (no commits on this branch), warn: "No commits found on this branch — commit your changes before shipping." and stop.
+
 Read the list of changed files:
 ```bash
 git diff main..HEAD --name-only
