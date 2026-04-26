@@ -1,6 +1,6 @@
 ---
 name: gh-weld-issue
-description: "Create a GitHub issue via guided interview. Checks for duplicates before creation (c/u/d resolution: continue as new, use existing and stop, or drop). Collects title and type; constructs structured body from scope, acceptance criteria, and blockers. Infers blockers from open issues. Discovers and applies repo labels. Enforces verifiable acceptance criteria (each must name a command, visible change, or measurable value). Creates via gh CLI using --body-file. One issue per outcome — never batches multiple ideas. Challenges misplaced issues with an assertive repo-fit warning before creation. Use when: filing a bug, planning a feature, capturing a task, or creating any GitHub issue. Skip if you are about to implement the work in this session — use gh-weld-ship instead."
+description: "Create a GitHub issue via guided interview. Optionally targets a different repo (cross-repo filing). Checks for duplicates before creation (c/u/d resolution: continue as new, use existing and stop, or drop). Collects title and type; constructs structured body from scope, acceptance criteria, and blockers. Infers blockers from open issues. Discovers and applies repo labels. Enforces verifiable acceptance criteria (each must name a command, visible change, or measurable value). Creates via gh CLI using --body-file. One issue per outcome — never batches multiple ideas. Challenges misplaced issues with an assertive repo-fit warning before creation. Use when: filing a bug, planning a feature, capturing a task, or creating any GitHub issue. Skip if you are about to implement the work in this session — use gh-weld-ship instead."
 ---
 
 # gh-weld-issue
@@ -23,11 +23,18 @@ Create a new GitHub issue through a brief HITL interview.
 
 ## Workflow
 
+### Phase 0 — Target repo
+
+Ask: "Target repo? Enter `owner/name` to file into a different repo, or `n` for the current one. [n]"
+
+- If the user provides an `owner/name` value (e.g. `WrathZA/github-weld`): store it as the target repo and append `--repo <owner>/<name>` to every `gh` command for the rest of this skill. Skip the repo-fit check in Phase 1 step 2 — the user has already chosen the destination.
+- If `n` or blank: use the current repo. No `--repo` flag is added.
+
 ### Phase 1 — Discover
 
 1. Ask: "What are you trying to build or fix?"
 
-2. **Repo-fit check** — read visible project signals:
+2. **Repo-fit check** (skip if a target repo was specified in Phase 0) — read visible project signals:
    ```bash
    gh repo view --json name,description
    ```

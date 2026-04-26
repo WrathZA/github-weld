@@ -1,6 +1,6 @@
 ---
 name: gh-weld-ship
-description: "GitHub shipping loop — wraps your finished work in a PR, squash-merges it, closes the linked issue, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-weld-ship handles everything GitHub. Use when you're ready to open a PR, squash merge, close an issue, or export session context."
+description: "GitHub shipping loop — wraps your finished work in a PR, squash-merges it, closes the linked issue, exports the session as a Gist, and posts it as a comment. Enriches the linked issue before closing — updates acceptance criteria checkboxes and posts a close-out narrative comment automatically. Does not implement code; you do the work, gh-weld-ship handles everything GitHub. Use when you're ready to open a PR, squash merge, close an issue, or ready to merge and close a finished feature branch."
 disable-model-invocation: true
 when_to_use: "Use when done implementing, ready to ship, want to merge and close an issue, or when the user says 'I'm done' on a feature branch."
 ---
@@ -12,7 +12,7 @@ when_to_use: "Use when done implementing, ready to ship, want to merge and close
 - NEVER create a PR from main — `gh pr create` will succeed but target the wrong base, shipping unreleased work directly; create a feature branch first
 - NEVER pass a PR body with `#`-prefixed lines as an inline `--body` argument — write to `.weld/tmp/pr-body.md` and pass via `--body-file`
 - NEVER merge before confirming the PR was created successfully — a failed `gh pr create` still exits 0 in some cases; verify the URL is present in the output before calling `gh pr merge`
-- NEVER close the issue before the merge is confirmed
+- NEVER close the issue before the merge is confirmed — a failed merge leaves the issue orphaned as closed with no PR; reopening is manual
 - NEVER skip the Gist export — the session context on the PR is the audit trail; if `/gh-weld-export` is unavailable, note its absence explicitly in the Done block rather than silently omitting it
 - NEVER prompt the user during issue enrichment — derive checkboxes and close-out narrative from the Step 3 synthesis automatically; any prompt here breaks the single-keypress ship flow
 - NEVER chain Bash commands with `&&` or `;` — Claude Code's safety check fires on multi-command calls and interrupts mid-flow; run each as a separate Bash tool call
@@ -27,6 +27,8 @@ when_to_use: "Use when done implementing, ready to ship, want to merge and close
 
 ## Workflow
 
+Before proceeding, confirm mentally: (a) Is the diff what you expect — no stray files, no debug commits? (b) Do the commit messages accurately describe what was delivered? If either answer is no, stop and fix before continuing.
+
 ### 1 — Validate branch
 
 ```bash
@@ -39,7 +41,7 @@ If the result is `main` or `master`: output "You're on main — /gh-weld-adopt c
 
 Try to infer the issue number from the branch name. Common patterns: `fix/42-slug`, `feat/42-slug`, `issue-42`, `42-slug`. Extract the number if present.
 
-If no number can be inferred, ask: "Which issue does this branch implement? Enter a number or (n)one."
+If no number can be inferred, output: "No issue number found — if this work isn't tracked yet, /gh-weld-adopt can create the issue and set up the branch before you ship." Then ask: "Which issue does this branch implement? Enter a number or (n)one."
 
 If an issue number is known, read it:
 ```bash
@@ -55,6 +57,8 @@ Read the commits on this branch since it diverged from main:
 ```bash
 git log main..HEAD --oneline
 ```
+
+If the output is empty (no commits on this branch), warn: "No commits found on this branch — commit your changes before shipping." and stop.
 
 Read the list of changed files:
 ```bash
