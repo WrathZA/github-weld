@@ -12,7 +12,7 @@ when_to_use: "Use when done implementing, ready to ship, want to merge and close
 - NEVER create a PR from main — `gh pr create` will succeed but target the wrong base, shipping unreleased work directly; create a feature branch first
 - NEVER pass a PR body with `#`-prefixed lines as an inline `--body` argument — write to `.weld/tmp/pr-body.md` and pass via `--body-file`
 - NEVER merge before confirming the PR was created successfully — a failed `gh pr create` still exits 0 in some cases; verify the URL is present in the output before calling `gh pr merge`
-- NEVER close the issue before the merge is confirmed
+- NEVER close the issue before the merge is confirmed — a failed merge leaves the issue orphaned as closed with no PR; reopening is manual
 - NEVER skip the Gist export — the session context on the PR is the audit trail; if `/gh-weld-export` is unavailable, note its absence explicitly in the Done block rather than silently omitting it
 - NEVER prompt the user during issue enrichment — derive checkboxes and close-out narrative from the Step 3 synthesis automatically; any prompt here breaks the single-keypress ship flow
 - NEVER chain Bash commands with `&&` or `;` — Claude Code's safety check fires on multi-command calls and interrupts mid-flow; run each as a separate Bash tool call
