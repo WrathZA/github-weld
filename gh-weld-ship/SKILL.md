@@ -27,6 +27,8 @@ when_to_use: "Use when done implementing, ready to ship, want to merge and close
 
 ## Workflow
 
+Before proceeding, confirm mentally: (a) Is the diff what you expect — no stray files, no debug commits? (b) Do the commit messages accurately describe what was delivered? If either answer is no, stop and fix before continuing.
+
 ### 1 — Validate branch
 
 ```bash
