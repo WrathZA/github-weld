@@ -39,7 +39,7 @@ If the result is `main` or `master`: output "You're on main — /gh-weld-adopt c
 
 Try to infer the issue number from the branch name. Common patterns: `fix/42-slug`, `feat/42-slug`, `issue-42`, `42-slug`. Extract the number if present.
 
-If no number can be inferred, ask: "Which issue does this branch implement? Enter a number or (n)one."
+If no number can be inferred, output: "No issue number found — if this work isn't tracked yet, /gh-weld-adopt can create the issue and set up the branch before you ship." Then ask: "Which issue does this branch implement? Enter a number or (n)one."
 
 If an issue number is known, read it:
 ```bash
