@@ -71,7 +71,7 @@ A good issue has one outcome (one merge closes it) and criteria you can verify w
    - If only closed matches: show them for context, offer `(c)ontinue / (d)rop`
    - If empty: proceed silently
 
-5. Ask 1–2 follow-up questions to fill remaining gaps — one at a time. Stop when title, type, and scope are clear.
+5. Scope is clear when you can name a concrete artifact the implementation produces (a flag, a command output, a visible UI change). Ask follow-ups until that artifact is nameable — one question at a time.
 
 6. Show the recap:
    ```
