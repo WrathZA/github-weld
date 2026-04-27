@@ -32,6 +32,8 @@ Ask: "Target repo? Enter `owner/name` to file into a different repo, or `n` for 
 
 ### Phase 1 — Discover
 
+A good issue has one outcome (one merge closes it) and criteria you can verify without running the code in your head. If you can't name the artifact the implementation produces, the scope isn't clear yet.
+
 1. Ask: "What are you trying to build or fix?"
 
 2. **Repo-fit check** (skip if a target repo was specified in Phase 0) — read visible project signals:
