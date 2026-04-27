@@ -27,7 +27,7 @@ Create a new GitHub issue through a brief HITL interview.
 
 Ask: "Target repo? Enter `owner/name` to file into a different repo, or `n` for the current one. [n]"
 
-- If the user provides an `owner/name` value (e.g. `WrathZA/github-weld`): store it as the target repo and append `--repo <owner>/<name>` to every `gh` command for the rest of this skill. Skip the repo-fit check in Phase 1 step 2 — the user has already chosen the destination.
+- If the user provides an `owner/name` value (e.g. `WrathZA/github-weld`): store it as the target repo and append `--repo <owner>/<name>` to every `gh` command for the rest of this skill. Skip the repo-fit check in Phase 1 step 2 — the user has already chosen the destination. If the first `gh` command fails after a cross-repo target was given, surface: "Could not reach `<owner/name>` — check repo name and `gh auth status`. (r)etry / (Q)uit?" Do not silently fall through to current-repo behavior.
 - If `n` or blank: use the current repo. No `--repo` flag is added.
 
 ### Phase 1 — Discover
