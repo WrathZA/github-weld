@@ -1,6 +1,6 @@
 ---
 name: gh-weld-repo
-description: Create a GitHub repo from a local directory via `gh repo create`. Inspects the current directory to infer repo name, language, topics, .gitignore template, and license — then interviews the user only for what it cannot infer, one question at a time. Shows a full confirm/edit/abort summary before acting. Pushes the local repo to the new remote on confirm. Use when: starting a project that needs a GitHub remote, pushing a local directory to GitHub for the first time. Triggers: "create a repo", "push to GitHub", "new GitHub repo", "initialize remote", "set up GitHub".
+description: Create a GitHub repo from a local directory via `gh repo create`. Inspects the current directory to infer repo name, language, topics, .gitignore template, license, and description (from README.md when present) — then interviews the user only for what it cannot infer, one question at a time. Shows a full confirm/edit/abort summary before acting. Pushes the local repo to the new remote on confirm. Use when: starting a project that needs a GitHub remote, pushing a local directory to GitHub for the first time. Triggers: "create a repo", "push to GitHub", "new GitHub repo", "initialize remote", "set up GitHub".
 compatibility: Requires git and gh CLI with authentication
 ---
 
