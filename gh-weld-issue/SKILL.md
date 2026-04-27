@@ -18,7 +18,7 @@ Create a new GitHub issue through a brief HITL interview.
 - NEVER use `$()` command substitution or backtick substitution (`` `cmd` ``) — Claude Code's permission system prompts on both during execution; use fixed paths under `.weld/tmp/` instead
 - NEVER use bash heredoc (`cat > file << 'EOF'`) for content with `#`-prefixed lines — headers trigger Claude Code's security check; use the Write tool instead
 - NEVER use `echo >` or `cat` to write file content — use the Write tool; it shows content as a reviewable file-write in Claude Code's approval dialog, while echo and cat are invisible to the approval UI
-- NEVER use `find`, `grep`, or `cat` as Bash commands — use Glob, Grep, and Read tools instead
+- NEVER use `find`, `grep`, or `cat` as Bash commands — use Glob, Grep, and Read tools instead; dedicated tools surface progress in the approval UI and integrate with Claude Code's permission model, while bash equivalents bypass both
 - NEVER warn on ambiguous repo fit — only surface the warning when the mismatch is clear and specific enough to name the other repo; false positives erode trust in the warning, and users warned repeatedly about non-issues will dismiss the next real one
 
 ## Workflow
