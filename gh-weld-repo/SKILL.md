@@ -38,6 +38,10 @@ Create a GitHub repo from a local directory — infer what you can, ask for the 
   **Instead:** Use Glob to find files, Grep to search content, and Read to read files.
   **Why:** Built-in tools have tighter permissions and don't trigger Claude Code safety prompts the way raw shell commands can.
 
+- **NEVER use `mktemp` or `$(mktemp ...)`**
+  **Instead:** Use a fixed path under `.weld/tmp/` with the Write tool.
+  **Why:** `mktemp` uses platform-dependent `/tmp/` paths, and the `$()` substitution it requires triggers Claude Code permission prompts.
+
 ---
 
 ## Phase 1 — Inspect
