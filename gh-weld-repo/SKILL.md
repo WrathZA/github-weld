@@ -55,7 +55,7 @@ Infer the repo name from the current directory's folder name (`pwd`). Use Glob t
 
 If a `LICENSE` file exists, read the first line to infer the license identifier (e.g. `MIT`, `Apache-2.0`).
 
-Use Glob to check for `README.md`. If found, Read it and extract the first non-empty line of the first paragraph after any leading `#` heading, trimmed to ≤120 chars — this is the inferred description. If no `README.md` exists, or the file contains only a heading with no body paragraph, or the extracted line is empty after stripping whitespace, the inferred description is blank. Store this value for Phase 2.
+Use Glob to check for `README.md`. If found, Read it and extract the first complete sentence from the first paragraph after any leading `#` heading (a sentence ends at `.`, `!`, or `?`) — this is the inferred description. If no sentence terminator is found, use the first line. If the result exceeds 120 characters, truncate at the nearest word boundary before the limit. If no `README.md` exists, or the file contains only a heading with no body paragraph, or the extracted text is empty after stripping whitespace, the inferred description is blank. Store this value for Phase 2.
 
 If `git remote -v` shows `origin` is already configured: warn the user and ask `(c)ontinue anyway / (a)bort`. On abort, stop.
 
