@@ -1,6 +1,6 @@
 ---
 name: gh-weld-issue
-description: "Create a GitHub issue via guided interview. Optionally targets a different repo (cross-repo filing). Checks for duplicates before creation (c/u/d resolution: continue as new, use existing and stop, or drop). Collects title and type; constructs structured body from scope, acceptance criteria, and blockers. Infers blockers from open issues. Discovers and applies repo labels. Enforces verifiable acceptance criteria (each must name a command, visible change, or measurable value). Creates via gh CLI using --body-file. One issue per outcome — never batches multiple ideas. Challenges misplaced issues with an assertive repo-fit warning before creation. Use when: filing a bug, planning a feature, capturing a task, or creating any GitHub issue. Skip if you are about to implement the work in this session — use gh-weld-ship instead."
+description: "Create a GitHub issue via guided interview. Optionally targets a different repo (cross-repo filing). Checks for duplicates before creation (c/u/d resolution: continue as new, use existing and stop, or drop). Collects title and type; constructs structured body from scope, acceptance criteria, and blockers. Infers blockers from open issues. Discovers and applies repo labels. Enforces verifiable acceptance criteria (each must name a command, visible change, or measurable value). Creates via gh CLI using --body-file. One issue per outcome — never batches multiple ideas. Surfaces a repo-fit warning only when the mismatch is clear and unambiguous — skips the check entirely when a target repo was specified. Use when: filing a bug, planning a feature, capturing a task, or creating any GitHub issue. Skip if you are about to implement the work in this session — use gh-weld-ship instead."
 ---
 
 # gh-weld-issue
@@ -17,8 +17,8 @@ Create a new GitHub issue through a brief HITL interview.
 - NEVER use `|` (pipe) in Bash tool calls — Claude Code stops execution on pipe; redirect to a temp file with `>` and read back with the Read tool. Note: `|` in markdown table syntax is unaffected.
 - NEVER use `$()` command substitution or backtick substitution (`` `cmd` ``) — Claude Code's permission system prompts on both during execution; use fixed paths under `.weld/tmp/` instead
 - NEVER use bash heredoc (`cat > file << 'EOF'`) for content with `#`-prefixed lines — headers trigger Claude Code's security check; use the Write tool instead
-- NEVER use `echo >` or `cat` to write file content — use the Write tool
-- NEVER use `find`, `grep`, or `cat` as Bash commands — use Glob, Grep, and Read tools instead
+- NEVER use `echo >` or `cat` to write file content — use the Write tool; it shows content as a reviewable file-write in Claude Code's approval dialog, while echo and cat are invisible to the approval UI
+- NEVER use `find`, `grep`, or `cat` as Bash commands — use Glob, Grep, and Read tools instead; dedicated tools surface progress in the approval UI and integrate with Claude Code's permission model, while bash equivalents bypass both
 - NEVER warn on ambiguous repo fit — only surface the warning when the mismatch is clear and specific enough to name the other repo; false positives erode trust in the warning, and users warned repeatedly about non-issues will dismiss the next real one
 
 ## Workflow
@@ -27,10 +27,12 @@ Create a new GitHub issue through a brief HITL interview.
 
 Ask: "Target repo? Enter `owner/name` to file into a different repo, or `n` for the current one. [n]"
 
-- If the user provides an `owner/name` value (e.g. `WrathZA/github-weld`): store it as the target repo and append `--repo <owner>/<name>` to every `gh` command for the rest of this skill. Skip the repo-fit check in Phase 1 step 2 — the user has already chosen the destination.
+- If the user provides an `owner/name` value (e.g. `WrathZA/github-weld`): store it as the target repo and append `--repo <owner>/<name>` to every `gh` command for the rest of this skill. Skip the repo-fit check in Phase 1 step 2 — the user has already chosen the destination. If the first `gh` command fails after a cross-repo target was given, surface: "Could not reach `<owner/name>` — check repo name and `gh auth status`. (r)etry / (Q)uit?" Do not silently fall through to current-repo behavior.
 - If `n` or blank: use the current repo. No `--repo` flag is added.
 
 ### Phase 1 — Discover
+
+A good issue has one outcome (one merge closes it) and criteria you can verify without running the code in your head. If you can't name the artifact the implementation produces, the scope isn't clear yet.
 
 1. Ask: "What are you trying to build or fix?"
 
@@ -69,7 +71,7 @@ Ask: "Target repo? Enter `owner/name` to file into a different repo, or `n` for 
    - If only closed matches: show them for context, offer `(c)ontinue / (d)rop`
    - If empty: proceed silently
 
-5. Ask 1–2 follow-up questions to fill remaining gaps — one at a time. Stop when title, type, and scope are clear.
+5. Scope is clear when you can name a concrete artifact the implementation produces (a flag, a command output, a visible UI change). Ask follow-ups until that artifact is nameable — one question at a time.
 
 6. Show the recap:
    ```
