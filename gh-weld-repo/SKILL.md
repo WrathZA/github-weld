@@ -1,6 +1,6 @@
 ---
 name: gh-weld-repo
-description: Create a GitHub repo from a local directory via `gh repo create`. Inspects the current directory to infer repo name, language, topics, .gitignore template, and license — then interviews the user only for what it cannot infer, one question at a time. Shows a full confirm/edit/abort summary before acting. Pushes the local repo to the new remote on confirm. Use when: starting a project that needs a GitHub remote, pushing a local directory to GitHub for the first time. Triggers: "create a repo", "push to GitHub", "new GitHub repo", "initialize remote", "set up GitHub".
+description: Create a GitHub repo from a local directory via `gh repo create`. Inspects the current directory to infer repo name, language, topics, .gitignore template, license, and description (from README.md when present) — then interviews the user only for what it cannot infer, one question at a time. Shows a full confirm/edit/abort summary before acting. Pushes the local repo to the new remote on confirm. Use when: starting a project that needs a GitHub remote, pushing a local directory to GitHub for the first time. Triggers: "create a repo", "push to GitHub", "new GitHub repo", "initialize remote", "set up GitHub".
 compatibility: Requires git and gh CLI with authentication
 ---
 
@@ -38,6 +38,10 @@ Create a GitHub repo from a local directory — infer what you can, ask for the 
   **Instead:** Use Glob to find files, Grep to search content, and Read to read files.
   **Why:** Built-in tools have tighter permissions and don't trigger Claude Code safety prompts the way raw shell commands can.
 
+- **NEVER use `mktemp` or `$(mktemp ...)`**
+  **Instead:** Use a fixed path under `.weld/tmp/` with the Write tool.
+  **Why:** `mktemp` uses platform-dependent `/tmp/` paths, and the `$()` substitution it requires triggers Claude Code permission prompts.
+
 ---
 
 ## Phase 1 — Inspect
@@ -55,6 +59,8 @@ Infer the repo name from the current directory's folder name (`pwd`). Use Glob t
 
 If a `LICENSE` file exists, read the first line to infer the license identifier (e.g. `MIT`, `Apache-2.0`).
 
+Use Glob to check for `README.md`. If found, Read it and extract the first complete sentence from the first paragraph after any leading `#` heading (a sentence ends at `.`, `!`, or `?`) — this is the inferred description. If no sentence terminator is found, use the first line. If the result exceeds 120 characters, truncate at the nearest word boundary before the limit. If no `README.md` exists, or the file contains only a heading with no body paragraph, or the extracted text is empty after stripping whitespace, the inferred description is blank. Store this value for Phase 2.
+
 If `git remote -v` shows `origin` is already configured: warn the user and ask `(c)ontinue anyway / (a)bort`. On abort, stop.
 
 Note whether `git status` reports "not a git repository" — needed in Phase 4.
@@ -69,7 +75,7 @@ Ask only for settings still marked `(ask)`. Show inferred values first so the us
 
 **Order:**
 1. Visibility: "Public or private? [public]"
-2. Description: "One-line repo description?"
+2. Description: If an inferred description exists (from Phase 1), show `"Description: [<inferred>] — accept or enter a new one?"`. If blank, ask `"One-line repo description?"`.
 3. License (only if no LICENSE file found): "License? (e.g. MIT, Apache-2.0, none) [none]"
 4. Topics: "Suggested topics: `<detected stack>`. Accept, or enter your own?"
 5. Name (only if user wants to override): "Repo name? [<inferred>]"
