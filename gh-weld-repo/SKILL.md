@@ -76,7 +76,20 @@ Ask only for settings still marked `(ask)`. Show inferred values first so the us
 **Order:**
 1. Visibility: "Public or private? [public]"
 2. Description: If an inferred description exists (from Phase 1), show `"Description: [<inferred>] — accept or enter a new one?"`. If blank, ask `"One-line repo description?"`.
-3. License (only if no LICENSE file found): "License? (e.g. MIT, Apache-2.0, none) [none]"
+3. License (only if no LICENSE file found): present a single-keypress menu:
+   ```
+   License? Single keypress:
+     (m) MIT
+     (a) Apache-2.0
+     (g) GPL-3.0
+     (b) BSD-3-Clause
+     (i) ISC
+     (p) MPL-2.0
+     (u) Unlicense
+     (n) none [default]
+   ```
+   Enter alone selects `none`. Map the keypress to the license identifier:
+   `m`→`MIT`, `a`→`Apache-2.0`, `g`→`GPL-3.0`, `b`→`BSD-3-Clause`, `i`→`ISC`, `p`→`MPL-2.0`, `u`→`Unlicense`, `n`/Enter→`none`. The selected identifier is passed to `gh repo create --license "<id>"` in Phase 4 (omit `--license` entirely when `none`).
 4. Topics: "Suggested topics: `<detected stack>`. Accept, or enter your own?"
 5. Name (only if user wants to override): "Repo name? [<inferred>]"
 
