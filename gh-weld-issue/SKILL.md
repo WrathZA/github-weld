@@ -20,6 +20,8 @@ Create a new GitHub issue through a brief HITL interview.
 - NEVER use `echo >` or `cat` to write file content — use the Write tool; it shows content as a reviewable file-write in Claude Code's approval dialog, while echo and cat are invisible to the approval UI
 - NEVER use `find`, `grep`, or `cat` as Bash commands — use Glob, Grep, and Read tools instead; dedicated tools surface progress in the approval UI and integrate with Claude Code's permission model, while bash equivalents bypass both
 - NEVER warn on ambiguous repo fit — only surface the warning when the mismatch is clear and specific enough to name the other repo; false positives erode trust in the warning, and users warned repeatedly about non-issues will dismiss the next real one
+- NEVER include the newly created issue number in the Related comment — it's self-referential noise; always filter it from search results before formatting
+- NEVER surface the related-issue search to the user when no matches remain after filtering — the issue URL is the only post-creation signal; extra output dilutes it
 
 ## Workflow
 
@@ -126,7 +128,28 @@ A good issue has one outcome (one merge closes it) and criteria you can verify w
     ```
     If no matching labels exist, omit `--label`. If the command fails or produces no URL, surface the error and ask "(r)etry / (Q)uit?" — do not clean up until creation is confirmed.
 
-12. Clean up and output the issue URL:
+12. **Link related issues** — read the issue number from the URL `gh issue create` printed. Extract 2–4 topic keywords from the new issue's title (favor distinctive nouns and compound terms; skip common verbs like "add", "fix", "update"). Search open issues in the target repo:
+    ```bash
+    gh issue list --search "<keywords>" --state open --json number,title
+    ```
+    Filter out the newly created issue number. If no matches remain, skip the rest of this step silently — no comment, no output. If 1–5 matches remain, include all. If more than 5, keep the 5 closest by title similarity (shared topic words, similar phrasing).
+
+    Use the Write tool to write the comment body to `.weld/tmp/related-comment.md` as a single line:
+    ```
+    Related: #M (Title), #P (Title)
+    ```
+
+    Post the comment on the newly created issue:
+    ```bash
+    gh issue comment <N> --body-file .weld/tmp/related-comment.md
+    ```
+
+    Clean up:
+    ```bash
+    rm .weld/tmp/related-comment.md
+    ```
+
+13. Clean up and output the issue URL:
     ```bash
     rm .weld/tmp/issue-body.md
     ```
