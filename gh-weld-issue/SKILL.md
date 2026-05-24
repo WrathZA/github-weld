@@ -63,10 +63,11 @@ A good issue has one outcome (one merge closes it) and criteria you can verify w
      Possible match(es):
        #N — Title [OPEN]
 
-     (c)ontinue as new, (u)se existing, (d)rop?
+     (c)ontinue as new, (u)se existing, (e)xpand existing, (d)rop?
      ```
      - **(c)** — proceed
      - **(u)** — output the issue URL and stop; `gh-weld-issue` creates issues, not edits them
+     - **(e)** — output the open issue's URL with the message: "Expand this issue's scope with your new requirements — use `gh issue edit` or the GitHub UI", then stop without creating a new issue. Only offered when at least one match is open; closed-only matches do not get `(e)`.
      - **(d)** — stop
    - If only closed matches: show them for context, offer `(c)ontinue / (d)rop`
    - If empty: proceed silently
