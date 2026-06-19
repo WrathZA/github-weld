@@ -22,7 +22,7 @@
       "Bash(gh label *)",
       "Bash(gh pr *)",
       "Bash(gh repo *)",
-      "Bash(python3 gh-weld-export/scripts/export-session.py *)",
+      "Bash(python3 skills/gh-weld-export/scripts/export-session.py *)",
       "Bash(./symlink-global-skills.sh)",
       "Bash(bash symlink-global-skills.sh)"
     ]

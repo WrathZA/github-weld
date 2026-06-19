@@ -16,17 +16,17 @@ The payoff compounds. Run this loop and each issue becomes a structured artifact
 
 ## Skills
 
-**[`/gh-weld-issue`](.claude/skills/gh-weld-issue/):** Work without a tracking anchor leaks context. Creates a structured issue via a guided interview: duplicate check, acceptance criteria, and label discovery.
+**[`/gh-weld-issue`](skills/gh-weld-issue/):** Work without a tracking anchor leaks context. Creates a structured issue via a guided interview: duplicate check, acceptance criteria, and label discovery.
 
-**[`/gh-weld-next`](.claude/skills/gh-weld-next/):** The gap between intent and execution is where context gets lost. Picks an open issue, creates a correctly-named branch, and hands off to implementation.
+**[`/gh-weld-next`](skills/gh-weld-next/):** The gap between intent and execution is where context gets lost. Picks an open issue, creates a correctly-named branch, and hands off to implementation.
 
-**[`/gh-weld-ship`](.claude/skills/gh-weld-ship/):** A merge captures more context than any other moment in the delivery cycle, and it's the most likely to go undocumented under pressure. Wraps finished work in a PR, squash-merges it, closes the linked issue, and exports the session as a Gist attached to the merge.
+**[`/gh-weld-ship`](skills/gh-weld-ship/):** A merge captures more context than any other moment in the delivery cycle, and it's the most likely to go undocumented under pressure. Wraps finished work in a PR, squash-merges it, closes the linked issue, and exports the session as a Gist attached to the merge.
 
-**[`/gh-weld-export`](.claude/skills/gh-weld-export/):** The reasoning behind a decision lives in the session. Once the context window is cleared, it's gone. Exports the Claude Code session as a Gist and posts a structured summary comment to any PR or issue.
+**[`/gh-weld-export`](skills/gh-weld-export/):** The reasoning behind a decision lives in the session. Once the context window is cleared, it's gone. Exports the Claude Code session as a Gist and posts a structured summary comment to any PR or issue.
 
-**[`/gh-weld-adopt`](.claude/skills/gh-weld-adopt/):** Ad-hoc work without an issue disappears from the history. Retroactively creates a structured issue, renames the branch to match, commits loose changes, and exports the session.
+**[`/gh-weld-adopt`](skills/gh-weld-adopt/):** Ad-hoc work without an issue disappears from the history. Retroactively creates a structured issue, renames the branch to match, commits loose changes, and exports the session.
 
-**[`/gh-weld-setup`](gh-weld-setup/):** Starting a project right takes several steps that are easy to skip or misconfigure. Scaffolds `README.md` and `CLAUDE.md` via a guided abstract interview, wires gh-weld conventions into the project, and creates a GitHub repo if one doesn't exist. Replaces the separate `gh-weld-install` and `gh-weld-init` skills.
+**[`/gh-weld-setup`](skills/gh-weld-setup/):** Starting a project right takes several steps that are easy to skip or misconfigure. Scaffolds `README.md` and `CLAUDE.md` via a guided abstract interview, wires gh-weld conventions into the project, and creates a GitHub repo if one doesn't exist. Replaces the separate `gh-weld-install` and `gh-weld-init` skills.
 
 ## Installation
 
@@ -36,14 +36,10 @@ The skills form a single loop — install all of them. A partial install leaves 
 
 ```
 /plugin marketplace add WrathZA/github-weld
-/plugin install gh-weld-issue
-/plugin install gh-weld-next
-/plugin install gh-weld-ship
-/plugin install gh-weld-export
-/plugin install gh-weld-adopt
-/plugin install gh-weld-activity
-/plugin install gh-weld-setup
+/plugin install github-weld
 ```
+
+The skills ship as a single bundled plugin — one install gives you the whole loop.
 
 **Via symlink script** (for local development or if you prefer cloning):
 
