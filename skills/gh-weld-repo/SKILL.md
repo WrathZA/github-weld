@@ -73,7 +73,9 @@ Note whether `git status` reports "not a git repository" — needed in Phase 4.
 
 ## Phase 2 — Interview
 
-Before asking questions: check whether the inferred repo name looks right at `github.com/<username>/<name>`. Generic names (`test`, `project`, `new`, `app`, `demo`) are red flags — flag the name as a suggestion to reconsider and move it to question #5.
+Before asking questions, think about what makes these settings good, not just valid: a repo name should be specific and searchable (someone scanning a repo list should guess what it does); a description should say what the project *is* and who it's for in one line, not restate the name; topics should be discovery terms others would actually search. Let that shape what you suggest and what you flag for reconsideration.
+
+Check whether the inferred repo name looks right at `github.com/<username>/<name>`. Generic names (`test`, `project`, `new`, `app`, `demo`) are red flags — flag the name as a suggestion to reconsider and move it to question #5.
 
 Ask only for settings still marked `(ask)`. Show inferred values first so the user can accept or override. One question at a time.
 
@@ -140,7 +142,7 @@ If the command fails:
 - Output contains "authentication" or "401" → tell the user to run `gh auth login` and retry
 - Any other error → surface the raw error output and stop
 
-If topics were collected, set them after creation:
+If topics were collected, set them after creation. The `gh repo create` output names the new repo as `<owner>/<name>` (e.g. "✓ Created repository alice/my-app on GitHub") and the repo URL is `https://github.com/<owner>/<name>` — take `<owner>/<name>` from there; do not guess the owner.
 ```bash
 gh repo edit <owner>/<name> --add-topic "<topic>"
 ```
@@ -153,7 +155,7 @@ If Phase 1 noted "not a git repository": run `git init`, then `git add -A`, then
 
 ### Add remote and push
 
-Read the repo URL from the `gh repo create` output. If no `origin` remote exists, run `git remote add origin <url>`. Push with `git push -u origin main`; if it fails because the default branch is `master`, retry with `git push -u origin master`.
+Read the repo URL from the `gh repo create` output. If no `origin` remote exists, run `git remote add origin <url>`. Determine the current branch with `git branch --show-current` and push that branch by name: `git push -u origin <current-branch>`. This handles `main`, `master`, or any other default branch name without guessing.
 
 ---
 
