@@ -16,25 +16,11 @@ Find something to work on. Read it. Branch. Go.
 
 ### 1 — Check working tree
 
-```bash
-git status --porcelain
-```
+Run `git status --porcelain`. If the tree is dirty: output "Working tree has uncommitted changes — commit or stash before starting new work." and stop. This loop always branches from a clean `main` (see the NEVER rule above), so any uncommitted change — on `main` or a feature branch — would be carried onto the new branch and pollute the issue diff.
 
-If dirty: output "Working tree has uncommitted changes — commit or stash before starting new work." and stop.
+Run `git branch --show-current`. If not on `main` or `master`: warn "You're on branch `<branch>` — switch to main before starting new work? (y/n)". On yes, run `git checkout main`.
 
-```bash
-git branch --show-current
-```
-
-If not on `main` or `master`: warn "You're on branch `<branch>` — switch to main before starting new work? (y/n)". If yes:
-```bash
-git checkout main
-```
-
-Pull latest:
-```bash
-git pull
-```
+Run `git pull` to get the latest. If the pull fails (diverged history or merge conflict): output "`git pull` failed — main has diverged. Resolve the conflict or reconcile manually before starting new work." and stop. Do not branch from an unmerged main.
 
 ### 2 — List open issues
 
@@ -49,6 +35,8 @@ If no open issues: output "No open issues. Run /gh-weld-issue to create one." an
 ### 3 — Pick
 
 Ask: "Which issue? Enter a number from the list, or describe what you want to work on."
+
+If the user is undecided, suggest the next issue by judgment, not just list order: prefer the highest-priority unblocked issue, break ties toward the one that unblocks the most other open issues, then toward the smallest well-scoped change that can ship this session. Surface the reason ("#N is unblocked and unblocks #X, #Y") rather than just naming it.
 
 If the user describes something: match against titles and confirm before proceeding. If no match, offer to run `/gh-weld-issue` first.
 
@@ -85,6 +73,8 @@ Show the proposed name and ask: "(a)ccept or enter a different name?"
 ```bash
 git checkout -b <branch-name>
 ```
+
+If the branch already exists (`fatal: a branch named '<branch-name>' already exists`): ask "Branch `<branch-name>` already exists — enter a different name, or (c)heck out the existing one?" Do not overwrite it.
 
 ### 5 — Hand off
 
