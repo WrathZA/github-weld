@@ -1,12 +1,12 @@
 ---
 name: gh-weld-adopt
-description: "Retroactively formalizes ad-hoc in-progress work — reads session context and git state, creates a structured GitHub issue, creates or renames a branch to match repo conventions, commits loose changes, pushes, and exports the session as a Gist comment on the new issue. Works from any branch including main (moves uncommitted changes or ahead-commits to a new branch). Use when: you started work without creating an issue first, or when the user says 'adopt this work', 'create an issue for what we're doing', 'formalize this branch', 'retroactively track this', 'adopt this cleanup', 'adopt this chore'."
+description: "Formalizes untracked work into the GitHub loop — reads session context and git state, creates a structured GitHub issue, creates or renames a branch to match repo conventions, commits loose changes, pushes, and exports the session as a Gist comment on the new issue. This is the forward path for same-session work: when you decide to implement something now without filing an issue first, adopt creates the issue + branch + commit in one step (you don't have to use gh-weld-issue then gh-weld-next). Works equally retroactively on ad-hoc work already done, and from any branch including main (moves uncommitted changes or ahead-commits to a new branch). Use when: you're implementing work this session that has no issue yet, you started work without creating an issue first, or when the user says 'adopt this work', 'track what we're building', 'create an issue for what we're doing', 'formalize this branch', 'retroactively track this', 'adopt this cleanup', 'adopt this chore'."
 compatibility: Requires git and gh CLI. Designed for Claude Code.
 ---
 
 # gh-weld-adopt
 
-You did the work first. gh-weld-adopt creates the paper trail.
+You did the work first — or you're about to. Either way, gh-weld-adopt creates the paper trail.
 
 ## NEVER
 

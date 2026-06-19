@@ -24,9 +24,22 @@ The payoff compounds. Run this loop and each issue becomes a structured artifact
 
 **[`/gh-weld-export`](skills/gh-weld-export/):** The reasoning behind a decision lives in the session. Once the context window is cleared, it's gone. Exports the Claude Code session as a Gist and posts a structured summary comment to any PR or issue.
 
-**[`/gh-weld-adopt`](skills/gh-weld-adopt/):** Ad-hoc work without an issue disappears from the history. Retroactively creates a structured issue, renames the branch to match, commits loose changes, and exports the session.
+**[`/gh-weld-adopt`](skills/gh-weld-adopt/):** Work without an issue disappears from the history. The forward path for same-session work *and* the retroactive fix for ad-hoc work: creates a structured issue, sets up or renames the branch to match, commits loose changes, and exports the session.
 
 **[`/gh-weld-setup`](skills/gh-weld-setup/):** Starting a project right takes several steps that are easy to skip or misconfigure. Scaffolds `README.md` and `CLAUDE.md` via a guided abstract interview, wires gh-weld conventions into the project, and creates a GitHub repo if one doesn't exist. Replaces the separate `gh-weld-install` and `gh-weld-init` skills.
+
+## Which skill when
+
+The loop has two entry points depending on *when* you decide to track the work:
+
+| Scenario | Flow |
+|---|---|
+| **Deferred** — capture work now, implement later | `/gh-weld-issue` → *(later)* `/gh-weld-next` → implement → `/gh-weld-ship` |
+| **Same-session** — implement now, no issue yet | implement → `/gh-weld-adopt` *(creates issue + branch + commit)* → `/gh-weld-ship` |
+| **Already tracked** — on a feature branch for an existing issue, work done | `/gh-weld-ship` |
+| **Ad-hoc on main** — loose changes or commits with no issue | `/gh-weld-adopt` |
+
+The rule of thumb: **`/gh-weld-issue` is only for work you are *not* about to do this session.** If you're implementing now, reach for `/gh-weld-adopt` — it files the issue and sets up the branch in one step, so the issue carries real history instead of being opened and closed empty.
 
 ## Installation
 
