@@ -1,7 +1,6 @@
 ---
 name: gh-weld-setup
-description: Set up a new or existing project end-to-end: scaffold README.md and CLAUDE.md via a guided abstract interview, wire in gh-weld conventions, and optionally create a GitHub repo. Use when starting a new repo or onboarding an existing project to gh-weld.
-when_to_use: "set up this project", "init this repo", "scaffold", "new project setup", "install gh-weld", "wire up weld", "initialize", "create README", "CLAUDE.md conventions", "new repository".
+description: "Set up a new or existing project end-to-end — scaffold README.md and CLAUDE.md via a guided abstract (tech-agnostic) interview, wire in gh-weld conventions, ensure .gitignore entries, and optionally create a GitHub repo (delegates to gh-weld-repo). Idempotent: re-run to accept, refresh, or refine existing files. Replaces the separate gh-weld-install and gh-weld-init skills. Use when: starting a new repo, onboarding an existing project to gh-weld, scaffolding README/CLAUDE.md, or wiring conventions. Triggers: 'set up this project', 'init this repo', 'scaffold', 'new project setup', 'install gh-weld', 'wire up weld', 'initialize', 'create README', 'new repository'."
 compatibility: Requires git and gh CLI. Claude Code with WebFetch.
 ---
 
