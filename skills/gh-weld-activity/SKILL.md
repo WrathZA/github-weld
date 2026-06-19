@@ -4,7 +4,7 @@ description: "GitHub activity digest — lists issues and PRs grouped by time wi
 compatibility: Requires gh CLI authenticated (gh auth login). Designed for Claude Code.
 ---
 
-# gh-activity
+# gh-weld-activity
 
 Activity digest grouped by recency. Fetch, bucket, render.
 
@@ -82,11 +82,15 @@ gh search prs --limit 200 --sort created --json number,title,state,author,url,cr
 
 Read the JSON from each tool result directly — no temp files needed. The `author` field is an object: use `author.login` for the display name.
 
+If any fetch returns exactly 200 items, it likely hit the `--limit` cap: note "⚠ Results capped at 200 — older items beyond the cap are omitted." in the digest header so the view doesn't read as complete.
+
+If a fetch fails (rate limit, network error — most likely on GitHub-wide `gh search`): output "Fetch failed: `<gh error>` — try again shortly, or narrow to repo scope." and stop. If a fetch succeeds but returns an empty list, that is valid — proceed and render `None` placeholders rather than treating it as an error.
+
 > Discussions are not supported by the `gh` CLI JSON output; omit silently.
 
 ### 4 — Bucket
 
-Get today's date (UTC). Classify each item into exactly one window:
+Use today's date from the session context (the current date is provided to you — do not shell out to `date`, which would need `$()` to capture). Treat it as UTC. Classify each item into exactly one window:
 
 | Window | Item's `createdAt` is on or after… |
 |--------|-------------------------------------|
@@ -96,6 +100,8 @@ Get today's date (UTC). Classify each item into exactly one window:
 | Last 30 days | today − 29 days 00:00 UTC |
 
 Assign to the most recent qualifying window. Items older than 30 days are omitted.
+
+Windows are computed in UTC, so "Today" means the current UTC day — an item created late in the user's local evening may land in "Today" or the previous window depending on the UTC offset. State "(windows are UTC)" once in the digest header so counts near midnight aren't misread.
 
 ### 5 — Render
 
