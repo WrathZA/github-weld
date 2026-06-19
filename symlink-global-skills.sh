@@ -16,7 +16,7 @@ for link in "$TARGET_DIR"/*; do
   fi
 done
 
-for skill_dir in "$REPO_DIR"/*/; do
+for skill_dir in "$REPO_DIR"/skills/*/; do
   skill_name="$(basename "$skill_dir")"
 
   # Skip non-skill dirs (no SKILL.md inside)
