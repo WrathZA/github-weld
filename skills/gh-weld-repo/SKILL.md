@@ -42,6 +42,10 @@ Create a GitHub repo from a local directory — infer what you can, ask for the 
   **Instead:** Use a fixed path under `.weld/tmp/` with the Write tool.
   **Why:** `mktemp` uses platform-dependent `/tmp/` paths, and the `$()` substitution it requires triggers Claude Code permission prompts.
 
+- **NEVER offer Enter (empty line) as the way to accept a default in a prompt**
+  **Instead:** Bind every default to an explicit keypress (e.g. `(n) none`, reply `k` to keep) — never `[default]`/"press Enter".
+  **Why:** Claude Code's CLI can't submit an empty line, so an Enter-default is unreachable and the user is stuck.
+
 ---
 
 ## Phase 1 — Inspect
@@ -74,7 +78,7 @@ Before asking questions: check whether the inferred repo name looks right at `gi
 Ask only for settings still marked `(ask)`. Show inferred values first so the user can accept or override. One question at a time.
 
 **Order:**
-1. Visibility: "Public or private? [public]"
+1. Visibility: "Public or private? Reply (p)ublic or pri(v)ate." Map `p`→public, `v`→private. Public is the recommended default — reply `p` to accept it. Do not rely on Enter; require a keypress.
 2. Description: If an inferred description exists (from Phase 1), show `"Description: [<inferred>] — accept or enter a new one?"`. If blank, ask `"One-line repo description?"`.
 3. License (only if no LICENSE file found): present a single-keypress menu:
    ```
@@ -86,12 +90,12 @@ Ask only for settings still marked `(ask)`. Show inferred values first so the us
      (i) ISC
      (p) MPL-2.0
      (u) Unlicense
-     (n) none [default]
+     (n) none
    ```
-   Enter alone selects `none`. Map the keypress to the license identifier:
-   `m`→`MIT`, `a`→`Apache-2.0`, `g`→`GPL-3.0`, `b`→`BSD-3-Clause`, `i`→`ISC`, `p`→`MPL-2.0`, `u`→`Unlicense`, `n`/Enter→`none`. The selected identifier is passed to `gh repo create --license "<id>"` in Phase 4 (omit `--license` entirely when `none`).
+   Press `n` for none (the recommended default) — do not rely on Enter, which the CLI can't submit. Map the keypress to the license identifier:
+   `m`→`MIT`, `a`→`Apache-2.0`, `g`→`GPL-3.0`, `b`→`BSD-3-Clause`, `i`→`ISC`, `p`→`MPL-2.0`, `u`→`Unlicense`, `n`→`none`. The selected identifier is passed to `gh repo create --license "<id>"` in Phase 4 (omit `--license` entirely when `none`).
 4. Topics: "Suggested topics: `<detected stack>`. Accept, or enter your own?"
-5. Name (only if user wants to override): "Repo name? [<inferred>]"
+5. Name (only if user wants to override): "Repo name? Reply `k` to keep `<inferred>`, or type a new name." Do not rely on Enter to accept the inferred name.
 
 ---
 
