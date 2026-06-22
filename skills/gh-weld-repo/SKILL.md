@@ -151,7 +151,28 @@ One `gh repo edit` call per topic. If a call fails, log the error and continue â
 
 ### Initialize if needed
 
-If Phase 1 noted "not a git repository": run `git init`, then `git add -A`, then `git commit -m "Initial commit"`. If the repo already has commits, skip the add/commit.
+When Phase 1 noted "not a git repository", bootstrap on a branch: commit a minimal empty base to `main`, then put the scaffold on a branch. Run as separate Bash calls:
+
+```bash
+git init
+```
+```bash
+git commit --allow-empty -m "Initial commit"
+```
+```bash
+git branch -M main
+```
+```bash
+git checkout -b setup/scaffold
+```
+```bash
+git add -A
+```
+```bash
+git commit -m "Scaffold project files"
+```
+
+If the repo already has commits, skip this entire block â€” the existing history is pushed as-is in the next step.
 
 ### Add remote and push
 
