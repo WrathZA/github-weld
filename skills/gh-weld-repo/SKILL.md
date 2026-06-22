@@ -47,7 +47,7 @@ Create a GitHub repo from a local directory — infer what you can, ask for the 
   **Why:** Claude Code's CLI can't submit an empty line, so an Enter-default is unreachable and the user is stuck.
 
 - **NEVER commit the scaffold straight to `main` on a fresh bootstrap**
-  **Instead:** Commit a minimal empty base to `main` (`git commit --allow-empty`), then create a branch and commit the scaffold there.
+  **Instead:** Keep gh's initial commit (the `--gitignore`/`--license` files) as the base on `main`, then create a branch and commit the scaffold there.
   **Why:** A scaffold landed directly on `main` bypasses branch → PR → merge review and leaves `gh-weld-adopt` nothing to formalize, dead-ending the close-the-loop chain (issue #84).
 
 ---
@@ -155,15 +155,21 @@ gh repo edit <owner>/<name> --add-topic "<topic>"
 
 One `gh repo edit` call per topic. If a call fails, log the error and continue — topic tagging is non-critical and should not block the push.
 
-### Initialize if needed
+### Initialize if needed — graft onto the remote base
 
-When Phase 1 noted "not a git repository", bootstrap on a branch: commit a minimal empty base to `main`, then put the scaffold on a branch. Run as separate Bash calls:
+When Phase 1 noted "not a git repository", the repo gh just created already carries a minimal base commit on `main` — the `--gitignore`/`--license` files form GitHub's initial commit. Use **that** as the base and stack the scaffold on a branch on top of it. Do **not** create a second local initial commit: pushing it would be rejected as unrelated history. Run as separate Bash calls:
 
 ```bash
 git init
 ```
 ```bash
-git commit --allow-empty -m "Initial commit"
+git remote add origin <url>
+```
+```bash
+git fetch origin
+```
+```bash
+git reset --mixed origin/main
 ```
 ```bash
 git branch -M main
@@ -178,24 +184,33 @@ git add -A
 git commit -m "Scaffold project files"
 ```
 
-If the repo already has commits, skip this entire block — the existing history is pushed as-is in the next step.
+`git reset --mixed origin/main` adopts gh's base commit as local `main` while leaving the scaffold files untouched in the working tree; the scaffold then lands as one commit on `setup/scaffold`. If the repo already has commits, skip this block — see "Existing history" below.
 
 ### Add remote and push
 
-Read the repo URL from the `gh repo create` output. If no `origin` remote exists, run `git remote add origin <url>`.
+Read the repo URL from the `gh repo create` output (used as `<url>` above).
 
-**Fresh bootstrap** (the Initialize block above ran): push the base first, then the scaffold branch — as separate Bash calls:
+**Fresh bootstrap** (the Initialize block above ran): the remote is already added and local `main` already matches gh's base commit — push only the scaffold branch:
 
-```bash
-git push -u origin main
-```
 ```bash
 git push -u origin setup/scaffold
 ```
 
-`main` becomes the default branch and the PR base; `setup/scaffold` carries the reviewable scaffold.
+`main` stays the default branch and PR base; `setup/scaffold` carries the reviewable scaffold.
 
-**Existing history** (Initialize block skipped): determine the current branch with `git branch --show-current` and push that branch by name: `git push -u origin <current-branch>`. This handles `main`, `master`, or any other default branch name without guessing.
+**Existing history** (Initialize block skipped): if no `origin` remote exists, run `git remote add origin <url>`. Because gh initialized the remote with a base commit, reconcile before pushing so the histories aren't unrelated:
+
+```bash
+git fetch origin
+```
+```bash
+git pull --rebase origin main
+```
+```bash
+git push -u origin <current-branch>
+```
+
+Determine `<current-branch>` with `git branch --show-current` (handles `main`, `master`, or any default without guessing). If the rebase reports conflicts, resolve them before pushing.
 
 ---
 
