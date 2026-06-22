@@ -46,6 +46,10 @@ Create a GitHub repo from a local directory — infer what you can, ask for the 
   **Instead:** Bind every default to an explicit keypress (e.g. `(n) none`, reply `k` to keep) — never `[default]`/"press Enter".
   **Why:** Claude Code's CLI can't submit an empty line, so an Enter-default is unreachable and the user is stuck.
 
+- **NEVER commit the scaffold straight to `main` on a fresh bootstrap**
+  **Instead:** Commit a minimal empty base to `main` (`git commit --allow-empty`), then create a branch and commit the scaffold there.
+  **Why:** A scaffold landed directly on `main` bypasses branch → PR → merge review and leaves `gh-weld-adopt` nothing to formalize, dead-ending the close-the-loop chain (issue #84).
+
 ---
 
 ## Phase 1 — Inspect
