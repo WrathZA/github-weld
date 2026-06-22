@@ -220,8 +220,8 @@ Determine `<current-branch>` with `git branch --show-current` (handles `main`, `
 ```
 Repo created: <url>
 Remote:       origin → <url>
-Base:         main (empty initial commit) — PR base
-Scaffold:     setup/scaffold — your project files, ready to land via PR
+Base:         main — gh's initial commit (.gitignore/license), the PR base
+Scaffold:     setup/scaffold — your project files (provisional; /gh-weld-adopt renames it)
 
 Next: run /gh-weld-adopt → /gh-weld-ship to open a PR, squash-merge, and close.
 ```
