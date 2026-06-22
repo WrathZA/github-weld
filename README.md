@@ -28,6 +28,10 @@ The payoff compounds. Run this loop and each issue becomes a structured artifact
 
 **[`/gh-weld-setup`](skills/gh-weld-setup/):** Starting a project right takes several steps that are easy to skip or misconfigure. Scaffolds `README.md` and `CLAUDE.md` via a guided abstract interview, wires gh-weld conventions into the project, and creates a GitHub repo if one doesn't exist. Replaces the separate `gh-weld-install` and `gh-weld-init` skills.
 
+**[`/gh-weld-repo`](skills/gh-weld-repo/):** A local project with no remote has nowhere for the loop to anchor. Creates a GitHub repo from the current directory — inferring name, language, topics, `.gitignore`, license, and description from what's already there, asking only for what it can't, and confirming before it pushes.
+
+**[`/gh-weld-activity`](skills/gh-weld-activity/):** Knowing what's changed is its own kind of context. Lists issues and PRs grouped by time window (today, last 3/7/30 days), repo-scoped or GitHub-wide, so you can see recent activity at a glance.
+
 ## Which skill when
 
 The loop has two entry points depending on *when* you decide to track the work:
