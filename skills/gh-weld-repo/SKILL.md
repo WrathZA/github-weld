@@ -94,8 +94,8 @@ Ask only for settings still marked `(ask)`. Show inferred values first so the us
      (u) Unlicense
      (n) none
    ```
-   Press `n` for none (the recommended default) — do not rely on Enter, which the CLI can't submit. Map the keypress to the license identifier:
-   `m`→`MIT`, `a`→`Apache-2.0`, `g`→`GPL-3.0`, `b`→`BSD-3-Clause`, `i`→`ISC`, `p`→`MPL-2.0`, `u`→`Unlicense`, `n`→`none`. The selected identifier is passed to `gh repo create --license "<id>"` in Phase 4 (omit `--license` entirely when `none`).
+   Map the keypress to the license identifier:
+   `m`→`MIT`, `a`→`Apache-2.0`, `g`→`GPL-3.0`, `b`→`BSD-3-Clause`, `i`→`ISC`, `p`→`MPL-2.0`, `u`→`Unlicense`, `n`/Enter→`none`. The selected identifier is passed to `gh repo create --license "<id>"` in Phase 4 (omit `--license` entirely when `none`).
 4. Topics: "Suggested topics: `<detected stack>`. Accept, or enter your own?"
 5. Name (only if user wants to override): "Repo name? Reply `k` to keep `<inferred>`, or type a new name." Do not rely on Enter to accept the inferred name.
 
