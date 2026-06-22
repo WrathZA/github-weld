@@ -124,6 +124,8 @@ Ask: `(c)onfirm / (e)dit / (a)bort`
 
 ## Phase 4 — Create & Push
 
+> On a fresh repo, the scaffold goes on a branch, not straight to `main` — the first body of work must flow through branch → PR → merge like every other change. Committing it to `main` bypasses review and dead-ends `gh-weld-adopt` (see the NEVER rule, ref #84).
+
 ### Create the repo
 
 Run as separate Bash calls (no chaining):
