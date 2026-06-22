@@ -195,7 +195,17 @@ git push -u origin setup/scaffold
 
 ## Phase 5 — Done
 
-Output:
+**Fresh bootstrap:**
+```
+Repo created: <url>
+Remote:       origin → <url>
+Base:         main (empty initial commit) — PR base
+Scaffold:     setup/scaffold — your project files, ready to land via PR
+
+Next: run /gh-weld-adopt → /gh-weld-ship to open a PR, squash-merge, and close.
+```
+
+**Existing history:**
 ```
 Repo created: <url>
 Remote:       origin → <url>
