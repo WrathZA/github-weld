@@ -176,7 +176,20 @@ If the repo already has commits, skip this entire block — the existing history
 
 ### Add remote and push
 
-Read the repo URL from the `gh repo create` output. If no `origin` remote exists, run `git remote add origin <url>`. Determine the current branch with `git branch --show-current` and push that branch by name: `git push -u origin <current-branch>`. This handles `main`, `master`, or any other default branch name without guessing.
+Read the repo URL from the `gh repo create` output. If no `origin` remote exists, run `git remote add origin <url>`.
+
+**Fresh bootstrap** (the Initialize block above ran): push the base first, then the scaffold branch — as separate Bash calls:
+
+```bash
+git push -u origin main
+```
+```bash
+git push -u origin setup/scaffold
+```
+
+`main` becomes the default branch and the PR base; `setup/scaffold` carries the reviewable scaffold.
+
+**Existing history** (Initialize block skipped): determine the current branch with `git branch --show-current` and push that branch by name: `git push -u origin <current-branch>`. This handles `main`, `master`, or any other default branch name without guessing.
 
 ---
 
