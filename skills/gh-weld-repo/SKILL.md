@@ -1,6 +1,6 @@
 ---
 name: gh-weld-repo
-description: Create a GitHub repo from a local directory via `gh repo create`. Inspects the current directory to infer repo name, language, topics, .gitignore template, license, and description (from README.md when present) — then interviews the user only for what it cannot infer, one question at a time. Shows a full confirm/edit/abort summary before acting. Pushes the local repo to the new remote on confirm. Use when: starting a project that needs a GitHub remote, pushing a local directory to GitHub for the first time. Triggers: "create a repo", "push to GitHub", "new GitHub repo", "initialize remote", "set up GitHub".
+description: Create a GitHub repo from a local directory via `gh repo create`. Inspects the current directory to infer repo name, language, topics, .gitignore template, license, and description (from README.md when present) — then interviews the user only for what it cannot infer, one question at a time. Shows a full confirm/edit/abort summary before acting. Pushes the local repo to the new remote on confirm — on a fresh repo, bootstraps the scaffold on a branch so the first work lands via PR. Use when: starting a project that needs a GitHub remote, pushing a local directory to GitHub for the first time. Triggers: "create a repo", "push to GitHub", "new GitHub repo", "initialize remote", "set up GitHub".
 compatibility: Requires git and gh CLI with authentication
 ---
 
@@ -45,6 +45,10 @@ Create a GitHub repo from a local directory — infer what you can, ask for the 
 - **NEVER offer Enter (empty line) as the way to accept a default in a prompt**
   **Instead:** Bind every default to an explicit keypress (e.g. `(n) none`, reply `k` to keep) — never `[default]`/"press Enter".
   **Why:** Claude Code's CLI can't submit an empty line, so an Enter-default is unreachable and the user is stuck.
+
+- **NEVER commit the scaffold straight to `main` on a fresh bootstrap**
+  **Instead:** Keep gh's initial commit (the `--gitignore`/`--license` files) as the base on `main`, then create a branch and commit the scaffold there.
+  **Why:** A scaffold landed directly on `main` bypasses branch → PR → merge review and leaves `gh-weld-adopt` nothing to formalize, dead-ending the close-the-loop chain (issue #84).
 
 ---
 
@@ -124,6 +128,8 @@ Ask: `(c)onfirm / (e)dit / (a)bort`
 
 ## Phase 4 — Create & Push
 
+> On a fresh repo, the scaffold goes on a branch, not straight to `main` — the first body of work must flow through branch → PR → merge like every other change. Committing it to `main` bypasses review and dead-ends `gh-weld-adopt` (see the NEVER rule, ref #84).
+
 ### Create the repo
 
 Run as separate Bash calls (no chaining):
@@ -149,19 +155,78 @@ gh repo edit <owner>/<name> --add-topic "<topic>"
 
 One `gh repo edit` call per topic. If a call fails, log the error and continue — topic tagging is non-critical and should not block the push.
 
-### Initialize if needed
+### Initialize if needed — graft onto the remote base
 
-If Phase 1 noted "not a git repository": run `git init`, then `git add -A`, then `git commit -m "Initial commit"`. If the repo already has commits, skip the add/commit.
+When Phase 1 noted "not a git repository", the repo gh just created already carries a minimal base commit on `main` — the `--gitignore`/`--license` files form GitHub's initial commit. Use **that** as the base and stack the scaffold on a branch on top of it. Do **not** create a second local initial commit: pushing it would be rejected as unrelated history. Run as separate Bash calls:
+
+```bash
+git init
+```
+```bash
+git remote add origin <url>
+```
+```bash
+git fetch origin
+```
+```bash
+git reset --mixed origin/main
+```
+```bash
+git branch -M main
+```
+```bash
+git checkout -b setup/scaffold
+```
+```bash
+git add -A
+```
+```bash
+git commit -m "Scaffold project files"
+```
+
+`git reset --mixed origin/main` adopts gh's base commit as local `main` while leaving the scaffold files untouched in the working tree; the scaffold then lands as one commit on `setup/scaffold`. If the repo already has commits, skip this block — see "Existing history" below.
 
 ### Add remote and push
 
-Read the repo URL from the `gh repo create` output. If no `origin` remote exists, run `git remote add origin <url>`. Determine the current branch with `git branch --show-current` and push that branch by name: `git push -u origin <current-branch>`. This handles `main`, `master`, or any other default branch name without guessing.
+Read the repo URL from the `gh repo create` output (used as `<url>` above).
+
+**Fresh bootstrap** (the Initialize block above ran): the remote is already added and local `main` already matches gh's base commit — push only the scaffold branch:
+
+```bash
+git push -u origin setup/scaffold
+```
+
+`main` stays the default branch and PR base; `setup/scaffold` carries the reviewable scaffold.
+
+**Existing history** (Initialize block skipped): if no `origin` remote exists, run `git remote add origin <url>`. Because gh initialized the remote with a base commit, reconcile before pushing so the histories aren't unrelated:
+
+```bash
+git fetch origin
+```
+```bash
+git pull --rebase origin main
+```
+```bash
+git push -u origin <current-branch>
+```
+
+Determine `<current-branch>` with `git branch --show-current` (handles `main`, `master`, or any default without guessing). If the rebase reports conflicts, resolve them before pushing.
 
 ---
 
 ## Phase 5 — Done
 
-Output:
+**Fresh bootstrap:**
+```
+Repo created: <url>
+Remote:       origin → <url>
+Base:         main — gh's initial commit (.gitignore/license), the PR base
+Scaffold:     setup/scaffold — your project files (provisional; /gh-weld-adopt renames it)
+
+Next: run /gh-weld-adopt → /gh-weld-ship to open a PR, squash-merge, and close.
+```
+
+**Existing history:**
 ```
 Repo created: <url>
 Remote:       origin → <url>
