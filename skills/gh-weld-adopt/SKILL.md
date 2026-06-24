@@ -60,36 +60,28 @@ git log origin/main..HEAD --oneline
 
 **If both are present:** follow the uncommitted-changes path below — the ahead-commits carry over automatically since HEAD is preserved.
 
+The branch created here is a **provisional throwaway** — Step 6 renames it to the final `<prefix>/<issue-number>-<slug>` once the issue number is known. Do not prompt for a name here; generate one silently and just inform the user it's temporary.
+
 **If uncommitted changes exist:**
 
-Inspect existing branch names to infer naming convention:
+Generate a temporary local branch name silently — `adopt/wip-<short-slug>`, where `<short-slug>` is a brief slug derived from the session work (lowercase, hyphens). Do not prompt.
 
 ```bash
-git branch -a
+git checkout -b adopt/wip-<short-slug>
 ```
 
-Propose a branch name (lowercase, hyphens, max 50 chars, using the repo's prefix convention). Show it and ask: "(a)ccept or enter a different name?"
-
-```bash
-git checkout -b <branch-name>
-```
+Tell the user: "Working on provisional branch `adopt/wip-<short-slug>` — I'll rename it to the final name once the issue exists."
 
 Continue to Step 2.
 
 **If commits are ahead of `origin/main`:**
 
-Inspect existing branch names:
-
-```bash
-git branch -a
-```
-
-Propose a branch name. Show it and ask: "(a)ccept or enter a different name?"
+Generate a temporary local branch name silently — `adopt/wip-<short-slug>` (lowercase, hyphens). Do not prompt.
 
 Create the branch at the current HEAD, reset main, then check out the new branch:
 
 ```bash
-git branch <branch-name>
+git branch adopt/wip-<short-slug>
 ```
 
 ```bash
@@ -97,8 +89,10 @@ git reset --hard origin/main
 ```
 
 ```bash
-git checkout <branch-name>
+git checkout adopt/wip-<short-slug>
 ```
+
+Tell the user: "Working on provisional branch `adopt/wip-<short-slug>` — I'll rename it to the final name once the issue exists."
 
 Continue to Step 2.
 
@@ -236,7 +230,9 @@ git commit -m "adopt: capture in-progress work for issue #<N>"
 
 ### 6 — Rename the branch
 
-Construct the new branch name using the prefix convention inferred from `git branch -a` (Step 3), the issue number, and a slug derived from the issue title. Slug rules: lowercase, hyphens only, max 40 chars.
+Construct the new branch name using the prefix convention inferred from `git branch -a` (Step 3), the issue number, and a slug derived from the issue title. Slug rules: lowercase, hyphens only, max 40 chars. The final form is `<prefix>/<issue-number>-<slug>`.
+
+This is the **only** branch-name approval prompt in the workflow. Show the final name and ask: "(a)ccept or enter a different name?" Use the result for the rename below.
 
 Check whether the current branch has a remote tracking branch:
 
