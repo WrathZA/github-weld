@@ -10,6 +10,7 @@ description: "GitHub shipping loop — wraps your finished work in a PR, squash-
 - NEVER create a PR from main — `gh pr create` will succeed but target the wrong base, shipping unreleased work directly; create a feature branch first
 - NEVER pass a PR body with `#`-prefixed lines as an inline `--body` argument — write to `.weld/tmp/pr-body.md` and pass via `--body-file`
 - NEVER merge before confirming the PR was created successfully — a failed `gh pr create` still exits 0 in some cases; verify the URL is present in the output before calling `gh pr merge`
+- NEVER run `gh pr merge --squash` without `--subject "<PR title> (#<PR number>)"` — a single-commit branch otherwise inherits that commit's subject on `main`, and the single-commit case is the norm for adopt-then-ship
 - NEVER close the issue before the merge is confirmed — a failed merge leaves the issue orphaned as closed with no PR; reopening is manual
 - NEVER skip the Gist export — the session context on the PR is the audit trail; if `/gh-weld-export` is unavailable, note its absence explicitly in the Done block rather than silently omitting it
 - NEVER prompt the user during issue enrichment — derive checkboxes and close-out narrative from the Step 3 synthesis automatically; any prompt here breaks the single-keypress ship flow
@@ -98,9 +99,10 @@ Closes #<N>
 
 If there is no linked issue, omit the `## Issue` section.
 
-Create the PR:
+Create the PR. The title becomes the squash-merge subject on `main` in Step 5, so it must describe what changed — format it as `<type>: <what changed>`, derived from the linked issue title rather than copied verbatim from the branch name:
+
 ```bash
-gh pr create --title "<issue title or branch description>" --body-file .weld/tmp/pr-body.md --base main
+gh pr create --title "<type>: <what changed>" --body-file .weld/tmp/pr-body.md --base main
 ```
 
 Read the PR URL from the output (e.g. `https://github.com/owner/repo/pull/7`). If no URL is present in the output, surface the error: "PR creation may have failed — no URL in output. Verify with `gh pr list --state open` before proceeding." and stop. Extract the PR number from the URL. Write the full PR URL to `.weld/tmp/pr-url.txt` and just the PR number to `.weld/tmp/pr-number.txt` with the Write tool.
@@ -112,9 +114,15 @@ rm .weld/tmp/pr-body.md
 
 ### 5 — Squash merge
 
+Always pass `--subject` explicitly. Without it, a branch with a single commit inherits that commit's subject on `main` instead of the PR title — and `gh` does not append the PR number when `--subject` is given, so include it yourself to match GitHub's convention.
+
+Read `.weld/tmp/pr-number.txt` (written in Step 4) and build the subject as `<PR title> (#<PR number>)`:
+
 ```bash
-gh pr merge --squash --delete-branch
+gh pr merge --squash --delete-branch --subject "<PR title> (#<PR number>)"
 ```
+
+The subject must describe what changed. If the PR title does not — because it was inherited from a vague branch name — rewrite it as `<type>: <what changed>` before merging. This subject is permanent in the `main` log; a subject like `adopt: capture in-progress work` tells a future reader nothing.
 
 If the merge fails, diagnose the cause (merge conflict → resolve and retry; branch protection → check required reviews or status checks; stale ref → sync branch and retry) and attempt to fix it. If unresolvable, surface the error and ask "(r)etry / (Q)uit?" — do not proceed to Step 6 until the merge is confirmed.
 

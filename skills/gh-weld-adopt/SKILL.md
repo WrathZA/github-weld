@@ -22,6 +22,10 @@ You did the work first — or you're about to. Either way, gh-weld-adopt creates
   **Instead:** Display `git status --porcelain` output and ask "(a)ccept / (s)kip" before staging anything.
   **Why:** Unintended files (`.env`, build artifacts) committed here will be pushed and visible in the GitHub issue thread.
 
+- **NEVER commit with a generic subject like `adopt: capture in-progress work for issue #<N>`**
+  **Instead:** Derive the subject from the issue title created in Step 4 — `<type>: <what changed>`.
+  **Why:** Adopt branches usually carry a single commit, and GitHub's squash-merge inherits that commit's subject over the PR title. A generic subject lands on `main` permanently and says nothing about what changed.
+
 - **NEVER pass a body with `#`-prefixed lines as an inline `--body` argument**
   **Instead:** Write to `.weld/tmp/adopt-issue-body.md` with the Write tool and pass via `--body-file`.
   **Why:** `#`-prefixed lines trigger Claude Code's security check on every execution, interrupting the agent mid-flow.
@@ -224,9 +228,21 @@ If accepted:
 git add .
 ```
 
+Derive the commit subject from the issue title created in Step 4 — never a generic "adopt:" subject. When a branch has a single commit, GitHub's squash-merge inherits that commit's subject rather than the PR title, so this message is what lands on `main` permanently.
+
+Format the subject as `<type>: <what changed>`, where `<type>` is the conventional-commit type matching the issue's label (`fix`, `feat`, `docs`, `chore`, `refactor`, `test`). Rewrite the issue title into an imperative description of the change; keep it under 72 characters. Do not append the issue number — `gh-weld-ship` appends the PR number at squash time, and `Closes #<N>` in the PR body links the issue.
+
 ```bash
-git commit -m "adopt: capture in-progress work for issue #<N>"
+git commit -m "<type>: <what changed>"
 ```
+
+Examples, given the issue title in hand:
+
+| Issue title | Commit subject |
+|---|---|
+| `Adopt commit message destroys the main log` | `fix: derive adopt commit subject from the issue title` |
+| `Add activity digest skill` | `feat: add gh-weld-activity digest skill` |
+| `README setup steps are out of date` | `docs: update README setup steps` |
 
 ### 6 — Rename the branch
 
